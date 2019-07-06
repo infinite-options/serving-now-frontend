@@ -1,0 +1,94 @@
+/*
+* @Author: Japan Parikh
+* @Date:   2019-05-24 20:59:01
+* @Last Modified by:   Japan Parikh
+* @Last Modified time: 2019-05-28 19:07:24
+*/
+
+.login-form {
+    width: 360px;
+    padding:10% 0 0;
+    margin: auto;
+}
+
+.form-row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.modal-body .form-row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+input.form-control {
+    font-family: "Roboto", sans-serif;
+    outline: 1;
+    width: 100%;
+    margin: 0 0 15px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.navbar-default {
+    background-color: dodgerblue;
+    border-color:rosybrown;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+.navbar a {
+    color:white;
+}
+
+.jga-toolbar {
+    position: absolute;
+    right: 15px;
+    background-color: white;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    border-bottom-left-radius: 5px;
+    opacity: 0.7;
+    z-index: 1;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.edit-img-preview {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+.edit-img-meal img{
+    width: 70%;
+    height: 100%;
+}
+
+.edit-img-meal{
+    text-align: center;
+}
+
+.edit-img-meal .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+}
+.edit-img-meal .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+.edit-img-meal .btn: {background-color:  #212529b8;}
+
+.edit-img-meal .btn:hover {background-color: #3e8e41}

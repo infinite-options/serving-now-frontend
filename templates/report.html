@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Order Report</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="ordermeal.js"></script>
+</head>
+<body>
+
+{% extends "main.html" %}
+
+{% block content %}
+
+<script src="ordermeal.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='reportStyle.css' )}}">
+
+<br>
+<br>
+<!-- <p> Today's Meal: </p>
+{% for meal in mealsToCook %}
+	<div class="meal-img">
+		<img src="{{ meal.photo.S }}">
+	</div>
+	<div class="meal-name">
+		{{ meal.meal_name.S }}
+	</div>
+	<div class="meal-description">
+		{{ meal.description.S }}
+	</div>
+{% endfor %} -->
+<!-- <div id="inventory">
+	<h4><i>Inventory Report</i></h4>
+	<strong><p id="num_orders"></p></strong>
+	{% for meal in mealsToCook %}
+		<p>{{ meal.meal_name.S }}: {{ meal.qty}}</p>
+	{% endfor %}
+</div> -->
+
+<div id="delivery">
+	<h4><i>Delivery Report</i></h4>
+	{% for order in orders %}
+		<div class="orders-tile">
+			<div class="customers">
+				<div class="name">{{ order.name.S }}</div>
+				<div class="street">{{ order.street.S }}</div>
+				<div class="city">{{ order.city.S }}</div>
+				<div class="state">{{ order.state.S }}</div>
+				<div class="zipcode">{{ order.zipCode.N }}</div>
+				<div class="phone">{{ order.phone.S }}</div>
+				<div class="order-details">
+					{% for item in order.order_items.L %}
+						<p>{{ item.M.meal_name.S }}: {{ item.M.qty.N }}</p>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+</div>
+
+{% endblock %}
+<!-- 
+</body>
+</html>

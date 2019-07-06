@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="{{ url_for('.static', filename='style.css') }}" rel="stylesheet"/>
+</head>
+<body>
+<div class="login-form">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Login</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 col-sm-12">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class=flashes style="color: red">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+                <form method="POST" action="{{ url_for('login') }}">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="email"
+                           name="email"
+                           id="email"/>
+                    <input type="password"
+                           class="form-control"
+                           placeholder="password"
+                           name="password"
+                           id="password"/>
+                    <button class="btn btn-primary btn-block" type="submit">Login</button>
+                    <a class="btn btn-success btn-block" href="{{url_for('register')}}">Register</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

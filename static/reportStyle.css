@@ -1,0 +1,15 @@
+/*
+* @Author: Japan Parikh
+* @Date:   2019-05-29 17:03:11
+* @Last Modified by:   Japan Parikh
+* @Last Modified time: 2019-05-29 17:09:41
+*/
+
+
+.orders-tile {
+	margin: 20px 5px 10px 5px;
+	padding: 40px;
+	height: 300px;
+	width: 250px;
+	border: 1px solid red;
+}
