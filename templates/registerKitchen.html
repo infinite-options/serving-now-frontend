@@ -1,0 +1,145 @@
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jquery script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- JavaScript  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="kitchenStyle.css">
+    <title>Meal Ordering</title>
+
+
+    <!-- ############ script ################## -->
+    <!--    -->
+
+    <script>
+        $(document).ready(function() {
+            $(".login-btn").click(function() {
+                $(".container-class").load("loginPage.html");
+            });
+        });
+    </script>
+
+    <!-- ############ script ################## -->
+
+
+</head>
+
+<body class="backgroundSetting">
+    <!-- Kitchen Registration -->
+    <div class="container container-class">
+        <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
+            <div class= "wrap">
+                <div class="row whole-view">
+                    <div class="col-4 login-class">
+                        <div class="form-group" align="center">
+                            <input type="text" class="form-control form-control-class" style="height:51px; width:314" placeholder="Create a Username">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-class" style="height:51px; width:314" placeholder="Create a Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-class" style="height:51px; width:314" placeholder="Confirm Password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Personal Information -->
+            <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
+            <div class= "wrap">
+                <div class="option-container">
+                    <div class= "info1">
+                            <div class="row whole-view">
+                                <div class="col-4 login-class">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Phone Number">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Email">
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+            
+                <div class= "info2">
+                        <div class="row whole-view">
+                            <div class="col-4 login-class">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Address">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="City">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-class" style="height:51px; width:189; display:inline" placeholder="State">
+                                    <input type="text" class="form-control form-control-class" style="height:51px; width:189" placeholder="ZipCode">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+            <!-- Kitchen Information -->
+            <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
+            <div class= "wrap">
+            <div class="kitchen-info">
+                <div class="form-group" align="center">
+                    <input type="text" class="form-control form-control-class" style="height:51px; width:314px" placeholder="Kitchen Name">
+                </div>
+                <div class="form-group" align="center">
+                    <input type="text" class="form-control form-control-class" style="height:81px; width:680px" placeholder="Description">
+                </div>
+            </div>
+        </div>
+            <!-- Kitchen Options -->
+            <div class= "wrap">
+                <div class="hours">
+                    Open Hours: <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">AM until <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">AM<br>
+                </div>
+                <div class="hours">
+                    Open Hours: <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">PM until <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">PM
+                </div>
+                <div class= "wrap">
+                    <div class="option-container">
+                        <div class="option1">
+                            Delivery Options<br>
+                            <input type="radio" name="gender" value="male"> Pickup<br>
+                            <input type="radio" name="gender" value="female"> Delivery<br>
+                        </div>
+                        <div class="option2">
+                            Container Options<br>
+                            <input type="radio" name="gender" value="male"> with reusable container<br>
+                            <input type="radio" name="gender" value="female"> with disposable container<br>
+                        </div>
+                        <div class="option3">
+                            Cancellation Options<br>
+                            <input type="radio" name="gender" value="male"> Cancel only within ordering hours<br>
+                            <input type="radio" name="gender" value="female"> Cancellations not allowed<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="col-4 register-btn">
+                <button type="button" onclick="location.href='';" class="button regbtn">Submit</button>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

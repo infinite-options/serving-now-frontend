@@ -1,0 +1,74 @@
+.backgroundSetting {
+    background-color: #a0050f;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container.container-class {
+    max-width: 1000px;
+    margin: auto;
+}
+.wrap{
+    text-align: center;
+    margin-top: 10%;
+    margin-bottom: 5%;
+}
+
+.hours{
+    margin-top: 5%;
+    font-style: arial;
+    color: #ECEAEA;
+    font-size: 14pt;
+}
+
+.option-container{
+    display: flex;
+    color: #ECEAEA;
+    text-align: left;
+}
+
+.info1{
+    flex: 1;
+}
+.info2{
+    flex: 1;
+}
+.option1{
+    flex: 1;
+}
+.option2{
+    flex: 1;
+}
+.option3{
+    flex: 1;
+}
+
+.form-group ::placeholder {
+    text-align: center;
+    font-style: italic;
+    color: #ECEAEA;
+}
+
+.form-control-class {
+    text-align: center;
+    border-radius: 100px;
+    background: transparent;
+    border: 2px solid #ECEAEA;
+}
+
+/*  Submit Button */
+.button {
+    Width: 166px;
+    height: 38px;
+    border-radius: 100px;
+    background: transparent;
+    border: 2px solid #ECEAEA;
+    color: #ECEAEA;
+    font-style: italic;
+}
+
+button.button.regbtn {
+    margin-top: 30%;
+    margin-bottom: 10%;
+    margin-left: 150%;
+}
