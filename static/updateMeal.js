@@ -45,7 +45,9 @@ function updateMeal() {
         formData.append('photo', old_photo);
     }
 
+    console.log('Step 1');
     console.log(formData);
+    console.log('Step 2');
 
     // The data sent is what the user provided in the form
     request.open("POST", "/kitchens/meals/" + meal_id , true);

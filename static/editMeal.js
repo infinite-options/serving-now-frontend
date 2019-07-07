@@ -1,9 +1,9 @@
 
 
 $(document).ready(function () {
-
+console.log('editMeal.js called');
     $('#editMeal').on('shown.bs.modal', function (event) {
-        //console.log('edit meal js called');
+        console.log('editMeal function started');
         var meal_id = event.relatedTarget.dataset.meal_id;                  // assigns meal ID from Kitchens.html
         var meal_name = event.relatedTarget.dataset.meal_name;
         var meal_photo = event.relatedTarget.dataset.meal_photo;
@@ -26,6 +26,7 @@ $(document).ready(function () {
         var mealOptionsSelected = meal_options_old.length - 1;
         var mealOptions = [];
 
+        console.log('meal options function started');                       // Assuming this set the variables correctly
         $('#edit-option-items').val(mealOptionsSelected);
 
         if (mealOptionsSelected == 1) {
@@ -65,6 +66,7 @@ $(document).ready(function () {
 
         }
 
+        console.log('display options function started');                       // Assuming this set shows the meal options
         for (i = 0; i < mealOptionsSelected; i++) {
             $("#edit-option-item" + (i + 1)).show();
             var opt_item_qty_name = meal_options_old[i].trim();
@@ -84,9 +86,11 @@ $(document).ready(function () {
         }
         });
 
+console.log('editMeal.js completed');                       // Change function called
 
 
     $("#edit-option-items").change(function () {
+		console.log('edit meal js called.  change function started');                       // This gets called when a new item number is selected
 		var totalItems = $(this).children("option:selected").val();
 
 		if (totalItems == 1) {

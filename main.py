@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Japan Parikh
 # @Date:   2019-05-24 19:40:12
-# @Last Modified by:   Ranjit Marathay
+# @Last Modified by:   Ranjit Marathay, Prashant Marathay
 # @Last Modified time: 2019-07-04 11:38:00
 
 import boto3
@@ -59,6 +59,7 @@ s3 = boto3.client('s3')
 # aws s3 bucket where the image is stored
 BUCKET_NAME = 'ordermealapp'
 
+# API_BASE_URL = 'http://localhost:5000/'
 API_BASE_URL = 'https://o5yv1ecpk1.execute-api.us-west-2.amazonaws.com/dev/'
 
 # allowed extensions for uploading a profile photo file
@@ -203,7 +204,7 @@ def register():
                         'phone_number': phoneNumber, 'close_time': closeTime,
                         'open_time': openTime}
 
-        apiURL = API_BASE_URL +'api/v1/kitchens/register'
+        apiURL = API_BASE_URL  +'api/v1/kitchens/register'
         response = requests.post(apiURL, data=json.dumps(request_data))
 
         if response.json().get('message') == 'Request failed. Please try again later.':
@@ -224,8 +225,8 @@ def kitchen(id):
     #
     apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
     # apiURL = API_BASE_URL + '/api/v1/meals/' + '5d114cb5c4f54c94a8bb4d955a576fca'
-    response = requests.get(apiURL)
 
+    response = requests.get(apiURL)
     todaysMenu = response.json().get('result')
 
     return render_template('kitchen.html',
@@ -247,10 +248,8 @@ def postMeal():
         return
 
     kitchen_id = current_user.get_id()
-
     meal_id = uuid.uuid4().hex
     created_at = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%dT%H:%M:%S")
-
     meal_items = json.loads(itemsData)
 
     items = []
@@ -446,4 +445,4 @@ def updateKitchensStatus():
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port='8080', debug=False)
+    app.run(host='localhost', port='8080', debug=True)

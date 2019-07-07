@@ -10,7 +10,7 @@
 
 <div id="report" class="container">
     <br>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMeal">   <!-- Post Meal Button -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMeal">   <!-- Post Meal Button routes to addMeal id below -->
         Post Meal
     </button>
 
@@ -43,7 +43,7 @@
                                 data-meal_photo="{{meal.photo.S}}"
                                 data-meal_price="{{meal.price.S}}"
                                 data-meal_description="{{meal.description.S}}"
-                                data-target="#editMeal">                                    <!-- Edit Button Where is the onclock-->
+                                data-target="#editMeal">                                    <!-- Edit Button routes to editMeal.js-->
                             Edit Meal
                         </button>
                     </div>
@@ -237,7 +237,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button value="submit" onclick="postMeal();" class="btn btn-primary">Post Meal</button>
+                        <button value="submit" onclick="postMeal();" class="btn btn-primary">Post Meal</button>             <!-- Post Button routes to addMeal.js-->
                     </div>
                 </form>
             </div>

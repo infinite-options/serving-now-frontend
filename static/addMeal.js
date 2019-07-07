@@ -1,6 +1,6 @@
-
+console.log('addMeal.js initialized!');
 function postMeal() {
-    console.log('post meal function called');
+    console.log('post meal function started!');
     var request = new XMLHttpRequest();
     var formData = new FormData();
 
@@ -35,7 +35,11 @@ function postMeal() {
     // request.open("POST", "https://o5yv1ecpk1.execute-api.us-west-2.amazonaws.com/dev/api/v1/meals/" + kitchen_id, true);
     //XHR.open("POST", "http://127.0.0.1:5000/api/v1/meals/" + "0001", true);
 
+    console.log('post meal function about to POST!');
+
     // The data sent is what the user provided in the form
     request.open("POST", "/kitchens/meals/create", true);
     request.send(formData);
+    console.log('post meal function completed!');
 }
+console.log('addMeal.js finalized!');
