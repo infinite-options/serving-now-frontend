@@ -1,12 +1,12 @@
-{% extends "main.html" %}
+{% extends "main.html" %} {% block content %}
 
-{% block content %}
-
-<script src="{{ url_for('.static', filename='script.js') }}"></script>                      <!-- References scripts for web interaction -->
+<script src="{{ url_for('.static', filename='script.js') }}"></script>
+<!-- References scripts for web interaction -->
 <script src="{{ url_for('.static', filename='addMeal.js') }}"></script>
 <script src="{{ url_for('.static', filename='editMeal.js') }}"></script>
 <script src="{{ url_for('.static', filename='updateMeal.js') }}"></script>
-<link href="{{ url_for('.static', filename='style.css') }}" rel="stylesheet"/>              <!-- References style sheet -->
+<link href="{{ url_for('.static', filename='style.css') }}" rel="stylesheet" />
+<!-- References style sheet -->
 
 <div id="report" class="container">
     <br>
@@ -18,40 +18,38 @@
     <br><br>
     <h4>Today's Meal:</h4>
     <!--<div class="card-deck">-->
-        <div class="row">
-            {% for meal in todaysMeals %}                                               <!-- % beginning of JS logic -->
-            <div class="col-md-4" style="padding-bottom: 2rem;">
-                <div class="card" style="max-width: 20rem;">
-                    <h4>"{{meal.meal_id.S}}"</h4>                                      <!-- Display meal_id added by R-->
-                    <img src={{meal.photo.S}} class="card-img-top" style="max-width: 20rem; height: 12rem;">
-                    <div class="card-body" style="max-width: 20rem; height: 10rem;">                                <!-- Contains card info -->
-                        <div class="form-row">
-                            <h5 class="card-title">{{meal.meal_name.S}}</h5>
-                        </div>
-                        <div class="form-row">
-                            <p class="card-text">{{meal.description.S}}</p>
-                        </div>
-                        <div class="form-row">
-                            <p class="card-text">Cost ${{meal.price.S}}</p>
-                        </div>
+    <div class="row">
+        {% for meal in todaysMeals %}
+        <!-- % beginning of JS logic -->
+        <div class="col-md-4" style="padding-bottom: 2rem;">
+            <div class="card" style="max-width: 20rem;">
+                <h4>"{{meal.meal_id.S}}"</h4>
+                <!-- Display meal_id added by R-->
+                <img src={{meal.photo.S}} class="card-img-top" style="max-width: 20rem; height: 12rem;">
+                <div class="card-body" style="max-width: 20rem; height: 10rem;">
+                    <!-- Contains card info -->
+                    <div class="form-row">
+                        <h5 class="card-title">{{meal.meal_name.S}}</h5>
                     </div>
-                    <div class="card-footer text-center">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                id="edit-meal-btn"
-                                data-meal_id="{{meal.meal_id.S}}"
-                                data-meal_name="{{meal.meal_name.S}}"
-                                data-meal_photo="{{meal.photo.S}}"
-                                data-meal_price="{{meal.price.S}}"
-                                data-meal_description="{{meal.description.S}}"
-                                data-target="#editMeal">                                    <!-- Edit Button Where is the onclock-->
+                    <div class="form-row">
+                        <p class="card-text">{{meal.description.S}}</p>
+                    </div>
+                    <div class="form-row">
+                        <p class="card-text">Cost ${{meal.price.S}}</p>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" id="edit-meal-btn" data-meal_id="{{meal.meal_id.S}}" data-meal_name="{{meal.meal_name.S}}" data-meal_photo="{{meal.photo.S}}" data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}"
+                        data-target="#editMeal">                                    <!-- Edit Button Where is the onclock-->
                             Edit Meal
                         </button>
-                    </div>
-
+                    <button type="button" class="btn btn-primary" id="delete-meal-btn" data-meal-id="{{meal.meal_id.S}}">Delete</button>
+                    <button type="button" class="btn btn-primary">Fav</button>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
+    </div>
     <!--</div>-->
 
 
@@ -68,70 +66,46 @@
                     <div class="modal-body">
                         <div>
                             <div class="form-row">
-                                <input type="text" name="name" placeholder="Meal Name" id="add_meal_mealname"/>
+                                <input type="text" name="name" placeholder="Meal Name" id="add_meal_mealname" />
                             </div>
 
                             <div class="form-row">
                                 <table id="option-setup">
 
-                                <tr>
-                                    <td>
-                                        <span>Select total number of items for this meal option?</span>
-                                    </td>
-                                    <td>
-                                        <select id="option-items">
+                                    <tr>
+                                        <td>
+                                            <span>Select total number of items for this meal option?</span>
+                                        </td>
+                                        <td>
+                                            <select id="option-items">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
                                             <option value="5">5</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>Item #</span>
-                                    </td>
-                                    <td>
-                                        <span>Item name</span>
-                                    </td>
-                                    <td>
-                                        <span>Item Quantity</span>
-                                    </td>
-                                </tr>
-                                <tr id="option-item1">
-                                    <td>
-                                        <span>1</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="add_meal_option1_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="add_meal_option1_qty">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr id="option-item2">
-                                    <td>
-                                        <span>2</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="add_meal_option2_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="add_meal_option2_qty">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Item #</span>
+                                        </td>
+                                        <td>
+                                            <span>Item name</span>
+                                        </td>
+                                        <td>
+                                            <span>Item Quantity</span>
+                                        </td>
+                                    </tr>
+                                    <tr id="option-item1">
+                                        <td>
+                                            <span>1</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="add_meal_option1_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="add_meal_option1_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -143,18 +117,17 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr id="option-item3">
-                                    <td>
-                                        <span>3</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="add_meal_option3_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="add_meal_option3_qty">
+                                        </td>
+                                    </tr>
+                                    <tr id="option-item2">
+                                        <td>
+                                            <span>2</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="add_meal_option2_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="add_meal_option2_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -166,18 +139,17 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr id="option-item4">
-                                    <td>
-                                        <span>4</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="add_meal_option4_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="add_meal_option4_qty">
+                                        </td>
+                                    </tr>
+                                    <tr id="option-item3">
+                                        <td>
+                                            <span>3</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="add_meal_option3_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="add_meal_option3_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -189,18 +161,17 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr id="option-item5">
-                                    <td>
-                                        <span>5</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="add_meal_option5_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="add_meal_option5_qty">
+                                        </td>
+                                    </tr>
+                                    <tr id="option-item4">
+                                        <td>
+                                            <span>4</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="add_meal_option4_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="add_meal_option4_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -212,27 +183,48 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr id="option-item5">
+                                        <td>
+                                            <span>5</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="add_meal_option5_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="add_meal_option5_qty">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
 
                             <div class="form-row">
                                 <fieldset id="meal-form">
-                                <label> Upload Meal Image</label>
-                                <input type="file" id="add_meal_image" name="photo" accept="image/png, image/jpeg"/>
-                            </fieldset>
+                                    <label> Upload Meal Image</label>
+                                    <input type="file" id="add_meal_image" name="photo" accept="image/png, image/jpeg" />
+                                </fieldset>
                             </div>
 
                             <div class="form-row">
                                 <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Meal Cost $</span>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Meal Cost $</span>
+                                    </div>
+                                    <input type="number" name="price" class="form-control" id="add_meal_price">
                                 </div>
-                                <input type="number" name="price" class="form-control" id="add_meal_price">
                             </div>
-                            </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -260,77 +252,53 @@
                                 <div class="edit-img-meal">
                                     <img class="img-fluid img-thumbnail rounded" id="edit_img_preview" />
                                     <div class="file btn btn-lg btn-primary">
-                                    Change Meal Photo
-                                    <input type="file" name="photo" id="edit_meal_image" onclick="uploadButton(this)" onchange="uploadNewPhoto(this.files)" accept="image/png, image/jpeg"/>
+                                        Change Meal Photo
+                                        <input type="file" name="photo" id="edit_meal_image" onclick="uploadButton(this)" onchange="uploadNewPhoto(this.files)" accept="image/png, image/jpeg" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-row">
-                                <input type="text" name="name" placeholder="Meal Name" id="edit_meal_mealname"/>
+                                <input type="text" name="name" placeholder="Meal Name" id="edit_meal_mealname" />
                             </div>
 
                             <div class="form-row">
                                 <table id="edit-option-setup">
 
-                                <tr>
-                                    <td>
-                                        <span>Select total number of items for this meal option?</span>
-                                    </td>
-                                    <td>
-                                        <select id="edit-option-items">
+                                    <tr>
+                                        <td>
+                                            <span>Select total number of items for this meal option?</span>
+                                        </td>
+                                        <td>
+                                            <select id="edit-option-items">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
                                             <option value="5">5</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>Item #</span>
-                                    </td>
-                                    <td>
-                                        <span>Item name</span>
-                                    </td>
-                                    <td>
-                                        <span>Item Quantity</span>
-                                    </td>
-                                </tr>
-                                <tr id="edit-option-item1">
-                                    <td>
-                                        <span>1</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="edit_meal_option1_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="edit_meal_option1_qty">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr id="edit-option-item2">
-                                    <td>
-                                        <span>2</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="edit_meal_option2_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="edit_meal_option2_qty">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Item #</span>
+                                        </td>
+                                        <td>
+                                            <span>Item name</span>
+                                        </td>
+                                        <td>
+                                            <span>Item Quantity</span>
+                                        </td>
+                                    </tr>
+                                    <tr id="edit-option-item1">
+                                        <td>
+                                            <span>1</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="edit_meal_option1_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="edit_meal_option1_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -342,18 +310,17 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr id="edit-option-item3">
-                                    <td>
-                                        <span>3</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="edit_meal_option3_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="edit_meal_option3_qty">
+                                        </td>
+                                    </tr>
+                                    <tr id="edit-option-item2">
+                                        <td>
+                                            <span>2</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="edit_meal_option2_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="edit_meal_option2_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -365,18 +332,17 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr id="edit-option-item4">
-                                    <td>
-                                        <span>4</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="edit_meal_option4_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="edit_meal_option4_qty">
+                                        </td>
+                                    </tr>
+                                    <tr id="edit-option-item3">
+                                        <td>
+                                            <span>3</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="edit_meal_option3_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="edit_meal_option3_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -388,18 +354,17 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                                <tr id="edit-option-item5">
-                                    <td>
-                                        <span>5</span>
-                                    </td>
-                                    <td>
-                                        <input type="text" placeholder="(15 characters limit)"
-                                               id="edit_meal_option5_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <select id="edit_meal_option5_qty">
+                                        </td>
+                                    </tr>
+                                    <tr id="edit-option-item4">
+                                        <td>
+                                            <span>4</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="edit_meal_option4_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="edit_meal_option4_qty">
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -411,23 +376,45 @@
                                             <option value="9">9</option>
                                             <option value="10">10</option>
                                         </select>
-                                    </td>
-                                </tr>
-                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr id="edit-option-item5">
+                                        <td>
+                                            <span>5</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="(15 characters limit)" id="edit_meal_option5_name" maxlength="15">
+                                        </td>
+                                        <td>
+                                            <select id="edit_meal_option5_qty">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
 
                             <!--<fieldset id="edit-meal-form">-->
-                                <!--<label> Upload New Meal Image</label>-->
-                                <!--<input type="file" id="edit_meal_image" name="photo" accept="image/png, image/jpeg"/>-->
+                            <!--<label> Upload New Meal Image</label>-->
+                            <!--<input type="file" id="edit_meal_image" name="photo" accept="image/png, image/jpeg"/>-->
                             <!--</fieldset>-->
 
                             <div class="form-row">
                                 <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Meal Cost $</span>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Meal Cost $</span>
+                                    </div>
+                                    <input type="number" name="price" class="form-control" id="edit_meal_price">
                                 </div>
-                                <input type="number" name="price" class="form-control" id="edit_meal_price">
-                            </div>
                             </div>
 
 
@@ -435,7 +422,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button value="submit" onclick="updateMeal();" class="btn btn-primary">Update Meal</button>  <!-- update button, calls update meal javascript -->
+                        <button value="submit" onclick="updateMeal();" class="btn btn-primary">Update Meal</button>
+                        <!-- update button, calls update meal javascript -->
                     </div>
                 </form>
             </div>
