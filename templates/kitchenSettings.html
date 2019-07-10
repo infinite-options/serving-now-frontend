@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- jquery script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        const BASE_URL = 'http://localhost:5000/api/v1';
+        const ENDPOINT = 'kitchen';
+        const KITCHEN_ID = '{{ id }}';
+        const URL = `${BASE_URL}/${ENDPOINT}/${KITCHEN_ID}`;
+
+        $(function() {
+            $(".registration-btn").click(function() {
+                var body = {
+                    type: 'registration',
+                    payload: {
+                        username: 'pmgarcia',
+                        password: 'password'
+                    }
+                };
+
+                $.ajax({
+                    url: URL,
+                    type: 'PUT',
+                    crossDomain: true,
+                    data: JSON.stringify(body),
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log(result);
+                    }
+                })
+            });
+            $(".personal-btn").click(function() {
+                var body = {
+                    type: 'personal',
+                    payload: {
+                        first_name: 'Pat',
+                        last_name: 'Garcia',
+                        address: '4321 Kitchen Way',
+                        city: 'San Mateo',
+                        state: 'California',
+                        zipcode: '54321',
+                        phone_number: '0987654321',
+                        email: 'pkmgarcia@yahoo.com'
+                    }
+                };
+
+                $.ajax({
+                    url: URL,
+                    type: 'PUT',
+                    crossDomain: true,
+                    data: JSON.stringify(body),
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log(result);
+                    }
+                })
+            });
+            $(".kitchen-btn").click(function() {
+                var body = {
+                    type: 'kitchen',
+                    payload: {
+                        name: 'Heaven\'s Kitchen',
+                        description: 'If you want some soul food, try us.',
+                        open_time: '12:00pm',
+                        close_time: '12:01pm',
+                        delivery_option: 'None',
+                        container_option: 'Bring Your Own',
+                        cancellation_option: 'No Cancellations'
+                    }
+                };
+
+                $.ajax({
+                    url: URL,
+                    type: 'PUT',
+                    crossDomain: true,
+                    data: JSON.stringify(body),
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log(result);
+                    }
+                })
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <button class="registration-btn">Update Registration</button>
+    <button class="personal-btn">Update Personal</button>
+    <button class="kitchen-btn">Update Kitchen</button>
+
+  </body>
+
+</html>
