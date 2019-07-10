@@ -43,6 +43,16 @@
     flex: 1;
 }
 
+.address-container{
+    display: flex;
+    flex-direction: row;
+}
+.state{
+    flex: 1;
+}
+.zipCode{
+    flex: 1;
+}
 .form-group ::placeholder {
     text-align: center;
     font-style: italic;
@@ -72,3 +82,19 @@ button.button.regbtn {
     margin-bottom: 10%;
     margin-left: 150%;
 }
+
+.header-container{
+    display: flex;
+}
+.header-container div{
+    flex-direction: row
+}
+.Kitchen-Registration{
+    flex: 1;
+}
+.logo-img {
+    flex: 1;
+}
+
+
+/**/
