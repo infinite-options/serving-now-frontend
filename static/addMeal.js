@@ -1,4 +1,3 @@
-
 function postMeal() {
     console.log('post meal function called');
     var request = new XMLHttpRequest();
@@ -7,13 +6,13 @@ function postMeal() {
     var meal_options_elem = document.getElementById('option-items');
     var meal_options = meal_options_elem.options[meal_options_elem.selectedIndex].value;
 
-    var items= {};
+    var items = {};
     var options = [];
 
-    for (var i = 1; i <= meal_options; i++){
+    for (var i = 1; i <= meal_options; i++) {
         var name_id = 'add_meal_option'.concat(i, '_name');
         var qty_id = 'add_meal_option'.concat(i, '_qty');
-        var item_name= document.getElementById(name_id).value;
+        var item_name = document.getElementById(name_id).value;
         var item_qty_id = document.getElementById(qty_id);
         var item_qty = item_qty_id.options[item_qty_id.selectedIndex].value;
         var obj = {}
