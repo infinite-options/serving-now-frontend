@@ -1,8 +1,8 @@
 /*
 * @Author: Japan Parikh
 * @Date:   2019-05-24 20:59:01
-* @Last Modified by:   Japan Parikh
-* @Last Modified time: 2019-05-28 19:07:24
+* @Last Modified by:   Saurabh Mane
+* @Last Modified time: 2019-07-10 08:05 
 */
 
 .login-form {
@@ -52,10 +52,6 @@ input.form-control {
     border: 2px solid #ECEAEA;
 }
 
-input[type="file"] {
-    display: none;
-}
-
 .add-photo-btn {
     position: relative;
     margin-top: -3%;
@@ -97,12 +93,6 @@ input[type="file"] {
     max-width: 65%;
     margin-left: 17%;
 }
-
-
-/* #update-id {
-    margin-left: -20%;
-    width: 50%;
-} */
 
 .navbar-default {
     background-color: dodgerblue;
@@ -169,5 +159,29 @@ a:hover {
 }
 
 .edit-img-meal .btn:hover {
+    background-color: #3e8e41;
+}
+
+.add-meal-img-btn .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -10%;
+    margin-left: 4.7%;
+    width: 90%;
+    height: 20%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #a0050f;
+}
+
+.add-meal-img-btn .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+
+.add-meal-img-btn .btn:hover {
     background-color: #3e8e41
 }

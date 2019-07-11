@@ -6,7 +6,6 @@
 <script src="{{ url_for('.static', filename='editMeal.js') }}"></script>
 <script src="{{ url_for('.static', filename='updateMeal.js') }}"></script>
 <script src="{{url_for('.static', filename='deleteMeal.js') }}"></script>
-
 <link href="{{ url_for('.static', filename='style.css') }}" rel="stylesheet" />
 <!-- References style sheet -->
 
@@ -46,10 +45,8 @@
         <div class="col-md-4" style="padding-bottom: 2rem;">
             <div class="card" style="max-width: 20rem;">
 
-                <!-- <h4>"{{meal.meal_id.S}}"</h4> -->
-
-                <!-- Display meal_id added by R-->
                 <img src={{meal.photo.S}} class="card-img-top" style="max-width: 20rem; height: 12rem;">
+
                 <div class="card-body" style="max-width: 20rem; height: 10rem;">
                     <!-- Contains card info -->
                     <div class="form-row">
@@ -62,6 +59,7 @@
                         <p class="card-text">Cost ${{meal.price.S}}</p>
                     </div>
                 </div>
+
                 <div class="card-footer text-center">
                     <button type="button" class="btn btn-primary" data-toggle="modal" id="edit-meal-btn" data-meal_id="{{meal.meal_id.S}}" data-meal_name="{{meal.meal_name.S}}" data-meal_photo="{{meal.photo.S}}" data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}"
                         data-target="#editMeal">
@@ -69,9 +67,8 @@
                         Edit Meal
                     </button>
                     <button type="button" class="btn btn-primary" onclick="deleteMeal();" id="delete-meal-btn" data-meal_id="{{meal.meal_id.S}}">Delete</button>
-                    <button type="button" class="btn btn-primary" id="fav-meal-btn" data-meal_id="{{meal.meal_id.S}}">Fav</button>
-
                 </div>
+
             </div>
         </div>
         {% endfor %}
@@ -100,13 +97,13 @@
                                             <img class="img-bg" src="" width="299" height="194">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <label class="custom-file-upload">
-                                            <div class="btn btn-primary add-photo-btn justify-content-center">
-                                                <span><i>Add photo</i></span>
-                                                <input type="file" id="add_meal_image" onchange="previewFile()"><br>
-                                            </div>
-                                        </label>
+                                    <div class="row add-meal-img-btn">
+
+                                        <div class="file btn btn-lg btn-primary">
+                                            Add photo
+                                            <input type="file" name="photo" id="add_meal_image" onchange="previewFile()" /><br>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -284,8 +281,8 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="editMealLabel">Edit Meal</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <div>
@@ -298,10 +295,9 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col name-of-meal">
-                                    <i><input type="text" class="form-control form-control-class" id="add_meal_mealname"
+                                    <i><input type="text" class="form-control form-control-class" id="edit_meal_mealname"
                                                 placeholder="Name of the meal"></i>
                                 </div>
                             </div>
@@ -454,27 +450,30 @@
                                         <strong><i>Meal Price</i></strong>
                                     </div>
                                     <div class="col-md">
-                                        <input type="number" name="price" class="form-control form-control-class" id="add_meal_price">
+                                        <input type="number" name="price" class="form-control form-control-class" id="edit_meal_price">
                                     </div>
                                 </div>
-                                <!-- <div class="input-group">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Meal Cost $</span>
                                     </div>
                                     <input type="number" name="price" class="form-control" id="edit_meal_price">
                                 </div> -->
-                            </div>
-                            <div class="modal-footer">
-                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                                <button value="submit" onclick="updateMeal();" class="btn btn-primary post-meal-btn">Update Meal</button>
-                                <!-- update button, calls update meal javascript -->
-                            </div>
+
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button value="submit" onclick="updateMeal();" class="btn btn-primary post-meal-btn">Update Meal</button>
+                        <!-- update button, calls update meal javascript -->
+                    </div>
                 </form>
-                </div>
-                </div>
             </div>
-
         </div>
+    </div>
+
+</div>
 
 
-        {% endblock %}
+{% endblock %}
