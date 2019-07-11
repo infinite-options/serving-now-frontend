@@ -26,6 +26,8 @@ function registerKitchen() {
 	var openTime = document.getElementById("open_time").value;
 	var email = document.getElementById("email").value;
 
+	
+
 	// if (name == "" || username == "" || password == "" || 
 	// 	verifyPassword == "" || firstName == "" || lastName == "" || 
 	// 	address == "" || city == "" || state == "" || 

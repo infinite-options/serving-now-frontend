@@ -234,6 +234,12 @@ def kitchen(id):
                             todaysMeals=todaysMenu)
 
 
+@app.route('/kitchen/<string:id>/settings', methods=['GET'])
+@login_required
+def kitchenSettings(id):
+    return render_template('kitchenSettings.html', id=login_session['user_id'])
+
+
 @app.route('/kitchens/meals/create', methods=['POST'])
 @login_required
 def postMeal():
