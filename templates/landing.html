@@ -1,4 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
+
+
+
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- jquery script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- JavaScript  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link href="{{ url_for('.static', filename='style-new.css') }}" rel="stylesheet" />
+
+    <!-- <link rel="stylesheet" href="style.css"> -->
+
+    <title>Meal Ordering</title>
+
+
+    <!-- ############ script ################## -->
+
+    <script>
+        $(document).ready(function() {
+            $(".login-btn").click(function() {
+                $(".container-class").load("{{url_for('login')}}");
+            });
+        });
+    </script>
+
+    <!-- ############ script ################## -->
+
+</head>
+
+<body class="backgroundImgSetting">
+    <div class="container container-class">
+        <div class="row whole-view">
+            <div class="col-4 login-class">
+                <div class="form-class">
+                    <div class="login-screen-control"></div>
+                    <div class="button-class init-login-btn">
+                        <button type="submit" class="button btn btn-primary login-btn">Login</button>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-4 image">
+                <img class="center-img" src="{{ url_for('.static', filename='ServingNowLogo.png') }}">
+            </div>
+            <div class="col-4 register-btn">
+                <button type="button" class="button btn btn-primary regbtn" onclick="window.location.href='{{url_for('register')}}';">Register</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- <img src="ServingNowLogo.png" class="signin-img"> -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -52,4 +159,4 @@
             <a class="button" href="{{ url_for('register') }}"><i>Register</i></a>
         </div>
     </body>
-</html>
+</html> -->

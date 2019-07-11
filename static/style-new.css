@@ -1,0 +1,158 @@
+.backgroundImgSetting {
+    background-color: #a0050f;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container.container-class {
+    margin-top: 10%;
+    margin-left: 5%;
+}
+
+.row .whole-view {
+    position: center;
+    margin-top: 20%;
+    margin-left: none;
+}
+
+div.col-4.login-class {
+    margin: none;
+}
+
+.form-class {
+    position: absolute;
+    z-index: 2;
+    float: right;
+    width: 314px;
+    height: 51px;
+    display: block;
+    margin-top: 73%;
+    margin-left: 48%;
+}
+
+.login-screen-control {
+    margin-top: 103px;
+}
+
+.init-login-btn {
+    margin-left: 25%;
+}
+
+.form-group ::placeholder {
+    text-align: center;
+    font-style: italic;
+    color: #ECEAEA;
+}
+
+div .reset-class {
+    margin-top: 5%;
+    margin-left: none;
+    margin-right: 1%;
+}
+
+div .col-4 image {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.center-img {
+    flex-shrink: 0;
+    margin-top: -25%;
+    margin-left: 5%;
+    width: 550px;
+    height: 550px;
+}
+
+.col-4 .register-btn {
+    display: block;
+    margin-top: 20%;
+}
+
+.button {
+    Width: 166px;
+    height: 38px;
+    border-radius: 100px;
+    background: transparent;
+    border: 2px solid #ECEAEA;
+    color: #ECEAEA;
+    font-style: italic;
+}
+
+button.button.login-btn {
+    margin-left: 23%;
+}
+
+a {
+    display: block;
+    height: 115px;
+    color: #ECEAEA;
+    text-decoration: none !important;
+    text-align: center;
+    font-style: italic;
+    margin: none;
+}
+
+.form-control-class {
+    border-radius: 100px;
+    background: transparent;
+    border: 2px solid #ECEAEA;
+}
+
+.button.regbtn {
+    margin-top: 108%;
+    margin-left: 50%;
+}
+
+row::after {
+    display: block;
+}
+
+
+/* ################# kitchen Home Page CSS ################## */
+
+.kitchen-logo {
+    height: 100px;
+    width: 100px;
+    margin-top: none;
+    margin-left: none;
+}
+
+.kitchen-container-first {
+    margin-top: 5%;
+}
+
+.kitchen-name-tag {
+    margin-left: 7%;
+    margin-top: 1%;
+}
+
+.kitchen-addmeal-btn {
+    background: #a0050f;
+    width: 110px;
+    margin-top: 2.7%;
+}
+
+.kitchen-name-bar {
+    margin-top: 8px;
+}
+
+#name {
+    background-color: #a0050f;
+    color: white;
+    border-radius: 10px;
+}
+
+
+/* ############### mobile #################### */
+
+@media screen and (max-width: 680px) {
+    .container {
+        margin: none;
+    }
+    div.row {
+        display: block;
+        margin-left: none;
+    }
+}
