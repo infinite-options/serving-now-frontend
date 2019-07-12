@@ -451,5 +451,50 @@ def updateKitchensStatus():
         return 'testing cron jobs'
 
 
+@app.route('/api/v1/meals/<kitchen_id>', methods=['GET', 'PUT'])
+def delete(meal_id):
+
+    #input argument validation
+    response = {}
+    print("Inside delete..")
+
+    try:
+        deleted_meal = db.delete_item(TableName='meals',
+                       Key={'meal_id': {'S': meal_id}}),
+        response['message'] = 'Request successful'
+        return response, 200
+    except Exception as ex:
+        print("ex: ", ex)
+        raise BadRequest('Request failed. Please try again later.')
+
+
+'''@app.route('/kitchens/meals/<string:meal_id>', methods=['PUT'])
+def favorite(self, meal_id, isEnabled):
+
+# input argument validation
+    response = {}
+    try:
+        if isEnabled == True:
+            fav_meal = db.update_item(TableName='meals',
+                           Key={'ID': int(meal_id)},
+                           UpdateExpression='SET isFavorite = :val',
+                           ExpressionAttributeValues={
+                               ':val': {'BOOL':True}
+                           }
+                           )
+        else:
+            fav_meal = db.update_item(TableName='meals',
+                           Key={'ID': int(meal_id)},
+                           UpdateExpression='SET isFavorite = :val',
+                           ExpressionAttributeValues={
+                               ':val': {'BOOL': False}
+                           }
+                           )
+        response['message'] = 'Request successful'
+        return response, 200
+    except:
+        raise BadRequest('Request failed. Please try again later.')
+'''
+
 if __name__ == '__main__':
     app.run(host='localhost', port='8080', debug=True)
