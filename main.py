@@ -453,7 +453,7 @@ def updateKitchensStatus():
         return 'testing cron jobs'
 
 
-@app.route('/api/v1/meals/<kitchen_id>', methods=['GET', 'PUT'])
+@app.route('/api/v1/meals/<meal_id>', methods=['GET', 'PUT'])
 def delete(meal_id):
 
     #input argument validation
