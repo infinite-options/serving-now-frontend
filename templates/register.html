@@ -16,19 +16,9 @@
     <link rel="stylesheet" href="{{ url_for('.static', filename='kitchenStyle.css') }}" >
     <title>Meal Ordering</title>
 
-
-    <!-- ############ script ################## -->
-    <!--    -->
-
-    <script>
-        $(document).ready(function() {
-            $(".login-btn").click(function() {
-                $(".container-class").load("loginPage.html");
-            });
-        });
-    </script>
-
-    <!-- ############ script ################## -->
+    <!--  Pretty Radio Button template  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" >
+    <link rel="stylesheet" href="dist/pretty-checkbox.min.css" >
 
 
 </head>
@@ -36,107 +26,204 @@
 <body class="backgroundSetting">
     <!-- Kitchen Registration -->
     <div class="container container-class">
-        <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
-            <div class= "wrap">
+        <div class="header-conteiner">
+            <div class="logo-img">
+                <img src="../static/landing-logo.png" style="width:100px">
+            </div>
+            <div class="Kitchen-Registration">
+                <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
+            </div>
+        </div>
+            <div class= "center-wrapper">
                 <div class="row whole-view">
                     <div class="col-4 login-class">
-                        <div class="form-group" align="center">
-                            <input type="text" class="form-control form-control-class" style="height:51px; width:314" placeholder="Create a Username">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-class"  id="username" style="height:51px; width:314" placeholder="Create a Username" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-class" style="height:51px; width:314" placeholder="Create a Password">
+                            <input type="text" class="form-control form-control-class" id="password" style="height:51px; width:314" placeholder="Create a Password" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-class" style="height:51px; width:314" placeholder="Confirm Password">
+                            <input type="text" class="form-control form-control-class" id="verify-password" style="height:51px; width:314" placeholder="Confirm Password" required>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Personal Information -->
-            <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
+            <div class="header-conteiner">
+                <div class="logo-img">
+                    <img src="../static/ChefHatIcon.png" style="width:100px">
+                </div>
+                <div class="Kitchen-Registration">
+                    <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
+                </div>
+            </div>
             <div class= "wrap">
                 <div class="option-container">
                     <div class= "info1">
                             <div class="row whole-view">
                                 <div class="col-4 login-class">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Name">
+                                        <div class="header-conteiner">
+                                            <div class="logo-img">
+                                                <img src="../static/PersonIcon.png" style="width:50px">
+                                            </div>
+                                            <div class="form-group Kitchen-Registration">
+                                                <input type="text" class="form-control form-control-class" id="name" style="height:51px; width:390" placeholder="First Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-class" id="phone_number" style="margin-left:50px; height:51px; width:390" placeholder="Last Name" required>
+                                        </div>
+                                    <div class="header-conteiner">
+                                        <div class="logo-img">
+                                            <img src="../static/PhoneIcon.png" style="width:50px">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" required>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Phone Number">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Email">
+                                    <div class="header-conteiner">
+                                        <div class="logo-img">
+                                            <img src="../static/MailIcon.png" style="width:50px">
+                                        </div>
+                                        <div class="form-group">
+                                                <input type="text" class="form-control form-control-class" id="email" style="height:51px; width:390" placeholder="Email" required>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                     </div>
             
-                <div class= "info2">
-                        <div class="row whole-view">
-                            <div class="col-4 login-class">
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="Address">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-class" style="height:51px; width:390" placeholder="City">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-class" style="height:51px; width:189; display:inline" placeholder="State">
-                                    <input type="text" class="form-control form-control-class" style="height:51px; width:189" placeholder="ZipCode">
+                    <div class= "info2">
+                            <div class="row whole-view">
+                                <div class="col-4 login-class">
+                                    <div class="header-conteiner">
+                                        <div class="logo-img">
+                                            <img src="../static/HomeIcon.png" style="width:50px">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" required> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-class" id="city" style="margin-left:50px; height:51px; width:390" placeholder="City" required>
+                                    </div>
+                                    <div class="address-container">
+                                        <div class="form-group state">
+                                            <input type="text" class="form-control form-control-class" id="state" style="margin-left:50px; height:51px; width:189; display:inline" placeholder="State" required>
+                                        </div>
+                                        <div class="form-group zipCode">
+                                            <input type="text" class="form-control form-control-class" id="zipCode" style="margin-left:10px; height:51px; width:189" placeholder="ZipCode" required>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                </div>
+                    </div>
             </div>
         </div>
             <!-- Kitchen Information -->
-            <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
+            <div class="header-conteiner">
+                <div class="logo-img">
+                    <img src="../static/UtensilIcon.png" style="width:100px">
+                </div>
+                <div class="Kitchen-Registration">
+                    <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
+                </div>
+            </div>
             <div class= "wrap">
             <div class="kitchen-info">
                 <div class="form-group" align="center">
-                    <input type="text" class="form-control form-control-class" style="height:51px; width:314px" placeholder="Kitchen Name">
+                    <input type="text" class="form-control form-control-class" id="name" style="height:51px; width:314px" placeholder="Kitchen Name" required>
                 </div>
                 <div class="form-group" align="center">
-                    <input type="text" class="form-control form-control-class" style="height:81px; width:680px" placeholder="Description">
+                    <input type="text" class="form-control form-control-class" id="description" style="height:81px; width:680px" placeholder="Description" required>
                 </div>
             </div>
         </div>
             <!-- Kitchen Options -->
             <div class= "wrap">
                 <div class="hours">
-                    Open Hours: <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">AM until <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">AM<br>
+                    <div class="hours-item">Open Hours:
+                        <input type="hour" class="form-control form-control-class" id="open_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
+                        <strong>AM</strong> &nbsp until
+                        <input type="hour" class="form-control form-control-class" id="close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
+                        <strong>PM</strong>
+                    </div>
                 </div>
                 <div class="hours">
-                    Open Hours: <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">PM until <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">PM
+                    <div class="hours-item">
+                        Delivery Hours:
+                        <input type="hour" class="form-control form-control-class" id="open_time" style="margin-left:20px; height:41px; width:90px; display:inline" required>
+                        <strong>AM</strong> &nbsp until
+                        <input type="hour" class="form-control form-control-class" id="close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
+                        <strong>PM</strong>
+                    </div>
+                    <br>
+                                     
                 </div>
+                <!-- add class p-round -->
                 <div class= "wrap">
                     <div class="option-container">
                         <div class="option1">
-                            Delivery Options<br>
-                            <input type="radio" name="gender" value="male"> Pickup<br>
-                            <input type="radio" name="gender" value="female"> Delivery<br>
+                            Delivery Options<br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="checkbox" />
+                                <div class="state">
+                                    <label>Pickup</label>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="checkbox" />
+                                <div class="state">
+                                    <label>Delivery</label>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="option2">
-                            Container Options<br>
-                            <input type="radio" name="gender" value="male"> with reusable container<br>
-                            <input type="radio" name="gender" value="female"> with disposable container<br>
+                            Container Options<br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="checkbox" />
+                                <div class="state">
+                                    <label>with reusable container</label>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="checkbox" />
+                                <div class="state">
+                                    <label>with disposable container</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="option3">
-                            Cancellation Options<br>
-                            <input type="radio" name="gender" value="male"> Cancel only within ordering hours<br>
-                            <input type="radio" name="gender" value="female"> Cancellations not allowed<br>
-                        </div>
+                            Cancellation Options<br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="checkbox" />
+                                <div class="state">
+                                    <label>Cancel only within ordering hours</label>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="checkbox" />
+                                <div class="state">
+                                    <label>Cancellations not allowed</label>
+                                </div>
+                            </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="center-wrapper">
             <div class="col-4 register-btn">
-                <button type="button" onclick="location.href='';" class="button regbtn">Submit</button>
+                <button type="button" class="button regbtn" value="submit" onclick="registerKitchen();">Submit</button>
             </div>
-
         </div>
+
+        
     </div>
 
 
