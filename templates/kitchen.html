@@ -31,6 +31,15 @@
 </script>
 
 <div id="report" class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li><strong>{{ message }}</strong></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
     <br>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMeal">
         <!-- Post Meal Button -->
@@ -68,7 +77,8 @@
                         <!-- Edit Button Where is the onclock-->
                         Edit Meal
                     </button>
-                    <button type="button" class="btn btn-primary" onclick="deleteMeal();" id="delete-meal-btn" data-meal_id="{{meal.meal_id.S}}">Delete</button>
+                    <a class="btn btn-primary" href="{{url_for('deleteMeal', meal_id=meal.meal_id.S)}}">Delete</a>
+                    <!-- <button type="button" class="btn btn-primary" onclick="deleteMeal();" id="delete-meal-btn" data-meal_id="{{meal.meal_id.S}}">Delete</button> -->
                     <button type="button" class="btn btn-primary" onclick="favMeal();" id="fav-meal-btn" data-meal_id="{{meal.meal_id.S}}">Fav</button>
                 </div>
             </div>
