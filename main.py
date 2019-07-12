@@ -227,6 +227,8 @@ def kitchen(id):
     response = requests.get(apiURL)
 
     todaysMenu = response.json().get('result')
+    if todaysMenu == None:
+      todaysMenu = []
 
     return render_template('kitchen.html',
                             name=login_session['name'],
