@@ -227,11 +227,19 @@ def kitchen(id):
     response = requests.get(apiURL)
 
     todaysMenu = response.json().get('result')
+    if todaysMenu == None:
+      todaysMenu = []
 
     return render_template('kitchen.html',
                             name=login_session['name'],
                             id=login_session['user_id'],
                             todaysMeals=todaysMenu)
+
+
+@app.route('/kitchen/<string:id>/settings', methods=['GET'])
+@login_required
+def kitchenSettings(id):
+    return render_template('kitchenSettings.html', id=login_session['user_id'])
 
 
 @app.route('/kitchens/meals/create', methods=['POST'])
@@ -491,4 +499,4 @@ def favorite(self, meal_id, isEnabled):
 '''
 
 if __name__ == '__main__':
-    app.run(host='localhost', port='8080', debug=False)
+    app.run(host='localhost', port='8080', debug=True)
