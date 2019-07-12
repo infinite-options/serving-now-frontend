@@ -4,16 +4,28 @@
     background-size: cover;
 }
 
+.center-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
 .container.container-class {
     max-width: 1000px;
     margin: auto;
 }
 .wrap{
     text-align: center;
-    margin-top: 10%;
+    margin-top: 5%;
     margin-bottom: 5%;
 }
+.hour-container{
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.hours-item{
 
+}
 .hours{
     margin-top: 5%;
     font-style: arial;
@@ -66,6 +78,18 @@
     border: 2px solid #ECEAEA;
 }
 
+.header-conteiner{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.logo-img {
+   
+}
+.Kitchen-Registration{
+  
+}
+
 /*  Submit Button */
 .button {
     Width: 166px;
@@ -76,25 +100,7 @@
     color: #ECEAEA;
     font-style: italic;
 }
-
-button.button.regbtn {
-    margin-top: 30%;
-    margin-bottom: 10%;
-    margin-left: 150%;
-}
-
-.header-container{
-    display: flex;
-}
-.header-container div{
-    flex-direction: row
-}
-.Kitchen-Registration{
-    flex: 1;
-}
-.logo-img {
-    flex: 1;
-}
-
-
 /**/
+.form-control:valid {
+    background-color: #ffffff;
+}
