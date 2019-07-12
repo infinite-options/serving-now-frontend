@@ -31,6 +31,15 @@
 </script>
 
 <div id="report" class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li><strong>{{ message }}</strong></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
     <br>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMeal">
         <!-- Post Meal Button -->
