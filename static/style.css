@@ -147,6 +147,14 @@ a:hover {
     background: #212529b8;
 }
 
+
+/* .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+} */
+
 .edit-img-meal .file input {
     position: absolute;
     opacity: 0;

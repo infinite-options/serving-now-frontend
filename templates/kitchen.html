@@ -6,6 +6,8 @@
 <script src="{{ url_for('.static', filename='editMeal.js') }}"></script>
 <script src="{{ url_for('.static', filename='updateMeal.js') }}"></script>
 <script src="{{url_for('.static', filename='deleteMeal.js') }}"></script>
+<script src="{{url_for('.static', filename='favMeal.js') }}"></script>
+
 <link href="{{ url_for('.static', filename='style.css') }}" rel="stylesheet" />
 <!-- References style sheet -->
 
@@ -67,9 +69,8 @@
                         Edit Meal
                     </button>
                     <button type="button" class="btn btn-primary" onclick="deleteMeal();" id="delete-meal-btn" data-meal_id="{{meal.meal_id.S}}">Delete</button>
-                    <button type="button" class="btn btn-primary" id="fav-meal-btn" data-meal_id="{{meal.meal_id.S}}">Fav</button>
+                    <button type="button" class="btn btn-primary" onclick="favMeal();" id="fav-meal-btn" data-meal_id="{{meal.meal_id.S}}">Fav</button>
                 </div>
-
             </div>
         </div>
         {% endfor %}
@@ -444,7 +445,6 @@
                                     </tr>
                                 </table>
                             </div>
-
                             <div class="form-row">
                                 <div class="row">
                                     <div class="col-md" id="meal-id">
