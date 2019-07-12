@@ -6,6 +6,6 @@ Serving Now Front End Web App
       `https://github.com/infinite-options/serving-now-virtualenv`
 
 2. Run the frontend web app.
-    - `python3 app.py`
+    - `python3 main.py`
       
 3. Navigate to `localhost:8080` to access the front end.
