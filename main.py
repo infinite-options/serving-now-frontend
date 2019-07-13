@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: Japan Parikh
 # @Date:   2019-05-24 19:40:12
-# @Last Modified by:   Ranjit Marathay
-# @Last Modified time: 2019-07-04 11:38:00
+# @Last Modified by:   Japan Parikh
+# @Last Modified time: 2019-07-12 11:52:31
 
 import boto3
 import json
@@ -468,6 +468,25 @@ def delete(meal_id):
     except Exception as ex:
         print("ex: ", ex)
         raise BadRequest('Request failed. Please try again later.')
+
+@app.route('/delete/meal/<string:meal_id>', methods=['GET', 'PUT'])
+def deleteMeal(meal_id):
+    flash('meal id for the selected meal is {}'.format(meal_id))
+
+    try:
+        deleted_meal = db.delete_item(TableName='meals',
+                       Key={'meal_id': {'S': meal_id}}),
+        #response['message'] = 'Request successful'
+        #return response, 200
+        return redirect(url_for('kitchen', id=current_user.get_id()))
+    except Exception as ex:
+        print("ex: ", ex)
+        raise BadRequest('Request failed. Please try again later.')
+
+
+
+    #return redirect(url_for('kitchen', id=current_user.get_id()))
+
 
 
 '''@app.route('/kitchens/meals/<string:meal_id>', methods=['PUT'])
