@@ -455,10 +455,12 @@ def updateKitchensStatus():
 
 @app.route('/api/v1/meals/<meal_id>', methods=['GET', 'PUT'])
 def delete(meal_id):
+    flash('meal id for the selected meal is {}'.format(meal_id))
 
     #input argument validation
     response = {}
     print("Inside delete..")
+    print(meal_id)
 
     try:
         deleted_meal = db.delete_item(TableName='meals',
@@ -469,19 +471,19 @@ def delete(meal_id):
         print("ex: ", ex)
         raise BadRequest('Request failed. Please try again later.')
 
-@app.route('/delete/meal/<string:meal_id>', methods=['GET', 'PUT'])
-def deleteMeal(meal_id):
-    flash('meal id for the selected meal is {}'.format(meal_id))
-
-    try:
-        deleted_meal = db.delete_item(TableName='meals',
-                       Key={'meal_id': {'S': meal_id}}),
-        #response['message'] = 'Request successful'
-        #return response, 200
-        return redirect(url_for('kitchen', id=current_user.get_id()))
-    except Exception as ex:
-        print("ex: ", ex)
-        raise BadRequest('Request failed. Please try again later.')
+# @app.route('/delete/meal/<string:meal_id>', methods=['GET', 'PUT'])
+# def deleteMeal(meal_id):
+#     flash('meal id for the selected meal is {}'.format(meal_id))
+#
+#     try:
+#         deleted_meal = db.delete_item(TableName='meals',
+#                        Key={'meal_id': {'S': meal_id}}),
+#         #response['message'] = 'Request successful'
+#         #return response, 200
+#         return redirect(url_for('kitchen', id=current_user.get_id()))     # This seems to auto load the changes.  Can we use this everywhere?
+#     except Exception as ex:
+#         print("ex: ", ex)
+#         raise BadRequest('Request failed. Please try again later.')
 
 
 

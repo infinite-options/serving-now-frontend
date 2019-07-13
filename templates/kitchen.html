@@ -55,7 +55,7 @@
         <!-- % beginning of JS logic -->
         <div class="col-md-4" style="padding-bottom: 2rem;">
             <div class="card" style="max-width: 20rem;">
-
+                <p>{{meal.meal_id.S}}</p>
                 <img src={{meal.photo.S}} class="card-img-top" style="max-width: 20rem; height: 12rem;">
 
                 <div class="card-body" style="max-width: 20rem; height: 10rem;">
@@ -77,8 +77,9 @@
                         <!-- Edit Button Where is the onclock-->
                         Edit Meal
                     </button>
-                    <button type="button" class="btn btn-primary" onclick="deleteMeal();" id="delete-meal-btn" data-meal_id="{{meal.meal_id.S}}">Delete</button>
-                    <button type="button" class="btn btn-primary" id="fav-meal-btn" data-meal_id="{{meal.meal_id.S}}">Fav</button>
+
+                    <button type="button" class="btn btn-primary" onclick="deleteMeal('{{meal.meal_id.S}}');" id="delete-meal-btn" data-meal_id="{{meal.meal_id.S}}">Delete</button>
+                    <button type="button" class="btn btn-primary" onclick="favMeal();" id="fav-meal-btn" data-meal_id="{{meal.meal_id.S}}">Fav</button>
                 </div>
             </div>
         </div>
