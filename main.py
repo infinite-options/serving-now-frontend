@@ -472,7 +472,21 @@ def delete(meal_id):
 @app.route('/delete/meal/<string:meal_id>', methods=['GET', 'PUT'])
 def deleteMeal(meal_id):
     flash('meal id for the selected meal is {}'.format(meal_id))
-    return redirect(url_for('kitchen', id=current_user.get_id()))
+
+    try:
+        deleted_meal = db.delete_item(TableName='meals',
+                       Key={'meal_id': {'S': meal_id}}),
+        #response['message'] = 'Request successful'
+        #return response, 200
+        return redirect(url_for('kitchen', id=current_user.get_id()))
+    except Exception as ex:
+        print("ex: ", ex)
+        raise BadRequest('Request failed. Please try again later.')
+
+
+
+    #return redirect(url_for('kitchen', id=current_user.get_id()))
+
 
 
 '''@app.route('/kitchens/meals/<string:meal_id>', methods=['PUT'])
