@@ -287,7 +287,8 @@ def postMeal():
               'meal_name': {'S': str(name)},
               'description': {'L': description},
               'price': {'S': str(price)},
-              'photo': {'S': photo_path}
+              'photo': {'S': photo_path},
+              'favorite': {'BOOL': False}
         }
     )
 
@@ -484,40 +485,55 @@ def delete(meal_id):
 #     except Exception as ex:
 #         print("ex: ", ex)
 #         raise BadRequest('Request failed. Please try again later.')
+#     return redirect(url_for('kitchen', id=current_user.get_id()))
 
 
-
-    #return redirect(url_for('kitchen', id=current_user.get_id()))
-
-
-
-'''@app.route('/kitchens/meals/<string:meal_id>', methods=['PUT'])
-def favorite(self, meal_id, isEnabled):
+@app.route('/api/v1/meals/fav/<string:meal_id>', methods=['PUT'])
+def favorite(meal_id):
+    flash('meal id for the selected meal is {}'.format(meal_id))
 
 # input argument validation
     response = {}
-    try:
-        if isEnabled == True:
-            fav_meal = db.update_item(TableName='meals',
-                           Key={'ID': int(meal_id)},
-                           UpdateExpression='SET isFavorite = :val',
-                           ExpressionAttributeValues={
-                               ':val': {'BOOL':True}
-                           }
-                           )
-        else:
-            fav_meal = db.update_item(TableName='meals',
-                           Key={'ID': int(meal_id)},
-                           UpdateExpression='SET isFavorite = :val',
-                           ExpressionAttributeValues={
-                               ':val': {'BOOL': False}
-                           }
-                           )
-        response['message'] = 'Request successful'
-        return response, 200
-    except:
-        raise BadRequest('Request failed. Please try again later.')
-'''
+    print("Inside favorite..")
+
+    if ('favorite' == True):
+        fav_meal = db.update_item(TableName='meals',
+        Key={'meal_id': {'S': str(meal_id)}},
+        UpdateExpression='SET favorite = :val',
+        ExpressionAttributeValues={
+           ':val': {'BOOL':False}}
+        )
+    else:
+        fav_meal = db.update_item(TableName='meals',
+        Key={'meal_id': {'S': str(meal_id)}},
+        UpdateExpression='SET favorite = :val',
+        ExpressionAttributeValues={
+           ':val': {'BOOL':True}}
+        )
+    response['message'] = 'Request successful'
+    return response, 200
+    #     #if isEnabled == True:
+    #         fav_meal = db.update_item(TableName='meals',
+    #                        Key={'ID': int(meal_id)},
+    #                        UpdateExpression='SET isFavorite = :val',
+    #                        ExpressionAttributeValues={
+    #                            ':val': {'BOOL':True}
+    #                        }
+    #                        )
+    #     #else:
+    #         fav_meal = db.update_item(TableName='meals',
+    #                        Key={'ID': int(meal_id)},
+    #                        UpdateExpression='SET isFavorite = :val',
+    #                        ExpressionAttributeValues={
+    #                            ':val': {'BOOL': False}
+    #                        }
+    #                        )
+       # response['message'] = 'Request successful'
+       # return response, 200
+    #except:
+     #   raise BadRequest('Request failed. Please try again later.'
+
+
 
 if __name__ == '__main__':
     app.run(host='localhost', port='8080', debug=True)
