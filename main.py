@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: Japan Parikh
 # @Date:   2019-05-24 19:40:12
-# @Last Modified by:   Ranjit Marathay
-# @Last Modified time: 2019-07-04 11:38:00
+# @Last Modified by:   Japan Parikh
+# @Last Modified time: 2019-07-12 11:52:31
 
 import boto3
 import json
@@ -227,6 +227,8 @@ def kitchen(id):
     response = requests.get(apiURL)
 
     todaysMenu = response.json().get('result')
+    if todaysMenu == None:
+      todaysMenu = []
 
     return render_template('kitchen.html',
                             name=login_session['name'],
@@ -285,7 +287,8 @@ def postMeal():
               'meal_name': {'S': str(name)},
               'description': {'L': description},
               'price': {'S': str(price)},
-              'photo': {'S': photo_path}
+              'photo': {'S': photo_path},
+              'favorite': {'BOOL': False}
         }
     )
 
@@ -449,6 +452,87 @@ def updateKitchensStatus():
                 elif int(currentTime.rsplit(':', 1)[0]) > int(closeTime.rsplit(':', 1)[0]):
                     closeKitchen(kitchen['kitchen_id']['S'])
         return 'testing cron jobs'
+
+
+@app.route('/api/v1/meals/<meal_id>', methods=['GET', 'PUT'])
+def delete(meal_id):
+    flash('meal id for the selected meal is {}'.format(meal_id))
+
+    #input argument validation
+    response = {}
+    print("Inside delete..")
+    print(meal_id)
+
+    try:
+        deleted_meal = db.delete_item(TableName='meals',
+                       Key={'meal_id': {'S': meal_id}}),
+        response['message'] = 'Request successful'
+        return response, 200
+    except Exception as ex:
+        print("ex: ", ex)
+        raise BadRequest('Request failed. Please try again later.')
+
+# @app.route('/delete/meal/<string:meal_id>', methods=['GET', 'PUT'])
+# def deleteMeal(meal_id):
+#     flash('meal id for the selected meal is {}'.format(meal_id))
+#
+#     try:
+#         deleted_meal = db.delete_item(TableName='meals',
+#                        Key={'meal_id': {'S': meal_id}}),
+#         #response['message'] = 'Request successful'
+#         #return response, 200
+#         return redirect(url_for('kitchen', id=current_user.get_id()))     # This seems to auto load the changes.  Can we use this everywhere?
+#     except Exception as ex:
+#         print("ex: ", ex)
+#         raise BadRequest('Request failed. Please try again later.')
+#     return redirect(url_for('kitchen', id=current_user.get_id()))
+
+
+@app.route('/api/v1/meals/fav/<string:meal_id>', methods=['PUT'])
+def favorite(meal_id):
+    flash('meal id for the selected meal is {}'.format(meal_id))
+
+# input argument validation
+    response = {}
+    print("Inside favorite..")
+
+    if ('favorite' == True):
+        fav_meal = db.update_item(TableName='meals',
+        Key={'meal_id': {'S': str(meal_id)}},
+        UpdateExpression='SET favorite = :val',
+        ExpressionAttributeValues={
+           ':val': {'BOOL':False}}
+        )
+    else:
+        fav_meal = db.update_item(TableName='meals',
+        Key={'meal_id': {'S': str(meal_id)}},
+        UpdateExpression='SET favorite = :val',
+        ExpressionAttributeValues={
+           ':val': {'BOOL':True}}
+        )
+    response['message'] = 'Request successful'
+    return response, 200
+    #     #if isEnabled == True:
+    #         fav_meal = db.update_item(TableName='meals',
+    #                        Key={'ID': int(meal_id)},
+    #                        UpdateExpression='SET isFavorite = :val',
+    #                        ExpressionAttributeValues={
+    #                            ':val': {'BOOL':True}
+    #                        }
+    #                        )
+    #     #else:
+    #         fav_meal = db.update_item(TableName='meals',
+    #                        Key={'ID': int(meal_id)},
+    #                        UpdateExpression='SET isFavorite = :val',
+    #                        ExpressionAttributeValues={
+    #                            ':val': {'BOOL': False}
+    #                        }
+    #                        )
+       # response['message'] = 'Request successful'
+       # return response, 200
+    #except:
+     #   raise BadRequest('Request failed. Please try again later.'
+
 
 
 if __name__ == '__main__':
