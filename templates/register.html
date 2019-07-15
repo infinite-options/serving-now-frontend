@@ -70,11 +70,11 @@
                                                 <img src="../static/PersonIcon.png" style="width:50px">
                                             </div>
                                             <div class="form-group Kitchen-Registration">
-                                                <input type="text" class="form-control form-control-class" id="name" style="height:51px; width:390" placeholder="First Name" required>
+                                                <input type="text" class="form-control form-control-class" id="first_name" style="height:51px; width:390" placeholder="First Name" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-class" id="phone_number" style="margin-left:50px; height:51px; width:390" placeholder="Last Name" required>
+                                            <input type="text" class="form-control form-control-class" id="last_name" style="margin-left:50px; height:51px; width:390" placeholder="Last Name" required>
                                         </div>
                                     <div class="header-conteiner">
                                         <div class="logo-img">
@@ -115,7 +115,7 @@
                                             <input type="text" class="form-control form-control-class" id="state" style="margin-left:50px; height:51px; width:189; display:inline" placeholder="State" required>
                                         </div>
                                         <div class="form-group zipCode">
-                                            <input type="text" class="form-control form-control-class" id="zipCode" style="margin-left:10px; height:51px; width:189" placeholder="ZipCode" required>
+                                            <input type="text" class="form-control form-control-class" id="zip_code" style="margin-left:10px; height:51px; width:189" placeholder="ZipCode" required>
                                         </div>
                                     </div>
                                 </div>
@@ -155,9 +155,9 @@
                 <div class="hours">
                     <div class="hours-item">
                         Delivery Hours:
-                        <input type="hour" class="form-control form-control-class" id="open_time" style="margin-left:20px; height:41px; width:90px; display:inline" required>
+                        <input type="hour" class="form-control form-control-class" id="delivery_open_time" style="margin-left:20px; height:41px; width:90px; display:inline" required>
                         <strong>AM</strong> &nbsp until
-                        <input type="hour" class="form-control form-control-class" id="close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
+                        <input type="hour" class="form-control form-control-class" id="delivery_close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
                         <strong>PM</strong>
                     </div>
                     <br>
@@ -168,14 +168,14 @@
                         <div class="option1">
                             Delivery Options<br><br>
                             <div class="pretty p-default p-round">
-                                <input type="radio" name="radio1">
+                                <input type="radio" value="pickup" name="radio1" id="pickup">
                                 <div class="state">
                                     <label>Pickup</label>
                                 </div>
                             </div>
                             <br><br>
                             <div class="pretty p-default p-round">
-                                <input type="radio" name="radio1">
+                                <input type="radio" value="delivery" name="radio1" id="delivery">
                                 <div class="state">
                                     <label>Delivery</label>
                                 </div>
@@ -185,14 +185,14 @@
                         <div class="option2">
                             Container Options<br><br>
                             <div class="pretty p-default p-round">
-                                <input type="radio" name="radio2">
+                                <input type="radio" value="reusable" name="radio2" id="reusable">
                                 <div class="state">
                                     <label>with reusable container</label>
                                 </div>
                             </div>
                             <br><br>
                             <div class="pretty p-default p-round">
-                                <input type="radio" name="radio2">
+                                <input type="radio" value="disposable" name="radio2" id="disposable">
                                 <div class="state">
                                     <label>with disposable container</label>
                                 </div>
@@ -201,14 +201,14 @@
                         <div class="option3">
                             Cancellation Options<br><br>
                             <div class="pretty p-default p-round">
-                                <input type="radio" name="radio3">
+                                <input type="radio" value="can_cancel" name="radio3" id="can_cancel">
                                 <div class="state">
                                     <label>Cancel only within ordering hours</label>
                                 </div>
                             </div>
                             <br><br>
                             <div class="pretty p-default p-round">
-                                <input type="radio" name="radio3">
+                                <input type="radio" value="cannot_cancel" name="radio3" id="cannot_cancel">
                                 <div class="state">
                                     <label>Cancellations not allowed</label>
                                 </div>
