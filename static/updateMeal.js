@@ -14,6 +14,9 @@ function updateMeal() {
         var name_id = 'edit_meal_option'.concat(i, '_name'); //Meal Name
         var qty_id = 'edit_meal_option'.concat(i, '_qty'); //  Number of options in meal
         var item_name = document.getElementById(name_id).value; //
+
+        console.log(item_name)    //prints item name to Consol
+
         var item_qty_id = document.getElementById(qty_id);
         var item_qty = item_qty_id.options[item_qty_id.selectedIndex].value;
         var obj = {}
@@ -33,7 +36,13 @@ function updateMeal() {
 
     var edit_meal_btn = document.getElementById('edit-meal-btn');
 
-    var meal_id = edit_meal_btn.getAttribute("data-meal_id");
+    var meal_id = document.getElementById('edit_meal_mealid').value;
+//    var meal_id = edit_meal_btn.getAttribute("data-meal_id");
+
+    console.log("data-meal_id")         //prints data-meal_id to Consol
+//    console.log(data-meal_id)
+    console.log(meal_id)
+
     var old_photo = edit_meal_btn.getAttribute("data-meal_photo");
     var new_photo = document.getElementById('edit_meal_image').files[0];
 

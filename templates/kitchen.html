@@ -72,11 +72,14 @@
                 </div>
 
                 <div class="card-footer text-center">
+
                     <button type="button" class="btn btn-primary" data-toggle="modal" id="edit-meal-btn" data-meal_id="{{meal.meal_id.S}}" data-meal_name="{{meal.meal_name.S}}" data-meal_photo="{{meal.photo.S}}" data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}"
                         data-target="#editMeal">
                         <!-- Edit Button Where is the onclock-->
                         Edit Meal
                     </button>
+
+
 
                     <button type="button" class="btn btn-primary" onclick="deleteMeal('{{meal.meal_id.S}}');" id="delete-meal-btn" data-meal_id="{{meal.meal_id.S}}">Delete</button>
                     <button type="button" class="btn btn-primary" onclick="favMeal();" id="fav-meal-btn" data-meal_id="{{meal.meal_id.S}}">Fav</button>
@@ -307,6 +310,18 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!--   added row to ensure mead Id exist in modal                         -->
+                            <div class="row">
+                                <div class="col id-of-meal">
+                                    <i><input type="text" class="form-control form-control-class" id="edit_meal_mealid"
+                                                placeholder="Id of the meal"></i>
+
+                                </div>
+                            </div>
+
+
+
                             <div class="row">
                                 <div class="col name-of-meal">
                                     <i><input type="text" class="form-control form-control-class" id="edit_meal_mealname"
@@ -475,9 +490,13 @@
                                 </div> -->
 
                     <div class="modal-footer">
+
+
                         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                         <button value="submit" onclick="updateMeal();" class="btn btn-primary post-meal-btn">Update Meal</button>
                         <!-- update button, calls update meal javascript -->
+
+
                     </div>
                 </form>
             </div>

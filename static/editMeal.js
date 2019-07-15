@@ -8,6 +8,7 @@ $(document).ready(function() {
         var meal_price = event.relatedTarget.dataset.meal_price;
         var meal_description = event.relatedTarget.dataset.meal_description;
 
+        $('#edit_meal_mealid').val(meal_id);                // added to display meal ID
         $('#edit_meal_mealname').val(meal_name);
         $('#edit_meal_price').val(meal_price);
 
