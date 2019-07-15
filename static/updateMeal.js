@@ -1,5 +1,6 @@
 function updateMeal() {
     console.log('edit/update meal function called');
+    //console.log(id);
     var request = new XMLHttpRequest();
     var formData = new FormData();
 
@@ -47,6 +48,7 @@ function updateMeal() {
 
     // The data sent is what the user provided in the form
     request.open("POST", "/kitchens/meals/" + meal_id, true);
+    console.log(meal_id);
     request.send(formData);
 }
 
