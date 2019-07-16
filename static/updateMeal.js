@@ -34,7 +34,7 @@ function updateMeal() {
 
     var edit_meal_btn = document.getElementById('edit-meal-btn');
 
-    var meal_id = edit_meal_btn.getAttribute("data-meal_id");
+    var meal_id = document.getElementById('edit_meal_mealid').value;
     var old_photo = edit_meal_btn.getAttribute("data-meal_photo");
     var new_photo = document.getElementById('edit_meal_image').files[0];
 

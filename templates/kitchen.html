@@ -34,7 +34,6 @@
         var preview = document.querySelector('.img-bg'); //selects the query named img
         var file = document.querySelector('input[type=file]').files[0]; //sames as here
         var reader = new FileReader();
-
         reader.onloadend = function() {
             preview.src = reader.result;
         }
@@ -52,7 +51,7 @@
         width: 130px;
         height: 130px;
     }
-    
+
     .grid-container {
         display: grid;
         grid-template-areas: 'logo right-content''logo addmealbtn ''current-meal current-meal''currentmeal-card currentmeal-card''pastmeal pastmeal''pastmeal-card pastmeal-card';
@@ -60,7 +59,7 @@
         padding: 10px;
         grid-row-gap: 5px;
     }
-    
+
     #logo {
         display: grid;
         grid-template-columns: auto 1fr;
@@ -68,11 +67,11 @@
         grid-column-gap: 10px;
         padding: 40px;
     }
-    
+
     #kitchen-name {
         grid-area: kitchen-name;
     }
-    
+
     #right-content {
         margin-top: 40px;
         display: grid;
@@ -82,13 +81,13 @@
         place-content: end;
         padding-right: 40px;
     }
-    
+
     #currentmeal {
         grid-area: current-meal;
         margin-left: 40px;
         margin-top: 10px;
     }
-    
+
     #currentmeal-card {
         display: grid;
         grid-area: currentmeal-card;
@@ -98,12 +97,12 @@
         margin-left: 40px;
         margin-right: none;
     }
-    
+
     #pastmeal {
         grid-area: pastmeal;
         margin: 40px;
     }
-    
+
     #pastmeal-card {
         grid-area: pastmeal-card;
         display: grid;
@@ -112,7 +111,7 @@
         background-color: #cccccc;
         grid-auto-rows: minmax(100px, auto);
     }
-    
+
     .add-meal-btn,
     .kitchen-username-btn {
         background: #a0050f;
@@ -120,11 +119,11 @@
         border: 2px solid #ECEAEA;
         color: #ECEAEA;
     }
-    
+
     .add-meal-btn-div {
         margin-left: 42%;
     }
-    
+
     .kitchen-username {
         cursor: text !important;
         width: 150px;
@@ -423,6 +422,19 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- use this to retrieve the meal id from edit meal -->
+                                <div class="row">
+                                   <div class="col id-of-meal">
+                                     <i><p hidden
+                                           type="text"
+                                           class="form-control form-control-class"
+                                           id="edit_meal_mealid">
+                                     </i>
+                                   </div>
+                                 </div>
+
+
                                 <div class="row">
                                     <div class="col name-of-meal">
                                         <i><input type="text" class="form-control form-control-class" id="edit_meal_mealname"
