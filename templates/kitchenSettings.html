@@ -1,51 +1,96 @@
+<!-- Written by Risako on 2019-07-12 @20:00 --> 
+
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!-- jquery script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="{{ url_for('.static', filename='editKitchenSettings.js') }}"></script>
+
+    <!-- JavaScript  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('.static', filename='kitchenStyle.css') }}" >
+    <title>Meal Ordering</title>
+
+    <!--  Pretty Radio Button template  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" >
+    <link rel="stylesheet" href="dist/pretty-checkbox.min.css" >
+
+
 </head>
 
 <body class="backgroundSetting">
     <!-- Kitchen Registration -->
     <div class="container container-class">
-        <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
-          <button class="registration-btn" onclick="updateRegistration('{{ id }}');">Update Registration</button>
-            <div class= "wrap">
+        <div class="header-conteiner">
+            <div class="logo-img">
+                <img src="../static/landing-logo.png" style="width:100px">
+            </div>
+            <div class="Kitchen-Registration">
+                <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
+            </div>
+        </div>
+            <div class= "center-wrapper">
                 <div class="row whole-view">
                     <div class="col-4 login-class">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-class"  id="username" style="height:51px; width:314" placeholder="Create a Username" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-class" id="password" style="height:51px; width:314" placeholder="Create a Password" required>
+                            <input type="password" class="form-control form-control-class" id="password" style="height:51px; width:314" placeholder="Create a Password" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-class" id="verify-password" style="height:51px; width:314" placeholder="Confirm Password" required>
+                            <input type="password" class="form-control form-control-class" id="verify-password" style="height:51px; width:314" placeholder="Confirm Password" required>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Personal Information -->
-            <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
-            <button class="personal-btn" onclick="updatePersonal('{{ id }}');">Update Personal</button>
+            <div class="header-conteiner">
+                <div class="logo-img">
+                    <img src="../static/ChefHatIcon.png" style="width:100px">
+                </div>
+                <div class="Kitchen-Registration">
+                    <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
+                </div>
+            </div>
             <div class= "wrap">
                 <div class="option-container">
                     <div class= "info1">
                             <div class="row whole-view">
                                 <div class="col-4 login-class">
-                                    <div class="form-group">
-                                        <img src="{{ url_for('.static', filename='landing-logo.png') }}" style="width:30px"><input type="text" class="form-control form-control-class" id="name" style="height:51px; width:390" placeholder="Name" required>
+                                        <div class="header-conteiner">
+                                            <div class="logo-img">
+                                                <img src="../static/PersonIcon.png" style="width:50px">
+                                            </div>
+                                            <div class="form-group Kitchen-Registration">
+                                                <input type="text" class="form-control form-control-class" id="first_name" style="height:51px; width:390" placeholder="First Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-class" id="last_name" style="margin-left:50px; height:51px; width:390" placeholder="Last Name" required>
+                                        </div>
+                                    <div class="header-conteiner">
+                                        <div class="logo-img">
+                                            <img src="../static/PhoneIcon.png" style="width:50px">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" required>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" id="email" style="height:51px; width:390" placeholder="Email" required>
+                                    <div class="header-conteiner">
+                                        <div class="logo-img">
+                                            <img src="../static/MailIcon.png" style="width:50px">
+                                        </div>
+                                        <div class="form-group">
+                                                <input type="text" class="form-control form-control-class" id="email" style="height:51px; width:390" placeholder="Email" required>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -54,18 +99,23 @@
                     <div class= "info2">
                             <div class="row whole-view">
                                 <div class="col-4 login-class">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" required> 
+                                    <div class="header-conteiner">
+                                        <div class="logo-img">
+                                            <img src="../static/HomeIcon.png" style="width:50px">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" required> 
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" id="city" style="height:51px; width:390" placeholder="City" required>
+                                        <input type="text" class="form-control form-control-class" id="city" style="margin-left:50px; height:51px; width:390" placeholder="City" required>
                                     </div>
                                     <div class="address-container">
                                         <div class="form-group state">
-                                            <input type="text" class="form-control form-control-class" id="state" style="height:51px; width:189; display:inline" placeholder="State" required>
+                                            <input type="text" class="form-control form-control-class" id="state" style="margin-left:50px; height:51px; width:189; display:inline" placeholder="State" required>
                                         </div>
                                         <div class="form-group zipCode">
-                                            <input type="text" class="form-control form-control-class" id="zipCode" style="height:51px; width:189" placeholder="ZipCode" required>
+                                            <input type="text" class="form-control form-control-class" id="zip_code" style="margin-left:10px; height:51px; width:189" placeholder="ZipCode" required>
                                         </div>
                                     </div>
                                 </div>
@@ -74,12 +124,18 @@
             </div>
         </div>
             <!-- Kitchen Information -->
-            <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
-            <button class="kitchen-btn" onclick="updateKitchen('{{ id}}');">Update Kitchen</button>
+            <div class="header-conteiner">
+                <div class="logo-img">
+                    <img src="../static/UtensilIcon.png" style="width:100px">
+                </div>
+                <div class="Kitchen-Registration">
+                    <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
+                </div>
+            </div>
             <div class= "wrap">
             <div class="kitchen-info">
                 <div class="form-group" align="center">
-                    <input type="text" class="form-control form-control-class" id="kitchen_name" style="height:51px; width:314px" placeholder="Kitchen Name" required>
+                    <input type="text" class="form-control form-control-class" id="name" style="height:51px; width:314px" placeholder="Kitchen Name" required>
                 </div>
                 <div class="form-group" align="center">
                     <input type="text" class="form-control form-control-class" id="description" style="height:81px; width:680px" placeholder="Description" required>
@@ -89,34 +145,87 @@
             <!-- Kitchen Options -->
             <div class= "wrap">
                 <div class="hours">
-                    Open Hours: <input type="hour" class="form-control form-control-class" id="open_time" style="height:41px; width:90px; display:inline">AM until <input type="hour" class="form-control form-control-class" id="close_time" style="height:41px; width:90px; display:inline">AM<br>
+                    <div class="hours-item">Accept Hours:
+                        <input type="hour" class="form-control form-control-class" id="open_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
+                        <strong>AM</strong> &nbsp until
+                        <input type="hour" class="form-control form-control-class" id="close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
+                        <strong>PM</strong>
+                    </div>
                 </div>
                 <div class="hours">
-                    Open Hours: <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">PM until <input type="hour" class="form-control form-control-class" style="height:41px; width:90px; display:inline">PM
+                    <div class="hours-item">
+                        Delivery Hours:
+                        <input type="hour" class="form-control form-control-class" id="delivery_open_time" style="margin-left:20px; height:41px; width:90px; display:inline" required>
+                        <strong>AM</strong> &nbsp until
+                        <input type="hour" class="form-control form-control-class" id="delivery_close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
+                        <strong>PM</strong>
+                    </div>
+                    <br>
+                                     
                 </div>
                 <div class= "wrap">
                     <div class="option-container">
                         <div class="option1">
-                            Delivery Options<br>
-                            <input type="radio" value="pickup" id="pickup"> Pickup<br>
-                            <input type="radio" value="delivery" id="delivery"> Delivery<br>
+                            Delivery Options<br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="radio" value="pickup" name="radio1" id="pickup">
+                                <div class="state">
+                                    <label>Pickup</label>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="radio" value="delivery" name="radio1" id="delivery">
+                                <div class="state">
+                                    <label>Delivery</label>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="option2">
-                            Container Options<br>
-                            <input type="radio" value="with reusable container" id="reusable"> with reusable container<br>
-                            <input type="radio" value="with disposable container" id="disposable"> with disposable container<br>
+                            Container Options<br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="radio" value="reusable" name="radio2" id="reusable">
+                                <div class="state">
+                                    <label>with reusable container</label>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="radio" value="disposable" name="radio2" id="disposable">
+                                <div class="state">
+                                    <label>with disposable container</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="option3">
-                            Cancellation Options<br>
-                            <input type="radio" value="can cancel" id="can_cancel"> Cancel only within ordering hours<br>
-                            <input type="radio" value="cannot cancel" id="cannot_cancel"> Cancellations not allowed<br>
-                        </div>
+                            Cancellation Options<br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="radio" value="can_cancel" name="radio3" id="can_cancel">
+                                <div class="state">
+                                    <label>Cancel only within ordering hours</label>
+                                </div>
+                            </div>
+                            <br><br>
+                            <div class="pretty p-default p-round">
+                                <input type="radio" value="cannot_cancel" name="radio3" id="cannot_cancel">
+                                <div class="state">
+                                    <label>Cancellations not allowed</label>
+                                </div>
+                            </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
-      </div>
+        <div class="center-wrapper">
+            <div class="col-4 register-btn">
+                <button type="button" class="button regbtn" value="submit" onclick="registerKitchen();">Submit</button>
+            </div>
+        </div>
+
+        
     </div>
-  </body>
+</body>
 
 </html>

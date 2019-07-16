@@ -177,17 +177,27 @@ def register():
         phoneNumber = request.form.get('phone_number')
         closeTime = request.form.get('close_time')
         openTime = request.form.get('open_time')
-        zipcode = request.form.get('zipcode')
+        zipcode = request.form.get('zip_code')
         state = request.form.get('state')
         city = request.form.get('city')
         street = request.form.get('address')
         description = request.form.get('description')
+        deliveryOpenTime = request.form.get('delivery_open_time')
+        deliveryCloseTime = request.form.get('delivery_close_time')
+        pickup = request.form.get('pickup')
+        delivery = request.form.get('delivery')
+        reusable = request.form.get('reusable')
+        disposable = request.form.get('disposable')
+        canCancel = request.form.get('can_cancel')
+
 
         if email == None or password == None or verifyPassword == None \
           or username == None or firstName == None or lastName == None \
           or kitchenName == None or phoneNumber == None or closeTime == None \
           or openTime == None or zipcode == None or state == None or city == None \
-          or street == None or description == None:
+          or street == None or description == None or deliveryOpenTime == None \
+          or deliveryCloseTime == None or pickup == None or delivery == None \
+          or reusable == None or disposable == None or canCancel == None:
             flash('Please fill in all the required fields')
             return render_template('register.html')
         
@@ -201,7 +211,10 @@ def register():
                         'address': street, 'city': city, 'state': state,
                         'zipcode': zipcode, 'description': description,
                         'phone_number': phoneNumber, 'close_time': closeTime,
-                        'open_time': openTime}
+                        'open_time': openTime, 'delivery_open_time': deliveryOpenTime,
+                        'delivery_close_time': deliveryCloseTime, 'pickup': pickup,
+                        'delivery': delivery, 'reusable': reusable, 'disposable': disposable,
+                        'can_cancel': canCancel}
 
         apiURL = API_BASE_URL +'api/v1/kitchens/register'
         response = requests.post(apiURL, data=json.dumps(request_data))
