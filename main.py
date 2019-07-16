@@ -182,13 +182,13 @@ def register():
         city = request.form.get('city')
         street = request.form.get('address')
         description = request.form.get('description')
-        deliveryOpenTime = request.form.get('delivery_open_time');
-        deliveryCloseTime = request.form.get('delivery_close_time');
-        pickup = request.form.get('pickup');
-        delivery = request.form.get('delivery');
-        reusable = request.form.get('reusable');
-        disposable = request.form.get('disposable');
-        canCancel = request.form.get('can_cancel');
+        deliveryOpenTime = request.form.get('delivery_open_time')
+        deliveryCloseTime = request.form.get('delivery_close_time')
+        pickup = request.form.get('pickup')
+        delivery = request.form.get('delivery')
+        reusable = request.form.get('reusable')
+        disposable = request.form.get('disposable')
+        canCancel = request.form.get('can_cancel')
 
 
         if email == None or password == None or verifyPassword == None \
