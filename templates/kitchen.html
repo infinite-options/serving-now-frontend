@@ -6,8 +6,8 @@
 <script src="{{ url_for('.static', filename='addMeal.js') }}"></script>
 <script src="{{ url_for('.static', filename='editMeal.js') }}"></script>
 <script src="{{ url_for('.static', filename='updateMeal.js') }}"></script>
-<script src="{{url_for('.static', filename='deleteMeal.js') }}"></script>
-<script src="{{url_for('.static', filename='favMeal.js') }}"></script>
+<script src="{{ url_for('.static', filename='deleteMeal.js') }}"></script>
+<script src="{{ url_for('.static', filename='favMeal.js') }}"></script>
 
 <link href="{{ url_for('.static', filename='style.css') }}" rel="stylesheet" />
 <!-- References style sheet -->
@@ -26,24 +26,6 @@
             on: 'hover'
         });
     })
-</script>
-
-
-<script>
-    function previewFile() {
-        var preview = document.querySelector('.img-bg'); //selects the query named img
-        var file = document.querySelector('input[type=file]').files[0]; //sames as here
-        var reader = new FileReader();
-        reader.onloadend = function() {
-            preview.src = reader.result;
-        }
-        if (file) {
-            reader.readAsDataURL(file); //reads the data as a URL
-        } else {
-            preview.src = "Upload Photo";
-        }
-    }
-    previewFile();
 </script>
 
 <style>
@@ -135,16 +117,15 @@
     <div class="grid-container">
         <div id="logo">
             <div> <img src="{{ url_for('.static', filename='ServingNowLogo.png') }}" class="serving-now-logo"></div>
-            <div> <strong><i><h3>{{ name }}</h3></i></strong></div>
-        </div>
-        <div id="right-content">
-            <div><button type="text" class="button btn-primary kitchen-username kitchen-username-btn"><i>Saurabh Mane</i></button></div>
-            <!-- <div class="add-meal-btn-div"> -->
-            <div class="add-meal-btn-div"><button type="button" class="btn btn-primary add-meal-btn" data-toggle="modal" data-target="#addMeal">
-                <i>Add Meal</i>
-            </button>
+            <div>
+                <strong><i><h3>{{ name }}</h3></i></strong>
+                <div><button type="text" class="button btn-primary kitchen-username kitchen-username-btn mt-2 mb-2"><i>Saurabh Mane</i></button></div>
+                <!-- <div class="add-meal-btn-div"> -->
+                <div class="mb-2"><button type="button" class="btn btn-primary add-meal-btn" data-toggle="modal" data-target="#addMeal">
+                    <i>Add Meal</i>
+                </button>
+                </div>
             </div>
-            <!-- </div> -->
         </div>
         <div id="currentmeal">
             <strong><i>Current Meal:</i></strong>
@@ -185,7 +166,11 @@
                                     </div>
                                     <div class="col" style="margin-left:25%">
                                         <a onclick="favMeal('{{meal.meal_id.S}}')">
-                                            <i class="star outline icon"></i> Fav
+                                            {% if meal.favorite.BOOL %}
+                                                <i class="star outline icon"></i> Fav
+                                            {% else %}
+                                                <i class="star icon"></i> Fav
+                                            {% endif %}
                                         </a>
                                     </div>
                                 </div>
@@ -231,170 +216,169 @@
                                                 Add photo
                                                 <input type="file" name="photo" id="add_meal_image" onchange="previewFile()" /><br>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col name-of-meal">
-                                <i><input type="text" class="form-control form-control-class" id="add_meal_mealname"
-                                placeholder="Name of the meal"></i>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <table class="add-table" id="option-setup">
-                                <tr>
-                                    <td>
-                                        <span><strong><i>Items in this meal</i></strong></span>
-                                    </td>
-                                    <td>
-                                        <span>
-                                    <select id="option-items" style="border-radius: 15px">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span style="padding-left: 30%"><strong><i>Item name</i></strong></span>
-                                    </td>
-                                    <td>
-                                        <span><strong><i>Item Quantity</i></strong></span>
-                                    </td>
-                                </tr>
-                                <br>
-                                <tr id="option-item1">
-                                    <td>
-                                        <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option1_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <span style="padding-left:30%">
-                                    <select id="add_meal_option1_qty">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </span>
-                                    </td>
-                                </tr>
-                                <tr id="option-item2">
-
-                                    <td>
-                                        <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option2_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <span style="padding-left:30%">
-                                    <select id="add_meal_option2_qty">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </span>
-                                    </td>
-                                </tr>
-                                <tr id="option-item3">
-
-                                    <td>
-                                        <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option3_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <span style="padding-left:30%">
-                                    <select id="add_meal_option3_qty">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </span>
-                                    </td>
-                                </tr>
-                                <tr id="option-item4">
-
-                                    <td>
-                                        <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option4_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <span style="padding-left:30%">
-                                    <select id="add_meal_option4_qty">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </span>
-                                    </td>
-                                </tr>
-                                <tr id="option-item5">
-
-                                    <td>
-                                        <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option5_name" maxlength="15">
-                                    </td>
-                                    <td>
-                                        <span style="padding-left:30%">
-                                    <select id="add_meal_option5_qty">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="form-row">
-                            <div class="row meal-container">
-                                <div class="col-md" id="meal-id">
-                                    <strong><i>Meal Price</i></strong>
-                                </div>
-                                <div class="col-md">
-                                    <input type="number" name="price" class="form-control form-control-class" id="add_meal_price">
+                            <br>
+                            <div class="row">
+                                <div class="col name-of-meal">
+                                    <i><input type="text" class="form-control form-control-class" id="add_meal_mealname"
+                                    placeholder="Name of the meal"></i>
                                 </div>
                             </div>
-                        </div>
+                            <div class="pl-5">
+                              <div class="form-row">
+                                  <table id="option-setup">
+                                      <tr>
+                                          <td>
+                                            <span class="left-content"><strong><i>Items in this meal</i></strong></span>
+                                          </td>
+                                          <td>
+                                              <span>
+                                          <select id="option-items" style="border-radius: 15px">
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                          </select>
+                                      </span>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                              <span><strong><i>Item name</i></strong></span>
+                                          </td>
+                                          <td>
+                                              <span><strong><i>Item Quantity</i></strong></span>
+                                          </td>
+                                      </tr>
+                                      <br>
+                                      <tr id="option-item1">
+                                          <td>
+                                              <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option1_name" maxlength="15">
+                                          </td>
+                                          <td>
+                                              <span>
+                                          <select id="add_meal_option1_qty">
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                              <option value="6">6</option>
+                                              <option value="7">7</option>
+                                              <option value="8">8</option>
+                                              <option value="9">9</option>
+                                              <option value="10">10</option>
+                                          </select>
+                                      </span>
+                                          </td>
+                                      </tr>
+                                      <tr id="option-item2">
 
-                        <div class="modal-footer">
-                            <button value="submit" onclick="postMeal();" class="btn btn-primary post-meal-btn">Save</button>
+                                          <td>
+                                              <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option2_name" maxlength="15">
+                                          </td>
+                                          <td>
+                                              <span style="padding-left:30%">
+                                          <select id="add_meal_option2_qty">
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                              <option value="6">6</option>
+                                              <option value="7">7</option>
+                                              <option value="8">8</option>
+                                              <option value="9">9</option>
+                                              <option value="10">10</option>
+                                          </select>
+                                      </span>
+                                          </td>
+                                      </tr>
+                                      <tr id="option-item3">
+
+                                          <td>
+                                              <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option3_name" maxlength="15">
+                                          </td>
+                                          <td>
+                                              <span style="padding-left:30%">
+                                          <select id="add_meal_option3_qty">
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                              <option value="6">6</option>
+                                              <option value="7">7</option>
+                                              <option value="8">8</option>
+                                              <option value="9">9</option>
+                                              <option value="10">10</option>
+                                          </select>
+                                      </span>
+                                          </td>
+                                      </tr>
+                                      <tr id="option-item4">
+
+                                          <td>
+                                              <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option4_name" maxlength="15">
+                                          </td>
+                                          <td>
+                                              <span style="padding-left:30%">
+                                          <select id="add_meal_option4_qty">
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                              <option value="6">6</option>
+                                              <option value="7">7</option>
+                                              <option value="8">8</option>
+                                              <option value="9">9</option>
+                                              <option value="10">10</option>
+                                          </select>
+                                      </span>
+                                          </td>
+                                      </tr>
+                                      <tr id="option-item5">
+
+                                          <td>
+                                              <input type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option5_name" maxlength="15">
+                                          </td>
+                                          <td>
+                                              <span style="padding-left:30%">
+                                          <select id="add_meal_option5_qty">
+                                              <option value="1">1</option>
+                                              <option value="2">2</option>
+                                              <option value="3">3</option>
+                                              <option value="4">4</option>
+                                              <option value="5">5</option>
+                                              <option value="6">6</option>
+                                              <option value="7">7</option>
+                                              <option value="8">8</option>
+                                              <option value="9">9</option>
+                                              <option value="10">10</option>
+                                          </select>
+                                      </span>
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </div>
+                              <div class="form-row">
+                                  <div class="left-content" id="meal-id">
+                                      <strong><i>Meal Price</i></strong>
+                                  </div>
+                                  <div class="right-content">
+                                      <input type="number" name="price" class="right-content form-control form-control-class" id="add_meal_price">
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button value="submit" onclick="postMeal();" class="btn btn-primary post-meal-btn">Save</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -447,7 +431,6 @@
 
                                 <div class="form-row">
                                     <table id="edit-option-setup">
-
                                         <tr>
                                             <td>
                                                 <span><strong><i>Items in this meal</i></strong></span>
@@ -584,13 +567,11 @@
                                     </table>
                                 </div>
                                 <div class="form-row">
-                                    <div class="row">
-                                        <div class="col-md" id="meal-id">
-                                            <strong><i>Meal Price</i></strong>
-                                        </div>
-                                        <div class="col-md">
-                                            <input type="number" name="price" class="form-control form-control-class" id="edit_meal_price">
-                                        </div>
+                                    <div class="col-md" id="meal-id">
+                                        <strong><i>Meal Price</i></strong>
+                                    </div>
+                                    <div class="col-md">
+                                        <input type="number" name="price" class="form-control form-control-class" id="edit_meal_price">
                                     </div>
                                 </div>
                             </div>

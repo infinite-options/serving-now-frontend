@@ -12,15 +12,15 @@ import requests
 from datetime import datetime
 from pytz import timezone
 
-from flask import (Flask, Blueprint, request, render_template, 
+from flask import (Flask, Blueprint, request, render_template,
     redirect, url_for, flash)
 from flask import session as login_session
-from flask_login import (LoginManager, login_required, current_user, 
+from flask_login import (LoginManager, login_required, current_user,
 	UserMixin, login_user, logout_user)
 from flask_mail import Mail, Message
 
 from werkzeug.exceptions import BadRequest, NotFound
-from werkzeug.security import (generate_password_hash, 
+from werkzeug.security import (generate_password_hash,
     check_password_hash)
 
 
@@ -200,14 +200,14 @@ def register():
           or reusable == None or disposable == None or canCancel == None:
             flash('Please fill in all the required fields')
             return render_template('register.html')
-        
+
         if verifyPassword != password:
             flash('Your passwords don\'t match')
             return render_template('register.html')
 
-        request_data = {'email': email, 'password': password, 
+        request_data = {'email': email, 'password': password,
                         'username': username, 'first_name': firstName,
-                        'last_name': lastName, 'name': kitchenName, 
+                        'last_name': lastName, 'name': kitchenName,
                         'address': street, 'city': city, 'state': state,
                         'zipcode': zipcode, 'description': description,
                         'phone_number': phoneNumber, 'close_time': closeTime,
@@ -262,7 +262,7 @@ def postMeal():
     price = request.form.get('price')
     photo = request.files.get('photo')
     itemsData = request.form.get('items')
-    
+
     if name == None or price == None or photo == None or itemsData == None:
         print('Meal details missing')
         return
@@ -284,6 +284,8 @@ def postMeal():
         items.append(item)
 
     description = [{'M': i} for i in items]
+
+    print(description)
 
     # try:
     photo_key = 'meals_imgs/{}_{}'.format(str(kitchen_id), str(meal_id))
@@ -313,7 +315,12 @@ def postMeal():
         }
     )
 
-    return redirect(url_for('kitchen', id=current_user.get_id()))
+    print("Inside POST API")
+    # print("kitchen:" + kitchen)
+    # Technical debt that needs to be solved
+
+    response['message'] = 'Request successful'
+    return response, 200
     # except:
     #     raise BadRequest('Request failed. Please try again later.')
 
@@ -394,8 +401,8 @@ def editMeal(meal_id):
     #                                  }
     #                                  )
 
-     # return redirect(url_for('kitchen', id="5d114cb5c4f54c94a8bb4d955a576fca"))
-    return redirect(url_for('kitchen', id=current_user.get_id()))
+    # return redirect(url_for('kitchen', id="5d114cb5c4f54c94a8bb4d955a576fca"))
+    # return redirect(url_for('kitchen', id=current_user.get_id()))
 
 
 @app.route('/kitchens/report')
@@ -413,9 +420,17 @@ def report():
         }
     )
 
+    # orderImages = db.scan(TableName='meals',
+    #     FilterExpression='kitchen_id = :value AND (contains(created_at, :x1))',
+    #     ExpressionAttributeValues={
+    #         ':value': {'S': current_user.get_id()},
+    #         ':x1': {'S': todays_date}
+    #     }
+    # )
+
     apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
     response = requests.get(apiURL)
-    
+
     todaysMenu = response.json().get('result')
     mealsToCook = todaysMenu
 
@@ -427,17 +442,13 @@ def report():
             for item in mealsToCook:
                 if item['meal_id']['S'] == meals['M']['meal_id']['S']:
                     item['qty'] += int(meals['M']['qty']['N'])
-            for item in todaysMenu:
-                if item['meal_id']['S'] == meals['M']['meal_id']['S']:
                     meals['M']['meal_name'] = item['meal_name']
 
     print(orders['Items'])
-    print(mealsToCook)
 
-    return render_template('report.html', 
-                            name=login_session['name'], 
+    return render_template('report.html',
+                            name=login_session['name'],
                             id=login_session['user_id'],
-                            mealsToCook=mealsToCook,
                             orders=orders['Items'])
 
 
@@ -446,7 +457,7 @@ def closeKitchen(kitchen_id):
         Key={'kitchen_id': {'S': kitchen_id}},
         UpdateExpression='SET isOpen = :val',
         ExpressionAttributeValues={
-            ':val': {'BOOL': False}                                                       
+            ':val': {'BOOL': False}
         }
     )
 
@@ -509,20 +520,27 @@ def favorite(meal_id):
     response = {}
     print("Inside favorite..")
 
-    if ('favorite' == True):
-        fav_meal = db.update_item(TableName='meals',
-        Key={'meal_id': {'S': str(meal_id)}},
-        UpdateExpression='SET favorite = :val',
-        ExpressionAttributeValues={
-           ':val': {'BOOL':False}}
-        )
-    else:
-        fav_meal = db.update_item(TableName='meals',
-        Key={'meal_id': {'S': str(meal_id)}},
-        UpdateExpression='SET favorite = :val',
-        ExpressionAttributeValues={
-           ':val': {'BOOL':True}}
-        )
+    # get meal from meals table
+    meal = db.scan(TableName='meals',
+                   FilterExpression='meal_id = :value',
+                   ExpressionAttributeValues={
+                       ':value': {'S': meal_id},
+                   }
+    )
+
+    old_fav_val = meal['Items'][0]['favorite']['BOOL']
+    new_fav_val = not old_fav_val
+    print(meal['Items'][0]['favorite']['BOOL'])
+    # {'Items': [{'photo': {'S': 'https://s3-us-west-2.amazonaws.com/ordermealapp/meals_imgs/638ade3aaef0488f835aa0fb1a75d654_aa73e204e6ef4876affe53b447bc7c28'},'created_at': {'S': '2019-07-17T09:47:31'}, 'kitchen_id': {'S': '638ade3aaef0488f835aa0fb1a75d654'}, 'favorite': {'BOOL': False}, 'price': {'S': '100'}, 'description': {'L': [{'M': {'title': {'S': 'Test not order'}, 'qty': {'N': '1'}}}]}, 'meal_id': {'S': 'aa73e204e6ef4876affe53b447bc7c28'}, 'meal_name': {'S': 'Test not order'}}], 'Count': 1, 'ScannedCount': 113, 'ResponseMetadata': {'RequestId': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'HTTPStatusCode': 200, 'HTTPHeaders': {'server': 'Server', 'date': 'Wed, 17 Jul 2019 18:14:24 GMT', 'content-type': 'application/x-amz-json-1.0', 'content-length': '487', 'connection': 'keep-alive', 'x-amzn-requestid': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'x-amz-crc32': '2345770100'}, 'RetryAttempts': 0}}
+
+
+    fav_meal = db.update_item(TableName='meals',
+    Key={'meal_id': {'S': str(meal_id)}},
+    UpdateExpression='SET favorite = :val',
+    ExpressionAttributeValues={
+       ':val': {'BOOL':new_fav_val}}
+       )
+
     response['message'] = 'Request successful'
     return response, 200
     #     #if isEnabled == True:
@@ -545,7 +563,6 @@ def favorite(meal_id):
        # return response, 200
     #except:
      #   raise BadRequest('Request failed. Please try again later.'
-
 
 
 if __name__ == '__main__':
