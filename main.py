@@ -243,7 +243,18 @@ def kitchen(id):
     if todaysMenu == None:
       todaysMenu = []
 
+    kitchen = db.scan(TableName='kitchens',
+                      FilterExpression='kitchen_id = :value',
+                      ExpressionAttributeValues={
+                          ':value': {'S': current_user.get_id()},
+                      }
+    )
+
+    full_name = kitchen['Items'][0]['first_name']['S'] + " " + kitchen['Items'][0]['last_name']['S']
+
+
     return render_template('kitchen.html',
+                            full_name=full_name,
                             name=login_session['name'],
                             id=login_session['user_id'],
                             todaysMeals=todaysMenu)
