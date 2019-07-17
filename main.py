@@ -250,11 +250,11 @@ def kitchen(id):
                       }
     )
 
-    full_name = kitchen['Items'][0]['first_name']['S'] + " " + kitchen['Items'][0]['last_name']['S']
+    description = kitchen['Items'][0]['description']['S']
 
 
     return render_template('kitchen.html',
-                            full_name=full_name,
+                            description=description,
                             name=login_session['name'],
                             id=login_session['user_id'],
                             todaysMeals=todaysMenu)
