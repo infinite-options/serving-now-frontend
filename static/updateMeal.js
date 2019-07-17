@@ -47,7 +47,9 @@ function updateMeal() {
     console.log(formData);
 
     // The data sent is what the user provided in the form
-    request.open("POST", "/kitchens/meals/" + meal_id, true);
+    //async has to be false because the webpage will refresh before the
+    //database can be updated                          Here
+    request.open("POST", "/kitchens/meals/" + meal_id, false);
     console.log(meal_id);
     request.send(formData);
 }
