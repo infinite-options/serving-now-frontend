@@ -505,7 +505,7 @@ def updateKitchensStatus():
         return 'testing cron jobs'
 
 
-@app.route('/api/v1/meals/<meal_id>', methods=["DELETE"])
+@app.route('/api/v1/meals/<meal_id>', methods=['GET', 'PUT'])
 def delete(meal_id):
     flash('meal id for the selected meal is {}'.format(meal_id))
 
