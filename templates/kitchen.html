@@ -34,7 +34,6 @@
         var preview = document.querySelector('.img-bg'); //selects the query named img
         var file = document.querySelector('input[type=file]').files[0]; //sames as here
         var reader = new FileReader();
-
         reader.onloadend = function() {
             preview.src = reader.result;
         }
@@ -72,8 +71,7 @@
     #kitchen-name {
         grid-area: kitchen-name;
     }
-    
-    #right-content {
+    /* #right-content {
         margin-top: 40px;
         display: grid;
         grid-row-gap: 5px;
@@ -81,7 +79,7 @@
         margin-right: none;
         place-content: end;
         padding-right: 40px;
-    }
+    } */
     
     #currentmeal {
         grid-area: current-meal;
@@ -93,7 +91,7 @@
         display: grid;
         grid-area: currentmeal-card;
         grid-auto-rows: minmax(100px, auto);
-        grid-column-gap: none;
+        /* grid-column-gap: -10px; */
         margin-top: 10px;
         margin-left: 40px;
         margin-right: none;
@@ -113,22 +111,46 @@
         grid-auto-rows: minmax(100px, auto);
     }
     
-    .add-meal-btn,
-    .kitchen-username-btn {
+    .add-meal-btn {
         background: #a0050f;
         border-radius: 20px;
         border: 2px solid #ECEAEA;
         color: #ECEAEA;
+        margin-left: 23px;
+        margin-top: 13px;
     }
-    
-    .add-meal-btn-div {
+    /* .add-meal-btn-div {
         margin-left: 42%;
-    }
+    } */
     
     .kitchen-username {
         cursor: text !important;
-        width: 150px;
+        width: 130px;
         height: 40px;
+        background: #a0050f;
+        border-radius: 20px;
+        border: 2px solid #ECEAEA;
+        pointer-events: none;
+    }
+    
+    .float-content {
+        position: absolute;
+        margin-left: 174px;
+        margin-top: -45px;
+    }
+    
+    .trash-icon {
+        position: absolute;
+        margin-top: -45px;
+    }
+    
+    .quantity-no {
+        background-color: #a0050f;
+        border-radius: 25px;
+        border: 3px solid #ECEAEA;
+        min-width: 40px;
+        margin-top: -173px;
+        pointer-events: none;
     }
 </style>
 
@@ -136,15 +158,27 @@
     <div class="grid-container">
         <div id="logo">
             <div> <img src="{{ url_for('.static', filename='ServingNowLogo.png') }}" class="serving-now-logo"></div>
-            <div> <strong><i><h3>{{ name }}</h3></i></strong></div>
+            <div style="margin-left:3%">
+                <strong><i><h3>{{ name }}</h3></i></strong>
+                <br>
+                <div class="btn btn-primary kitchen-username kitchen-username-btn"><i>Saurabh Mane</i></div>
+                <div>
+                    <button type="button" class="btn btn-primary add-meal-btn" data-toggle="modal" data-target="#addMeal">
+                        <i>Add Meal</i>
+                    </button>
+                </div>
+            </div>
         </div>
         <div id="right-content">
-            <div><button type="text" class="button btn-primary kitchen-username kitchen-username-btn"><i>Saurabh Mane</i></button></div>
+            <!-- <div><button type="text" class="button btn-primary kitchen-username kitchen-username-btn"><i>Saurabh Mane</i></button></div> -->
+
             <!-- <div class="add-meal-btn-div"> -->
-            <div class="add-meal-btn-div"><button type="button" class="btn btn-primary add-meal-btn" data-toggle="modal" data-target="#addMeal">
+
+            <!-- <div class="add-meal-btn-div"><button type="button" class="btn btn-primary add-meal-btn" data-toggle="modal" data-target="#addMeal">
                 <i>Add Meal</i>
             </button>
-            </div>
+            </div> -->
+
             <!-- </div> -->
         </div>
         <div id="currentmeal">
@@ -154,8 +188,39 @@
             <div class="row">
                 {% for meal in todaysMeals %}
                 <!-- % beginning of JS logic -->
-                <div class="col-md-3 parent-class" style="padding-bottom: 2rem;" data-meal_id="{{meal.meal_id.S}}">
-                    <div class="ui special cards">
+                <div class="col-md-2 parent-class" style="padding-bottom: 2rem;" data-meal_id="{{meal.meal_id.S}}">
+                    <div class="ui link cards" style="width: 18rem; padding:10px">
+                        <div class="card">
+                            <div class="image">
+                                <img src={{meal.photo.S}} class="card-img-top" style="max-width:290px; height:174px">
+                            </div>
+                            <div>
+                                <div style="position:absolute" class="btn btn-primary quantity-no">2</div>
+                                <!-- <div style="position:absolute" class="ui circular icon button quantity-no">3</div> -->
+                                <div style="position:absolute"><input type="image" class="ui inverted float-content" width="40" height="40" src="{{ url_for('.static', filename='EditIcon.png') }}" data-meal_id="{{meal.meal_id.S}}" data-toggle="modal" id="edit-meal-btn" data-meal_name="{{meal.meal_name.S}}"
+                                        data-meal_photo="{{meal.photo.S}}" data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}" data-target="#editMeal"></div>
+                                <div style="position:absolute"><input onclick="deleteMeal('{{meal.meal_id.S}}');" type="image" class="ui inverted trash-icon" width="40" height="40" src="{{ url_for('.static', filename='TrashIcon.png') }}" id="delete-meal-btn"></div>
+                            </div>
+                            <div class="content">
+                                <div class="header"><i>{{meal.meal_name.S}}</i></div>
+                                <div class="meta">
+                                    <i>{{meal.description.S}}</i>
+                                </div>
+                            </div>
+                            <div class="extra content">
+                                <span class="right floated">
+                                    <a onclick="favMeal('{{meal.meal_id.S}}')">
+                                        <i class="star outline icon"></i> Fav
+                                    </a>
+                            </span>
+                                <span>
+                              <i class="dollar sign icon"></i>{{meal.price.S}}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="ui special cards">
                         <div class="card">
                             <div class="blurring dimmable image">
                                 <div class="ui dimmer">
@@ -192,7 +257,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 {% endfor %}
             </div>
@@ -423,6 +488,19 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- use this to retrieve the meal id from edit meal -->
+                                <div class="row">
+                                    <div class="col id-of-meal">
+                                        <i><p hidden
+                                           type="text"
+                                           class="form-control form-control-class"
+                                           id="edit_meal_mealid">
+                                     </i>
+                                    </div>
+                                </div>
+
+
                                 <div class="row">
                                     <div class="col name-of-meal">
                                         <i><input type="text" class="form-control form-control-class" id="edit_meal_mealname"

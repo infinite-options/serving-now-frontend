@@ -1,44 +1,20 @@
 <!doctype html>
-
-
-
-
 <html lang="en">
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- jquery script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
     <!-- JavaScript  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link href="{{ url_for('.static', filename='style-new.css') }}" rel="stylesheet" />
-
-    <!-- <link rel="stylesheet" href="style.css"> -->
-
     <title>Meal Ordering</title>
-
-
-    <!-- ############ script ################## -->
-
-    <script>
-        $(document).ready(function() {
-            $(".login-btn").click(function() {
-                $(".container-class").load("{{url_for('login')}}");
-            });
-        });
-    </script>
-
-    <!-- ############ script ################## -->
-
 </head>
 
 <body class="backgroundImgSetting">
@@ -46,48 +22,25 @@
         <div class="row whole-view">
             <div class="col-4 login-class">
                 <div class="form-class">
-                    <div class="login-screen-control"></div>
-                    <div class="button-class init-login-btn">
-                        <button type="submit" class="button btn btn-primary login-btn">Login</button>
-                    </div>
+                    <form method="POST" action="{{ url_for('login')}}">
+                        <br><br><br><br><br><br><br>
+                        <div class="button-class">
+                            <button class="button btn btn-primary login-btn landing-button" type="submit">Login</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class=" col-4 image">
-                <img class="center-img" src="{{ url_for('.static', filename='ServingNowLogo.png') }}">
+                <img src="{{ url_for('.static', filename='ServingNowLogo.png') }}" class="center-img">
             </div>
-            <div class="col-4 register-btn">
+            <div class="col-4">
                 <button type="button" class="button btn btn-primary regbtn" onclick="window.location.href='{{url_for('register')}}';">Register</button>
             </div>
         </div>
     </div>
-
-
-
-
-
-    <!-- <img src="ServingNowLogo.png" class="signin-img"> -->
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -109,54 +62,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Landing Page</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="{{ url_for('.static', filename='style.css') }}" rel="stylesheet"/>
-    <style>
-        body {
-            background-image: url("{{ url_for('.static', filename='landing-background.jpg') }}");
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            width: calc(100vw - 16px);
-            height: calc(100vh - 16px);
-        }
-        .logo {
-          display: flex;
-          justify-content: center;
-          position: absolute;
-          width: calc(100vw - 16px);
-          bottom: 0;
-          z-index: -1;
-        }
-        #logo {
-          width: 100%;
-          max-width: 800px;
-          height: auto;
-        }
-        .affordances {
-            height: 80%;
-            display: flex;
-            flex-flow: row wrap;
-            align-items: flex-end;
-            justify-content: space-evenly;
-        }
-        .button {
-          border: 4px solid white;
-          border-radius: 64px;
-          font-size: 2em;
-          text-decoration: none;
-          color: white;
-          padding: 16px 64px;
-        }
-    </style>
 </head>
-    <body>
-        <div class="logo">
-          <img id="logo" src="{{ url_for('.static', filename='landing-logo.png') }}">
+<body>
+<div class="login-form">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Login</h3>
         </div>
-        <div class="affordances">
-            <a class="button" href="{{ url_for('login') }}"><i>Login</i></a>
-            <a class="button" href="{{ url_for('register') }}"><i>Register</i></a>
+        <div class="panel-body">
+            <div class="col-md-12 col-sm-12">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class=flashes style="color: red">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+                <form method="POST" action="{{ url_for('login') }}">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="email"
+                           name="email"
+                           id="email"/>
+                    <input type="password"
+                           class="form-control"
+                           placeholder="password"
+                           name="password"
+                           id="password"/>
+                    <button class="btn btn-primary btn-block" type="submit">Login</button>
+                    <a class="btn btn-success btn-block" href="{{url_for('register')}}">Register</a>
+                </form>
+            </div>
         </div>
-    </body>
+    </div>
+</div>
+
+
+</body>
 </html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <title>Meal Ordering</title>
+</head>
+
+
+<style>
+    #body-bg {
+        background-color: #a0050f;
+    }
+    
+    .grid-container {
+        display: grid;
+        grid-template-areas: 'form image register';
+        grid-template-columns: repeat(auto-fit);
+        margin-top: 8%;
+    }
+    
+    #form {
+        display: grid;
+        grid-area: form;
+        margin-top: 93%;
+        z-index: 2;
+        margin-left: 15%;
+    }
+    
+    #image {
+        display: grid;
+        grid-area: image;
+    }
+    
+    #register {
+        display: grid;
+        grid-area: register;
+        margin-top: 140%;
+    }
+    
+    .image-col {
+        text-align: center;
+    }
+    
+    .image-col>img {
+        width: 450px;
+        height: 450px;
+    }
+</style>
+
+<body id="body-bg">
+    <div class=container>
+        <div class="grid-container view-container">
+            <div id="form">
+                <form method="POST" action="{{ url_for('login')}}">
+                    <div class="form-group">
+                        <input type="text" class="form-control " name="email" id="email" aria-describedby="emailHelp" placeholder="email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control " name="password" id="password" placeholder="Password">
+                    </div>
+                    <div class="button-class">
+                        <button class="button btn btn-primary" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div id="image" class="image-col">
+                <img src="{{ url_for('.static', filename='ServingNowLogo.png') }}">
+            </div>
+            <div id="register">
+                <button type="button" class="button btn btn-primary" onclick="window.location.href='{{url_for('register')}}';">Register</button>
+            </div>
+        </div>
+    </div>
+</body> -->

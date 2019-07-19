@@ -400,7 +400,9 @@ def report():
         }
     )
 
-    apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
+    apiURL = 'http://localhost:5000' +'/api/v1/meals/' + current_user.get_id()
+
+    # apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
     response = requests.get(apiURL)
     
     todaysMenu = response.json().get('result')
@@ -467,7 +469,8 @@ def delete(meal_id):
         deleted_meal = db.delete_item(TableName='meals',
                        Key={'meal_id': {'S': meal_id}}),
         response['message'] = 'Request successful'
-        return response, 200
+        return redirect(url_for('kitchen', id=current_user.get_id()))
+        
     except Exception as ex:
         print("ex: ", ex)
         raise BadRequest('Request failed. Please try again later.')
