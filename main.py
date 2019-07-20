@@ -281,7 +281,13 @@ def kitchen(id):
 @app.route('/kitchen/<string:id>/settings', methods=['GET'])
 @login_required
 def kitchenSettings(id):
-    return render_template('kitchenSettings.html', id=login_session['user_id'])
+    kitchen = db.scan(TableName='kitchens',
+                   FilterExpression='kitchen_id = :value',
+                   ExpressionAttributeValues={
+                       ':value': {'S': login_session['user_id']},
+                   })
+
+    return render_template('kitchenSettings.html', id=login_session['user_id'], kitchen=kitchen['Items'][0])
 
 
 @app.route('/kitchens/meals/create', methods=['POST'])
