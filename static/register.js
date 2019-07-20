@@ -82,6 +82,12 @@ function registerKitchen() {
 	formData.append("disposable", disposable);
 	formData.append("can_cancel", can_cancel);
 
+  request.onload = function () {
+    if (this.status == 200) {
+      document.location.href = '/';
+    }
+  }
+
 	request.open("POST", "/accounts/register", true);
 	request.send(formData);
 	// }
