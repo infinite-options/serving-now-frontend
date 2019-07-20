@@ -237,11 +237,7 @@ def register():
         apiURL = API_BASE_URL +'api/v1/kitchens/register'
         response = requests.post(apiURL, data=json.dumps(request_data))
 
-        if response.json().get('message') == 'Request failed. Please try again later.':
-            flash('Kitchen registered successfully.')
-            return
-        else:
-            return redirect(url_for('kitchen', id=response.json().get('kitchen_id')))
+        return response.json().get('message'), response.status_code
 
     return render_template('register.html')
 
