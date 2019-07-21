@@ -3,8 +3,21 @@ function postMeal() {
     var request = new XMLHttpRequest();
     var formData = new FormData();
 
+    var validate_price = document.getElementById('add_meal_price').value;
+    var meal_name = document.getElementById('add_meal_mealname').value;
+
+    console.log(validate_price);
+    console.log(meal_name);
+
+    if ((validate_price == "") || (meal_name == "")) {
+        window.alert('Please enter valid value');
+        return false;
+    }
+
     var meal_options_elem = document.getElementById('option-items');
     var meal_options = meal_options_elem.options[meal_options_elem.selectedIndex].value;
+
+
 
     var items = {};
     var options = [];

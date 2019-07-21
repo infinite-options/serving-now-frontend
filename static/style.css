@@ -79,7 +79,12 @@ input.form-control {
 }
 
 #add_meal_price {
-    margin-left: 60%;
+    margin-left: 85%;
+    max-width: 40%;
+}
+
+#edit_meal_price {
+    margin-left: 85%;
     max-width: 40%;
 }
 
@@ -144,7 +149,7 @@ a:hover {
     border: none;
     border-radius: 0;
     font-size: 15px;
-    background: #212529b8;
+    background: #a0050f;
 }
 
 
