@@ -16,7 +16,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('.static', filename='kitchenStyle.css') }}" >
-    <script src="{{ url_for('.static', filename='register.js') }}"></script>
+    <script src="{{ url_for('.static', filename='editKitchenSettings.js') }}"></script>
     <title>Meal Ordering</title>
 
     <!--  Pretty Radio Button template  -->
@@ -49,6 +49,7 @@
             <div class="Kitchen-Registration">
                 <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
             </div>
+            <button class="kitchen-btn" onclick="updateKitchen('{{ id}}');">Update Kitchen</button>
         </div>
             <div class= "center-wrapper">
                 <div class="row whole-view">
@@ -73,6 +74,7 @@
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
                 </div>
+                <button class="kitchen-btn" onclick="updateKitchen('{{ id}}');">Update Kitchen</button>
             </div>
             <div class= "wrap">
                 <div class="option-container">
@@ -145,6 +147,7 @@
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
                 </div>
+                <button class="personal-btn" onclick="updatePersonal('{{ id }}');">Update Personal</button>
             </div>
             <div class= "wrap">
             <div class="kitchen-info">
