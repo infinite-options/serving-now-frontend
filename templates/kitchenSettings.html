@@ -22,7 +22,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" >
     <link rel="stylesheet" href="dist/pretty-checkbox.min.css" >
 
+    <script>
+      $(function () {
+        kitchen = JSON.parse($('<textarea />').html('{{kitchen}}').text());
 
+        $('#open_time').val(kitchen.open_time['S']);
+        $('#close_time').val(kitchen.close_time['S']);
+        // $('#delivery_open_time').val(kitchen.delivery_open_time['S']);
+        // $('#delivery_close_time').val(kitchen.delivery_close_time['S']);
+        // $('#pickup')
+        // $('#delivery')
+        // $('#can_cancel')
+        // $('#cannot_cancel')
+      })
+    </script>
 </head>
 
 <body class="backgroundSetting">
