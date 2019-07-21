@@ -1,63 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Order Report</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="ordermeal.js"></script>
+  <title>Order Report</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="ordermeal.js"></script>
 </head>
 <body>
 
-{% extends "main.html" %}
+  {% extends "main.html" %}
 
-{% block content %}
+  {% block content %}
 
-<script src="ordermeal.js"></script>
-<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='reportStyle.css' )}}">
+  <script src="ordermeal.js"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='reportStyle.css' )}}">
 
-<br>
-<br>
-<!-- <p> Today's Meal: </p>
-{% for meal in mealsToCook %}
-	<div class="meal-img">
-		<img src="{{ meal.photo.S }}">
-	</div>
-	<div class="meal-name">
-		{{ meal.meal_name.S }}
-	</div>
-	<div class="meal-description">
-		{{ meal.description.S }}
-	</div>
+  <br>
+  <br>
+  <!-- <p> Today's Meal: </p>
+  {% for meal in mealsToCook %}
+  <div class="meal-img">
+  <img src="{{ meal.photo.S }}">
+</div>
+<div class="meal-name">
+{{ meal.meal_name.S }}
+</div>
+<div class="meal-description">
+{{ meal.description.S }}
+</div>
 {% endfor %} -->
 <!-- <div id="inventory">
-	<h4><i>Inventory Report</i></h4>
-	<strong><p id="num_orders"></p></strong>
-	{% for meal in mealsToCook %}
-		<p>{{ meal.meal_name.S }}: {{ meal.qty}}</p>
-	{% endfor %}
+<h4><i>Inventory Report</i></h4>
+<strong><p id="num_orders"></p></strong>
+{% for meal in mealsToCook %}
+<p>{{ meal.meal_name.S }}: {{ meal.qty}}</p>
+{% endfor %}
 </div> -->
 
-<div id="delivery">
-	<h4><i>Delivery Report</i></h4>
-	{% for order in orders %}
-		<div class="orders-tile">
-			<div class="customers">
-				<div class="name">{{ order.name.S }}</div>
-				<div class="street">{{ order.street.S }}</div>
-				<div class="city">{{ order.city.S }}</div>
-				<div class="state">{{ order.state.S }}</div>
-				<div class="zipcode">{{ order.zipCode.N }}</div>
-				<div class="phone">{{ order.phone.S }}</div>
-				<div class="order-details">
-					{% for item in order.order_items.L %}
-						<p>{{ item.M.meal_name.S }}: {{ item.M.qty.N }}</p>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-	{% endfor %}
-</div>
+<main role="main" class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>Delivery Report</h1>
+      {% if not orders %}
+        <h2>You currently have no orders placed.</h2>
+      {% endif %}
+      {% for order in orders %}
+      {% set outer_loop = loop %}
+        <div class="border border-light p-2">
+          <h2 id="name">{{ order.name.S }}</h2>
+          <div id="address_street">{{ order.street.S }}</div>
+          <div class="mb-1" id="address_city_state_zip">{{ order.city.S }}, {{ order.state.S }} {{ order.zipCode.N }}</div>
+          <div class="mb-1" id="phone_number">{{ order.phone.S }}</div>
+          <button class="btn btn-outline-primary btn-sm" type=x"button" data-toggle="collapse" data-target="#collapseExample{{loop.index}}" aria-expanded="false" aria-controls="collapseExample">
+            Orders
+          </button>
+          <div class="order-details">
+            <div class="collapse" id="collapseExample{{outer_loop.index}}">
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Meal Name</th>
+                    <th scope="col">Quantity</th>
+                  </tr>
+                </thead>
+                {% for item in order.order_items.L %}
+                  {% if item.M.meal_name %}
+                    <tbody>
+                      <tr>
+                        <td>
+                          Image will go here.
+                        </td>
+                        <td>{{ item.M.meal_name.S }}</td>
+                        <td>{{ item.M.qty.N }}</td>
+                      </tr>
+                    </tbody>
+                  {% endif %}
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-md-4">
+      <div class="content-section">
+        <h3>Current Statistics</h3>
+        <p class='text-muted'>This is where the total order information will go.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
 
 {% endblock %}
-<!-- 
+<!--
 </body>
 </html>

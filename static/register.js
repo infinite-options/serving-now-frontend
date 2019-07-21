@@ -20,12 +20,33 @@ function registerKitchen() {
 	var address = document.getElementById("street").value;
 	var state = document.getElementById("state").value;
 	var city = document.getElementById("city").value;
-	var zipCode = document.getElementById("zipCode").value;
+	var zipCode = document.getElementById("zip_code").value;
 	var phoneNumber = document.getElementById("phone_number").value;
 	var closeTime = document.getElementById("close_time").value;
 	var openTime = document.getElementById("open_time").value;
-	var email = document.getElementById("email").value;
-
+  var email = document.getElementById("email").value;
+  var delivery_open_time = document.getElementById("delivery_open_time").value;
+  var delivery_close_time = document.getElementById("delivery_close_time").value;
+  var pickup = false;
+  if (document.getElementById("pickup").checked) {
+    pickup = true;
+  }
+  var delivery = false;
+  if (document.getElementById("delivery").checked) {
+    delivery = true;
+  }
+  var reusable = false;
+  if (document.getElementById("reusable").checked) {
+    reusable = true;
+  }
+  var disposable = false;
+  if (document.getElementById("disposable").checked) {
+    disposable = true;
+  }
+  var can_cancel = false;
+  if (document.getElementById("can_cancel").checked) {
+    can_cancel = true;
+  }
 	
 
 	// if (name == "" || username == "" || password == "" || 
@@ -37,9 +58,7 @@ function registerKitchen() {
 	// 	console.log("fields are empty");
 
 	// } else {
-	if (description != "") {
-		formData.append("description", description);
-	}
+  formData.append("description", description);
 
 	formData.append("name", name);
 	formData.append("username", username);
@@ -50,11 +69,18 @@ function registerKitchen() {
 	formData.append("address", address);
 	formData.append("state", state);
 	formData.append("city", city);
-	formData.append("zipcode", zipCode);
+	formData.append("zip_code", zipCode);
 	formData.append("phone_number", phoneNumber);
 	formData.append("close_time", closeTime);
 	formData.append("open_time", openTime);
 	formData.append("email", email);
+	formData.append("delivery_open_time", delivery_open_time);
+	formData.append("delivery_close_time", delivery_close_time);
+	formData.append("pickup", pickup);
+	formData.append("delivery", delivery);
+	formData.append("reusable", reusable);
+	formData.append("disposable", disposable);
+	formData.append("can_cancel", can_cancel);
 
 	request.open("POST", "/accounts/register", true);
 	request.send(formData);

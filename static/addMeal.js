@@ -1,4 +1,3 @@
-
 function postMeal() {
     console.log('post meal function called');
     var request = new XMLHttpRequest();
@@ -7,13 +6,13 @@ function postMeal() {
     var meal_options_elem = document.getElementById('option-items');
     var meal_options = meal_options_elem.options[meal_options_elem.selectedIndex].value;
 
-    var items= {};
+    var items = {};
     var options = [];
 
-    for (var i = 1; i <= meal_options; i++){
+    for (var i = 1; i <= meal_options; i++) {
         var name_id = 'add_meal_option'.concat(i, '_name');
         var qty_id = 'add_meal_option'.concat(i, '_qty');
-        var item_name= document.getElementById(name_id).value;
+        var item_name = document.getElementById(name_id).value;
         var item_qty_id = document.getElementById(qty_id);
         var item_qty = item_qty_id.options[item_qty_id.selectedIndex].value;
         var obj = {}
@@ -36,6 +35,28 @@ function postMeal() {
     //XHR.open("POST", "http://127.0.0.1:5000/api/v1/meals/" + "0001", true);
 
     // The data sent is what the user provided in the form
-    request.open("POST", "/kitchens/meals/create", true);
+    //async has to be false because the webpage will refresh before the
+    //database can be updated                          Here
+    request.open("POST", "/kitchens/meals/create", false);
     request.send(formData);
+
+    console.log("finshed POST, Before refresh")
+
+    // window.location = "/kitchens/" + "638ade3aaef0488f835aa0fb1a75d654";
 }
+
+function previewFile() {
+    var preview = document.querySelector('.img-bg'); //selects the query named img
+    var file = document.querySelector('input[type=file]').files[0]; //sames as here
+    var reader = new FileReader();
+
+    reader.onloadend = function() {
+        preview.src = reader.result;
+    }
+    if (file) {
+        reader.readAsDataURL(file); //reads the data as a URL
+    } else {
+        preview.src = "Upload Photo";
+    }
+}
+// previewFile();
