@@ -86,6 +86,9 @@ function registerKitchen() {
     if (this.status == 200) {
       document.location.href = '/';
     }
+    else {
+      $('#register-error-message').text(this.statusText);
+    }
   }
 
 	request.open("POST", "/accounts/register", true);
