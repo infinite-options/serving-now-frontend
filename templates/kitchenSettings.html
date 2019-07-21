@@ -23,7 +23,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" >
     <link rel="stylesheet" href="dist/pretty-checkbox.min.css" >
 
+    <script>
+      $(function () {
+        kitchen = JSON.parse($('<textarea />').html('{{kitchen}}').text());
 
+        $('#open_time').val(kitchen.open_time['S']);
+        $('#close_time').val(kitchen.close_time['S']);
+        // $('#delivery_open_time').val(kitchen.delivery_open_time['S']);
+        // $('#delivery_close_time').val(kitchen.delivery_close_time['S']);
+        // $('#pickup')
+        // $('#delivery')
+        // $('#can_cancel')
+        // $('#cannot_cancel')
+      })
+    </script>
 </head>
 
 <body class="backgroundSetting">
@@ -41,7 +54,7 @@
                 <div class="row whole-view">
                     <div class="col-4 login-class">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-class"  id="username" style="height:51px; width:314" placeholder="Create a Username" required>
+                            <input type="text" class="form-control form-control-class"  id="username" style="height:51px; width:314" placeholder="Create a Username" value="{{kitchen.username['S']}}"required>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control form-control-class" id="password" style="height:51px; width:314" placeholder="Create a Password" required>
@@ -71,18 +84,18 @@
                                                 <img src="{{ url_for('.static', filename='PersonIcon.png') }}" style="width:50px">
                                             </div>
                                             <div class="form-group Kitchen-Registration">
-                                                <input type="text" class="form-control form-control-class" id="first_name" style="height:51px; width:390" placeholder="First Name" required>
+                                                <input type="text" class="form-control form-control-class" id="first_name" style="height:51px; width:390" placeholder="First Name" value="{{kitchen.first_name['S']}}" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-class" id="last_name" style="margin-left:50px; height:51px; width:390" placeholder="Last Name" required>
+                                            <input type="text" class="form-control form-control-class" id="last_name" style="margin-left:50px; height:51px; width:390" placeholder="Last Name" value="{{kitchen.last_name['S']}}" required>
                                         </div>
                                     <div class="header-conteiner">
                                         <div class="logo-img">
                                             <img src="{{ url_for('.static', filename='PhoneIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" required>
+                                            <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" value="{{kitchen.phone_number['S']}}"required>
                                         </div>
                                     </div>
                                     <div class="header-conteiner">
@@ -90,7 +103,7 @@
                                             <img src="{{ url_for('.static', filename='MailIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
-                                                <input type="text" class="form-control form-control-class" id="email" style="height:51px; width:390" placeholder="Email" required>
+                                                <input type="text" class="form-control form-control-class" id="email" style="height:51px; width:390" placeholder="Email" value="{{kitchen.email['S']}}"required>
                                             </div>
                                     </div>
                                 </div>
@@ -105,18 +118,18 @@
                                             <img src="{{ url_for('.static', filename='HomeIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" required>
+                                            <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" value="{{kitchen.address['S']}}" required> 
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-class" id="city" style="margin-left:50px; height:51px; width:390" placeholder="City" required>
+                                        <input type="text" class="form-control form-control-class" id="city" style="margin-left:50px; height:51px; width:390" placeholder="City" value="{{kitchen.city['S']}}" required>
                                     </div>
                                     <div class="address-container">
                                         <div class="form-group state">
-                                            <input type="text" class="form-control form-control-class" id="state" style="margin-left:50px; height:51px; width:189; display:inline" placeholder="State" required>
+                                            <input type="text" class="form-control form-control-class" id="state" style="margin-left:50px; height:51px; width:189; display:inline" placeholder="State" value="{{kitchen.state['S']}}" required>
                                         </div>
                                         <div class="form-group zipCode">
-                                            <input type="text" class="form-control form-control-class" id="zip_code" style="margin-left:10px; height:51px; width:189" placeholder="ZipCode" required>
+                                            <input type="text" class="form-control form-control-class" id="zip_code" style="margin-left:10px; height:51px; width:189" placeholder="ZipCode" value="{{kitchen.zipcode['N']}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -136,10 +149,10 @@
             <div class= "wrap">
             <div class="kitchen-info">
                 <div class="form-group" align="center">
-                    <input type="text" class="form-control form-control-class" id="name" style="height:51px; width:314px" placeholder="Kitchen Name" required>
+                    <input type="text" class="form-control form-control-class" id="name" style="height:51px; width:314px" placeholder="Kitchen Name" value="{{kitchen.name['S']}}"required>
                 </div>
                 <div class="form-group" align="center">
-                    <input type="text" class="form-control form-control-class" id="description" style="height:81px; width:680px" placeholder="Description" required>
+                    <input type="text" class="form-control form-control-class" id="description" style="height:81px; width:680px" placeholder="Description" value="{{kitchen.description['S']}}" required>
                 </div>
             </div>
         </div>
