@@ -1,4 +1,4 @@
-<!-- Written by Risako on 2019-07-12 @20:00 --> 
+<!-- Written by Risako on 2019-07-12 @20:00 -->
 
 <html lang="en">
 
@@ -16,6 +16,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('.static', filename='kitchenStyle.css') }}" >
+    <script src="{{ url_for('.static', filename='register.js') }}"></script>
     <title>Meal Ordering</title>
 
     <!--  Pretty Radio Button template  -->
@@ -30,7 +31,7 @@
     <div class="container container-class">
         <div class="header-conteiner">
             <div class="logo-img">
-                <img src="../static/landing-logo.png" style="width:100px">
+                <img src="{{ url_for('.static', filename='landing-logo.png') }}" style="width:100px">
             </div>
             <div class="Kitchen-Registration">
                 <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
@@ -54,7 +55,7 @@
             <!-- Personal Information -->
             <div class="header-conteiner">
                 <div class="logo-img">
-                    <img src="../static/ChefHatIcon.png" style="width:100px">
+                    <img src="{{ url_for('.static', filename='ChefHatIcon.png') }}" style="width:100px">
                 </div>
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
@@ -67,7 +68,7 @@
                                 <div class="col-4 login-class">
                                         <div class="header-conteiner">
                                             <div class="logo-img">
-                                                <img src="../static/PersonIcon.png" style="width:50px">
+                                                <img src="{{ url_for('.static', filename='PersonIcon.png') }}" style="width:50px">
                                             </div>
                                             <div class="form-group Kitchen-Registration">
                                                 <input type="text" class="form-control form-control-class" id="first_name" style="height:51px; width:390" placeholder="First Name" required>
@@ -78,7 +79,7 @@
                                         </div>
                                     <div class="header-conteiner">
                                         <div class="logo-img">
-                                            <img src="../static/PhoneIcon.png" style="width:50px">
+                                            <img src="{{ url_for('.static', filename='PhoneIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" required>
@@ -86,7 +87,7 @@
                                     </div>
                                     <div class="header-conteiner">
                                         <div class="logo-img">
-                                            <img src="../static/MailIcon.png" style="width:50px">
+                                            <img src="{{ url_for('.static', filename='MailIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
                                                 <input type="text" class="form-control form-control-class" id="email" style="height:51px; width:390" placeholder="Email" required>
@@ -95,16 +96,16 @@
                                 </div>
                             </div>
                     </div>
-            
+
                     <div class= "info2">
                             <div class="row whole-view">
                                 <div class="col-4 login-class">
                                     <div class="header-conteiner">
                                         <div class="logo-img">
-                                            <img src="../static/HomeIcon.png" style="width:50px">
+                                            <img src="{{ url_for('.static', filename='HomeIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" required> 
+                                            <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -126,7 +127,7 @@
             <!-- Kitchen Information -->
             <div class="header-conteiner">
                 <div class="logo-img">
-                    <img src="../static/UtensilIcon.png" style="width:100px">
+                    <img src="{{ url_for('.static', filename='UtensilIcon.png') }}" style="width:100px">
                 </div>
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
@@ -145,23 +146,21 @@
             <!-- Kitchen Options -->
             <div class= "wrap">
                 <div class="hours">
-                    <div class="hours-item">Accept Hours:
-                        <input type="hour" class="form-control form-control-class" id="open_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
-                        <strong>AM</strong> &nbsp until
-                        <input type="hour" class="form-control form-control-class" id="close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
-                        <strong>PM</strong>
+                    <div class="hours-item">
+                        Accept Orders:
+                        <input type="time" class="form-control form-control-class" id="open_time" style="color: white; margin-left:30px; height:41px; width:130px; display:inline" required>
+                        &nbsp until
+                        <input type="time" class="form-control form-control-class" id="close_time" style="color: white; margin-left:30px; height:41px; width:130px; display:inline" required>
                     </div>
                 </div>
                 <div class="hours">
                     <div class="hours-item">
                         Delivery Hours:
-                        <input type="hour" class="form-control form-control-class" id="delivery_open_time" style="margin-left:20px; height:41px; width:90px; display:inline" required>
-                        <strong>AM</strong> &nbsp until
-                        <input type="hour" class="form-control form-control-class" id="delivery_close_time" style="margin-left:30px; height:41px; width:90px; display:inline" required>
-                        <strong>PM</strong>
+                        <input type="time" class="form-control form-control-class" id="open_time" style="color: white; margin-left:20px; height:41px; width:130px; display:inline" required>
+                        &nbsp until
+                        <input type="time" class="form-control form-control-class" id="close_time" style="color: white; margin-left:30px; height:41px; width:130px; display:inline" required>
                     </div>
                     <br>
-                                     
                 </div>
                 <div class= "wrap">
                     <div class="option-container">
@@ -180,7 +179,7 @@
                                     <label>Delivery</label>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="option2">
                             Container Options<br><br>
@@ -213,7 +212,7 @@
                                     <label>Cancellations not allowed</label>
                                 </div>
                             </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -224,7 +223,7 @@
             </div>
         </div>
 
-        
+
     </div>
 </body>
 
