@@ -49,7 +49,7 @@
             <div class="Kitchen-Registration">
                 <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
             </div>
-            <button class="kitchen-btn" onclick="updateKitchen('{{ id}}');">Update Kitchen</button>
+            <button class="button regbtn" onclick="updateRegistration('{{ id}}');">Update Registration</button>
         </div>
             <div class= "center-wrapper">
                 <div class="row whole-view">
@@ -74,14 +74,14 @@
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
                 </div>
-                <button class="kitchen-btn" onclick="updateKitchen('{{ id}}');">Update Kitchen</button>
+                <button class="button regbtn" onclick="updatePersonal('{{ id}}');">Update Personal</button>
             </div>
             <div class= "wrap">
                 <div class="option-container">
                     <div class= "info1">
                             <div class="row whole-view">
                                 <div class="col-4 login-class">
-                                        <div class="header-conteiner">
+                                        <div class="conteiner">
                                             <div class="logo-img">
                                                 <img src="{{ url_for('.static', filename='PersonIcon.png') }}" style="width:50px">
                                             </div>
@@ -92,7 +92,7 @@
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-class" id="last_name" style="margin-left:50px; height:51px; width:390" placeholder="Last Name" value="{{kitchen.last_name['S']}}" required>
                                         </div>
-                                    <div class="header-conteiner">
+                                    <div class="conteiner">
                                         <div class="logo-img">
                                             <img src="{{ url_for('.static', filename='PhoneIcon.png') }}" style="width:50px">
                                         </div>
@@ -100,7 +100,7 @@
                                             <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" value="{{kitchen.phone_number['S']}}"required>
                                         </div>
                                     </div>
-                                    <div class="header-conteiner">
+                                    <div class="conteiner">
                                         <div class="logo-img">
                                             <img src="{{ url_for('.static', filename='MailIcon.png') }}" style="width:50px">
                                         </div>
@@ -115,7 +115,7 @@
                     <div class= "info2">
                             <div class="row whole-view">
                                 <div class="col-4 login-class">
-                                    <div class="header-conteiner">
+                                    <div class="conteiner">
                                         <div class="logo-img">
                                             <img src="{{ url_for('.static', filename='HomeIcon.png') }}" style="width:50px">
                                         </div>
@@ -147,7 +147,7 @@
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
                 </div>
-                <button class="personal-btn" onclick="updatePersonal('{{ id }}');">Update Personal</button>
+                <button class="button regbtn" onclick="updateKitchen('{{ id }}');">Update Kitchen</button>
             </div>
             <div class= "wrap">
             <div class="kitchen-info">
