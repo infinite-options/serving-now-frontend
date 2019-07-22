@@ -2,7 +2,7 @@
 * @Author: Japan Parikh
 * @Date:   2019-05-24 20:59:01
 * @Last Modified by:   Saurabh Mane
-* @Last Modified time: 2019-07-10 08:05 
+* @Last Modified time: 2019-07-10 08:05
 */
 
 .login-form {
@@ -79,7 +79,12 @@ input.form-control {
 }
 
 #add_meal_price {
-    margin-left: 60%;
+    margin-left: 85%;
+    max-width: 40%;
+}
+
+#edit_meal_price {
+    margin-left: 85%;
     max-width: 40%;
 }
 
@@ -144,7 +149,7 @@ a:hover {
     border: none;
     border-radius: 0;
     font-size: 15px;
-    background: #212529b8;
+    background: #a0050f;
 }
 
 

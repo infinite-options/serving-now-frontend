@@ -47,12 +47,12 @@ function registerKitchen() {
   if (document.getElementById("can_cancel").checked) {
     can_cancel = true;
   }
-	
 
-	// if (name == "" || username == "" || password == "" || 
-	// 	verifyPassword == "" || firstName == "" || lastName == "" || 
-	// 	address == "" || city == "" || state == "" || 
-	// 	phoneNumber == "" || zipcode == "" || closeTime == "" || 
+
+	// if (name == "" || username == "" || password == "" ||
+	// 	verifyPassword == "" || firstName == "" || lastName == "" ||
+	// 	address == "" || city == "" || state == "" ||
+	// 	phoneNumber == "" || zipcode == "" || closeTime == "" ||
 	// 	openTime == "" || email == "") {
 
 	// 	console.log("fields are empty");
@@ -83,6 +83,16 @@ function registerKitchen() {
 	formData.append("can_cancel", can_cancel);
 
 	request.open("POST", "/accounts/register", true);
+
+  request.onload = function() {
+      if (request.readyState === request.DONE) {
+          if (request.status === 200) {
+              window.location = "login"
+          }
+      }
+  }
+
 	request.send(formData);
+
 	// }
 }

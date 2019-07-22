@@ -31,7 +31,7 @@
     <div class="container container-class">
         <div class="header-conteiner">
             <div class="logo-img">
-                <img src="../static/landing-logo.png" style="width:100px">
+                <img src="{{ url_for('.static', filename='landing-logo.png') }}" style="width:100px">
             </div>
             <div class="Kitchen-Registration">
                 <font face="Rozha One" color="white"><h2>Kitchen Registration</h2></font>
@@ -55,7 +55,7 @@
             <!-- Personal Information -->
             <div class="header-conteiner">
                 <div class="logo-img">
-                    <img src="../static/ChefHatIcon.png" style="width:100px">
+                    <img src="{{ url_for('.static', filename='ChefHatIcon.png') }}" style="width:100px">
                 </div>
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Personal Information</h2></font>
@@ -68,7 +68,7 @@
                                 <div class="col-4 login-class">
                                         <div class="header-conteiner">
                                             <div class="logo-img">
-                                                <img src="../static/PersonIcon.png" style="width:50px">
+                                                <img src="{{ url_for('.static', filename='PersonIcon.png') }}" style="width:50px">
                                             </div>
                                             <div class="form-group Kitchen-Registration">
                                                 <input type="text" class="form-control form-control-class" id="first_name" style="height:51px; width:390" placeholder="First Name" required>
@@ -79,7 +79,7 @@
                                         </div>
                                     <div class="header-conteiner">
                                         <div class="logo-img">
-                                            <img src="../static/PhoneIcon.png" style="width:50px">
+                                            <img src="{{ url_for('.static', filename='PhoneIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-class" id="phone_number" style="height:51px; width:390" placeholder="Phone Number" required>
@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="header-conteiner">
                                         <div class="logo-img">
-                                            <img src="../static/MailIcon.png" style="width:50px">
+                                            <img src="{{ url_for('.static', filename='MailIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
                                                 <input type="text" class="form-control form-control-class" id="email" style="height:51px; width:390" placeholder="Email" required>
@@ -102,7 +102,7 @@
                                 <div class="col-4 login-class">
                                     <div class="header-conteiner">
                                         <div class="logo-img">
-                                            <img src="../static/HomeIcon.png" style="width:50px">
+                                            <img src="{{ url_for('.static', filename='HomeIcon.png') }}" style="width:50px">
                                         </div>
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-class" id="street" style="height:51px; width:390" placeholder="Address" required>
@@ -127,7 +127,7 @@
             <!-- Kitchen Information -->
             <div class="header-conteiner">
                 <div class="logo-img">
-                    <img src="../static/UtensilIcon.png" style="width:100px">
+                    <img src="{{ url_for('.static', filename='UtensilIcon.png') }}" style="width:100px">
                 </div>
                 <div class="Kitchen-Registration">
                     <font face="Rozha One" color="white"><h2>Kitchen Information</h2></font>
