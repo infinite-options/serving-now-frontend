@@ -81,6 +81,24 @@ def upload_meal_img(file, bucket, key):
         return filename
     return None
 
+def delete_meal_img(bucket, key):
+    print ("Inside delete_meal_img..")
+    print ("bucket: ", bucket)
+    print ("key: ", key)
+
+    try:
+        delete_file = s3.delete_object(
+                            Bucket=bucket,
+                            Key=key)
+        print("delete_file : ", delete_file)
+
+    except:
+        print ("Item cannot be deleted")
+
+    return None
+
+
+
 def allowed_file(filename):
     """Checks if the file is allowed to upload"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -635,7 +653,6 @@ def delete(meal_id):
     print("meal_id", meal_id)
 
     try:
-
         #Get kitchen id and delete from s3 bucket first
         response = db.get_item(TableName='meals',Key={'meal_id':{'S':str(meal_id)}})
 
@@ -650,7 +667,6 @@ def delete(meal_id):
                                       Key={'meal_id': {'S': meal_id}}),
 
         delete_meal_img(BUCKET_NAME, photo_key)
-
 
         response['message'] = 'Request successful'
         return response, 200
