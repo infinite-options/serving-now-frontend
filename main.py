@@ -18,6 +18,7 @@ from flask import session as login_session
 from flask_login import (LoginManager, login_required, current_user,
 	UserMixin, login_user, logout_user)
 from flask_mail import Mail, Message
+from flask_cors import CORS
 
 from werkzeug.exceptions import BadRequest, NotFound
 from werkzeug.security import (generate_password_hash,
@@ -25,6 +26,7 @@ from werkzeug.security import (generate_password_hash,
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 login_manager = LoginManager(app)
 
@@ -40,14 +42,11 @@ app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(app)
 
-AWS_KEY_ID = 'aws-key-id'
-AWS_SECRET_KEY = 'aws-secret-access-key'
-
 db = boto3.client('dynamodb')
 s3 = boto3.client('s3')
 
 # db = boto3.client('dynamodb',
-#           region_name='us-west-2',
+#           region_name='us-west-1',
 #           aws_access_key_id=AWS_KEY_ID,
 #           aws_secret_access_key=AWS_SECRET_KEY)
 #
@@ -57,9 +56,9 @@ s3 = boto3.client('s3')
 
 
 # aws s3 bucket where the image is stored
-BUCKET_NAME = 'ordermealapp'
+BUCKET_NAME = 'servingnow'
 
-API_BASE_URL = 'https://o5yv1ecpk1.execute-api.us-west-2.amazonaws.com/dev/'
+API_BASE_URL = 'https://phaqvwjbw6.execute-api.us-west-1.amazonaws.com/dev'
 
 # allowed extensions for uploading a profile photo file
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -70,7 +69,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 def upload_meal_img(file, bucket, key):
     if file and allowed_file(file.filename):
-        filename = 'https://s3-us-west-2.amazonaws.com/' \
+        filename = 'https://s3-us-west-1.amazonaws.com/' \
                    + str(bucket) + '/' + str(key)
         upload_file = s3.put_object(
                             Bucket=bucket,
@@ -105,6 +104,27 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # ===========================================================
+
+# =======HELPER FUNCTIONS FOR DELETING AN IMAGE=============
+
+def delete_meal_img(bucket, key):
+    print ("Inside delete_meal_img..")
+    print ("bucket: ", bucket)
+    print ("key: ", key)
+
+    try:
+        delete_file = s3.delete_object(
+                            Bucket=bucket,
+                            Key=key)
+        print("delete_file : ", delete_file)
+
+    except:
+        print ("Item cannot be deleted")
+
+    return None
+
+# ===========================================================
+
 
 
 class User(UserMixin):
@@ -174,12 +194,18 @@ def login():
                 login_user(User(user_id))
                 return redirect(url_for('kitchen', id=user_id))
 
-        except:
+        except Exception as e:
             flash('Unable to connect to database.')
+            print(e)
             return render_template('login.html')
 
     return render_template('login.html')
 
+def strToBool(str):
+    if str == 'true' or str == 'True':
+        return True
+    if str == 'false' or str == 'False':
+        return False
 
 
 @app.route('/accounts/register', methods=['GET', 'POST'])
@@ -202,11 +228,11 @@ def register():
         description = request.form.get('description')
         deliveryOpenTime = request.form.get('delivery_open_time')
         deliveryCloseTime = request.form.get('delivery_close_time')
-        pickup = request.form.get('pickup')
-        delivery = request.form.get('delivery')
-        reusable = request.form.get('reusable')
-        disposable = request.form.get('disposable')
-        canCancel = request.form.get('can_cancel')
+        pickup = strToBool(request.form.get('pickup'))
+        delivery = strToBool(request.form.get('delivery'))
+        reusable = strToBool(request.form.get('reusable'))
+        disposable = strToBool(request.form.get('disposable'))
+        canCancel = strToBool(request.form.get('can_cancel'))
 
 
         if email == None or password == None or verifyPassword == None \
@@ -223,27 +249,94 @@ def register():
             flash('Your passwords don\'t match')
             return render_template('register.html')
 
-        request_data = {'email': email, 'password': password,
-                        'username': username, 'first_name': firstName,
-                        'last_name': lastName, 'name': kitchenName,
-                        'address': street, 'city': city, 'state': state,
-                        'zipcode': zipcode, 'description': description,
-                        'phone_number': phoneNumber, 'close_time': closeTime,
-                        'open_time': openTime, 'delivery_open_time': deliveryOpenTime,
-                        'delivery_close_time': deliveryCloseTime, 'pickup': pickup,
-                        'delivery': delivery, 'reusable': reusable, 'disposable': disposable,
-                        'can_cancel': canCancel}
+        # request_data = {'email': email, 'password': password,
+        #                 'username': username, 'first_name': firstName,
+        #                 'last_name': lastName, 'name': kitchenName,
+        #                 'address': street, 'city': city, 'state': state,
+        #                 'zipcode': zipcode, 'description': description,
+        #                 'phone_number': phoneNumber, 'close_time': closeTime,
+        #                 'open_time': openTime, 'delivery_open_time': deliveryOpenTime,
+        #                 'delivery_close_time': deliveryCloseTime, 'pickup': pickup,
+        #                 'delivery': delivery, 'reusable': reusable, 'disposable': disposable,
+        #                 'can_cancel': canCancel}
 
-        apiURL = API_BASE_URL +'api/v1/kitchens/register'
-        response = requests.post(apiURL, data=json.dumps(request_data))
+        # print(request_data)
+        # scan to check if the kitchen name exists
+        kitchen = db.scan(TableName="kitchens",
+            FilterExpression='#name = :val',
+            ExpressionAttributeNames={
+                '#name': 'name'
+            },
+            ExpressionAttributeValues={
+                ':val': {'S': kitchenName}
+            }
+        )
 
-        if response.json().get('message') == 'Request failed. Please try again later.':
-            flash('Kitchen registered successfully.')
-            return
-        else:
-            return redirect(url_for('kitchen', id=response.json().get('kitchen_id')))
+        # raise exception if the kitchen name already exists
+        if kitchen.get('Items') != []:
+            response['message'] = 'This kitchen name is already taken.'
+            return response, 400
+
+        kitchen_id = uuid.uuid4().hex
+
+        # can_cancel = False
+        # if data['can_cancel'] == 'true':
+        #   can_cancel = True
+
+        try:
+            created_at = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%dT%H:%M:%S")
+            add_kitchen = db.put_item(TableName='kitchens',
+                Item={'kitchen_id': {'S': kitchen_id},
+                      'created_at': {'S': created_at},
+                      'name': {'S': kitchenName},
+                      'description': {'S': description},
+                      'username': {'S': username},
+                      'password': {'S': generate_password_hash(password)},
+                      'first_name': {'S': firstName},
+                      'last_name': {'S': lastName},
+                      'address': {'S': street},
+                      'city': {'S': city},
+                      'state': {'S': state},
+                      'zipcode': {'N': str(zipcode)},
+                      'phone_number': {'S': str(phoneNumber)},
+                      'open_time': {'S': str(openTime)},
+                      'close_time': {'S': str(closeTime)},
+                      'isOpen': {'BOOL': False},
+                      'email': {'S': email},
+                      'delivery_open_time': { 'S': deliveryOpenTime},
+                      'delivery_close_time': { 'S': deliveryCloseTime},
+                      'pickup': { 'BOOL': pickup},
+                      'delivery': { 'BOOL': delivery},
+                      'reusable': { 'BOOL': reusable},
+                      'disposable': { 'BOOL': disposable},
+                      'can_cancel': { 'BOOL': canCancel }
+                }
+            )
+            return redirect(url_for('login'))
+        except:
+            flash('Kitchen not registered.')
+            return render_template('register.html')# return back to register with forms filled in
+
+        # response['message'] = 'Request successful'
+        # response['kitchen_id'] = kitchen_id
+        # return response, 200
+
+        # apiURL = API_BASE_URL +'api/v1/kitchens/register'
+        # session = requests.Session()
+        # response = session.post(apiURL, data=json.dumps(request_data))
+
+        # print(response.json())
+
+        # if response.json().get('message') == 'Request successful':
+        #     return redirect(url_for('login'))
+        # else:
+        #     flash('Kitchen not registered.')
+        #     return render_template('register.html')# return back to register with forms filled in
+        #     # return redirect(url_for('kitchen', id=response.json().get('kitchen_id')))
 
     return render_template('register.html')
+
+# {'message': 'An uncaught exception happened while servicing this request. You can investigate this with the `zappa tail` command.', 'traceback': ['Traceback (most recent call last):\n', '  File "/var/task/handler.py", line 518, in handler\n    response = Response.from_app(self.wsgi_app, environ)\n', '  File "/var/task/werkzeug/wrappers.py", line 939, in from_app\n    return cls(*_run_wsgi_app(app, environ, buffered))\n', '  File "/var/task/werkzeug/test.py", line 923, in run_wsgi_app\n    app_rv = app(environ, start_response)\n', '  File "/var/task/zappa/middleware.py", line 70, in __call__\n    response = self.application(environ, encode_response)\n', '  File "/var/task/flask/app.py", line 2309, in __call__\n    return self.wsgi_app(environ, start_response)\n', '  File "/var/task/flask/app.py", line 2295, in wsgi_app\n    response = self.handle_exception(e)\n', '  File "/var/task/flask_restful/__init__.py", line 269, in error_router\n    return original_handler(e)\n', '  File "/var/task/flask_cors/extension.py", line 161, in wrapped_function\n    return cors_after_request(app.make_response(f(*args, **kwargs)))\n', '  File "/var/task/flask/app.py", line 1741, in handle_exception\n    reraise(exc_type, exc_value, tb)\n', '  File "/var/task/flask/_compat.py", line 34, in reraise\n    raise value.with_traceback(tb)\n', '  File "/var/task/flask/app.py", line 2292, in wsgi_app\n    response = self.full_dispatch_request()\n', '  File "/var/task/flask/app.py", line 1815, in full_dispatch_request\n    rv = self.handle_user_exception(e)\n', '  File "/var/task/flask_restful/__init__.py", line 269, in error_router\n    return original_handler(e)\n', '  File "/var/task/flask_cors/extension.py", line 161, in wrapped_function\n    return cors_after_request(app.make_response(f(*args, **kwargs)))\n', '  File "/var/task/flask/app.py", line 1718, in handle_user_exception\n    reraise(exc_type, exc_value, tb)\n', '  File "/var/task/flask/_compat.py", line 34, in reraise\n    raise value.with_traceback(tb)\n', '  File "/var/task/flask/app.py", line 1813, in full_dispatch_request\n    rv = self.dispatch_request()\n', '  File "/var/task/flask/app.py", line 1799, in dispatch_request\n    return self.view_functions[rule.endpoint](**req.view_args)\n', '  File "/var/task/flask_restful/__init__.py", line 458, in wrapper\n    resp = resource(*args, **kwargs)\n', '  File "/var/task/flask/views.py", line 88, in view\n    return self.dispatch_request(*args, **kwargs)\n', '  File "/var/task/flask_restful/__init__.py", line 573, in dispatch_request\n    resp = meth(*args, **kwargs)\n', '  File "/var/task/app.py", line 228, in post\n    \':val\': {\'S\': data[\'name\']}\n', '  File "/var/runtime/botocore/client.py", line 314, in _api_call\n    return self._make_api_call(operation_name, kwargs)\n', '  File "/var/runtime/botocore/client.py", line 612, in _make_api_call\n    raise error_class(parsed_response, operation_name)\n', 'botocore.exceptions.ClientError: An error occurred (ValidationException) when calling the Scan operation: ExpressionAttributeValues contains invalid value: One or more parameter values were invalid: An AttributeValue may not contain an empty string for key :val\n']}
 
 
 @app.route('/kitchens/<string:id>')
@@ -254,6 +347,9 @@ def kitchen(id):
     #     return redirect(url_for('index'))
     #
     apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
+    # apiURL = 'http://localhost:5000/api/v1/meals/' + current_user.get_id()
+
+    print(apiURL)
     # apiURL = API_BASE_URL + '/api/v1/meals/' + '5d114cb5c4f54c94a8bb4d955a576fca'
     response = requests.get(apiURL)
 
@@ -281,7 +377,7 @@ def kitchen(id):
 @app.route('/kitchen/<string:id>/settings', methods=['GET'])
 @login_required
 def kitchenSettings(id):
-    return render_template('kitchenSettings.html', id=login_session['user_id'])
+    return render_template('register.html', id=login_session['user_id'])
 
 
 @app.route('/kitchens/meals/create', methods=['POST'])
@@ -348,8 +444,8 @@ def postMeal():
     # print("kitchen:" + kitchen)
     # Technical debt that needs to be solved
 
-    response['message'] = 'Request successful'
-    return response, 200
+    # response['message'] = 'Request successful'
+    # return response, 200
     # except:
     #     raise BadRequest('Request failed. Please try again later.')
 
@@ -449,36 +545,76 @@ def report():
         }
     )
 
-    # orderImages = db.scan(TableName='meals',
-    #     FilterExpression='kitchen_id = :value AND (contains(created_at, :x1))',
-    #     ExpressionAttributeValues={
-    #         ':value': {'S': current_user.get_id()},
-    #         ':x1': {'S': todays_date}
-    #     }
-    # )
-
     apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
     response = requests.get(apiURL)
-
     todaysMenu = response.json().get('result')
-    mealsToCook = todaysMenu
+    if todaysMenu == None:
+      todaysMenu = []
 
-    for item in mealsToCook:
-        item['qty'] = 0
+    # apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
+    # response = requests.get(apiURL)
+    #
+    # todaysMenu = response.json().get('result')
+    # mealsToCook = todaysMenu
 
+    # for item in mealsToCook:
+    #     item['qty'] = 0
+
+    # meal
+    #{'Items': [{'photo': {'S': 'https://s3-us-west-1.amazonaws.com/ordermealapp/meals_imgs/638ade3aaef0488f835aa0fb1a75d654_4b9a70fc5f194c7f93a3d5f65c11f9ff'}, 'created_at': {'S': '2019-07-18T13:49:40'}, 'kitchen_id': {'S': '638ade3aaef0488f835aa0fb1a75d654'}, 'favorite': {'BOOL': False}, 'price': {'S': '18'}, 'description': {'L': [{'M': {'title': {'S': 'Mac & Cheese'}, 'qty': {'N': '1'}}}]}, 'meal_id': {'S': '4b9a70fc5f194c7f93a3d5f65c11f9ff'}, 'meal_name': {'S': 'Vegan Mac & Cheese'}}], 'Count': 1, 'ScannedCount': 126, 'ResponseMetadata': {'RequestId': '4HD5TCV1TGS94UG3R8QEBBN2VVVV4KQNSO5AEMVJF66Q9ASUAAJG', 'HTTPStatusCode': 200, 'HTTPHeaders': {'server': 'Server', 'date': 'Thu, 18 Jul 2019 21:35:24 GMT', 'content-type': 'application/x-amz-json-1.0', 'content-length': '488', 'connection': 'keep-alive', 'x-amzn-requestid': '4HD5TCV1TGS94UG3R8QEBBN2VVVV4KQNSO5AEMVJF66Q9ASUAAJG', 'x-amz-crc32': '3635124217'}, 'RetryAttempts': 0}}
+
+    # orders
+#     {'created_at': {'S': '2019-07-18T13:58:53'}, 'kitchen_id': {'S': '638ade3aaef0488f835aa0fb1a75d654'}, 'totalAmount': {'N': '113.36'}, 'email': {'S': 'Jeremy.h.manalo@gmail.com'}, 'order_items': {'L': [{'M': {'meal_id': {'S': '4b9a70fc5f194c7f93a3d5f65c11f9ff'}, 'qty': {'N': '2'}}, 'photo': {'S': 'https://s3-us-west-1.amazonaws.com/ordermealapp/meals_imgs/638ade3aaef0488f835aa0fb1a75d654_4b9a70fc5f194c7f93a3d5f65c11f9ff'}, 'qty': 1, 'meal_name': 'Mac & Cheese'}, {'M': {'meal_id': {'S': '86286f2ad0ac44cab39c8262a8120e72'}, 'qty': {'N': '4'}}, 'photo': {'S': 'https://s3-us-west-1.amazonaws.com/ordermealapp/meals_imgs/638ade3aaef0488f835aa0fb1a75d654_86286f2ad0ac44cab39c8262a8120e72'}, 'qty': 2, 'meal_name': 'bread'}, {'M': {'meal_id': {'S': 'c641a125b3a3409b9348c819fa9e11c1'}, 'qty': {'N': '8'}}}]}, 'name': {'S': 'Jeremy Manalo'}, 'paid': {'BOOL': False}, 'state': {'S': 'CA'}, 'city': {'S': 'Santa Cruz'}, 'order_id': {'S': 'be5c293f2a9a4d3da8c6ce38c06d31ba'}, 'zipCode': {'N': '95060'}, 'phone': {'S': '8587767843'}, 'paymentType': {'S': 'cash'}, 'street': {'S': '434 Western Drive'}}
+
+                # print("\n\n\nmeal: \n\n" + str(meal))
+
+
+    totalRevenue = 0.0;
+    totalMealQuantity = {}
     for order in orders['Items']:
-        for meals in order['order_items']['L']:
-            for item in mealsToCook:
-                if item['meal_id']['S'] == meals['M']['meal_id']['S']:
-                    item['qty'] += int(meals['M']['qty']['N'])
-                    meals['M']['meal_name'] = item['meal_name']
+        for item in order['order_items']['L']:
+            order_id = item['M']['meal_id']['S']
+            order_id_str = str(order_id)
 
-    print(orders['Items'])
+            meal = db.scan(TableName='meals',
+                           FilterExpression='meal_id = :value',
+                           ExpressionAttributeValues={
+                               ':value': {'S':order_id
+                               }
+                           })
+
+            if meal['Items']:
+                mealInfo = meal['Items'][0]
+                mealDescrip = mealInfo['description']['L'][0]['M']
+
+                #print("\n\n" + str(item) + "\n\n")
+                # TODO add meal specific price
+                item['photo'] = mealInfo['photo']
+                item['qty'] = int(item['M']['qty']['N'])
+                item['revenue'] = int(mealInfo['price']['S']) * item['qty']
+                #totalRevenue += item['revenue']
+                if order_id_str in totalMealQuantity:
+                    totalMealQuantity[order_id_str] += item['qty']
+                else:
+                    totalMealQuantity[order_id_str] = item['qty']
+                if item['qty'] > 0:
+                  item['name'] = mealDescrip['title']['S']
+        totalRevenue += float(order['totalAmount']['N'])
+
+
+
+        # order['created_at'] =
+
+    # print(str(orders) + "\n\n")
+
 
     return render_template('report.html',
                             name=login_session['name'],
                             id=login_session['user_id'],
-                            orders=orders['Items'])
+                            orders=orders['Items'],
+                            total_revenue = totalRevenue,
+                            todaysMeals = todaysMenu,
+                            totalMealQuantity = totalMealQuantity)
 
 
 def closeKitchen(kitchen_id):
@@ -509,7 +645,7 @@ def updateKitchensStatus():
 
 @app.route('/api/v1/meals/<meal_id>', methods=['GET', 'PUT'])
 def delete(meal_id):
-    flash('meal id for the selected meal is {}'.format(meal_id))
+    # flash('meal id for the selected meal is {}'.format(meal_id))
 
     #input argument validation
     response = {}
@@ -556,7 +692,7 @@ def delete(meal_id):
 
 @app.route('/api/v1/meals/fav/<string:meal_id>', methods=['PUT'])
 def favorite(meal_id):
-    flash('meal id for the selected meal is {}'.format(meal_id))
+    # flash('meal id for the selected meal is {}'.format(meal_id))
 
 # input argument validation
     response = {}
@@ -573,7 +709,7 @@ def favorite(meal_id):
     old_fav_val = meal['Items'][0]['favorite']['BOOL']
     new_fav_val = not old_fav_val
     print(meal['Items'][0]['favorite']['BOOL'])
-    # {'Items': [{'photo': {'S': 'https://s3-us-west-2.amazonaws.com/ordermealapp/meals_imgs/638ade3aaef0488f835aa0fb1a75d654_aa73e204e6ef4876affe53b447bc7c28'},'created_at': {'S': '2019-07-17T09:47:31'}, 'kitchen_id': {'S': '638ade3aaef0488f835aa0fb1a75d654'}, 'favorite': {'BOOL': False}, 'price': {'S': '100'}, 'description': {'L': [{'M': {'title': {'S': 'Test not order'}, 'qty': {'N': '1'}}}]}, 'meal_id': {'S': 'aa73e204e6ef4876affe53b447bc7c28'}, 'meal_name': {'S': 'Test not order'}}], 'Count': 1, 'ScannedCount': 113, 'ResponseMetadata': {'RequestId': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'HTTPStatusCode': 200, 'HTTPHeaders': {'server': 'Server', 'date': 'Wed, 17 Jul 2019 18:14:24 GMT', 'content-type': 'application/x-amz-json-1.0', 'content-length': '487', 'connection': 'keep-alive', 'x-amzn-requestid': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'x-amz-crc32': '2345770100'}, 'RetryAttempts': 0}}
+    # {'Items': [{'photo': {'S': 'https://s3-us-west-1.amazonaws.com/ordermealapp/meals_imgs/638ade3aaef0488f835aa0fb1a75d654_aa73e204e6ef4876affe53b447bc7c28'},'created_at': {'S': '2019-07-17T09:47:31'}, 'kitchen_id': {'S': '638ade3aaef0488f835aa0fb1a75d654'}, 'favorite': {'BOOL': False}, 'price': {'S': '100'}, 'description': {'L': [{'M': {'title': {'S': 'Test not order'}, 'qty': {'N': '1'}}}]}, 'meal_id': {'S': 'aa73e204e6ef4876affe53b447bc7c28'}, 'meal_name': {'S': 'Test not order'}}], 'Count': 1, 'ScannedCount': 113, 'ResponseMetadata': {'RequestId': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'HTTPStatusCode': 200, 'HTTPHeaders': {'server': 'Server', 'date': 'Wed, 17 Jul 2019 18:14:24 GMT', 'content-type': 'application/x-amz-json-1.0', 'content-length': '487', 'connection': 'keep-alive', 'x-amzn-requestid': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'x-amz-crc32': '2345770100'}, 'RetryAttempts': 0}}
 
 
     fav_meal = db.update_item(TableName='meals',

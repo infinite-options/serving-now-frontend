@@ -23,6 +23,7 @@ html {
 }
 
 div.col-4.login-class {
+    /* display: flex; */
     margin: none;
 }
 

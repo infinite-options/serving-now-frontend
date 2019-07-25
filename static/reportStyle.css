@@ -5,11 +5,22 @@
 * @Last Modified time: 2019-05-29 17:09:41
 */
 
+.order-row { 
+  border-top: 0;
+}
 
-.orders-tile {
-	margin: 20px 5px 10px 5px;
-	padding: 40px;
-	height: 300px;
-	width: 250px;
-	border: 1px solid red;
+.name-col {
+  width: 150px;
+}
+
+.address-col {
+  width: 200px;
+}
+
+.phone-col {
+  width: 100px;
+}
+
+.orderbtn-col {
+  width: 100px;
 }
