@@ -173,20 +173,13 @@
                             <div class="blurring dimmable image">
                                 <div class="ui dimmer">
                                     <div class="content">
-                                        <!-- <span>
-                                                <input onclick="deleteMeal('{{meal.meal_id.S}}');" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='TrashIcon.png') }}" id="delete-meal-btn">
-                                        </span>
-                                        <span>
-                                                <input style="margin-left:-200px; margin-top:120px" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='EditIcon.png') }}" data-meal_id="{{meal.meal_id.S}}" data-toggle="modal" id="edit-meal-btn" data-meal_name="{{meal.meal_name.S}}" data-meal_photo="{{meal.photo.S}}"
-                                                data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}" data-target="#editMeal">
-                                        </span> -->
-                                        <div class="row">
+                                        <div class="row" style="margin-top:100px">
                                             <div class="col">
-                                                <input style="margin-top:110px" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='EditIcon.png') }}" data-meal_id="{{meal.meal_id.S}}" data-toggle="modal" id="edit-meal-btn" data-meal_name="{{meal.meal_name.S}}"
-                                                    data-meal_photo="{{meal.photo.S}}" data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}" data-target="#editMeal">
+                                                <input type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='EditIcon.png') }}" data-meal_id="{{meal.meal_id.S}}" data-toggle="modal" id="edit-meal-btn" data-meal_name="{{meal.meal_name.S}}" data-meal_photo="{{meal.photo.S}}"
+                                                    data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}" data-target="#editMeal">
                                             </div>
-                                            <div class="col" style="margin-left:75px">
-                                                <input style="margin-top:110px" onclick="deleteMeal('{{meal.meal_id.S}}');" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='TrashIcon.png') }}" id="delete-meal-btn">
+                                            <div class="col float-right">
+                                                <input onclick="deleteMeal('{{meal.meal_id.S}}');" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='TrashIcon.png') }}" id="delete-meal-btn">
                                             </div>
                                         </div>
                                     </div>
@@ -264,7 +257,7 @@
                                 <!-- <div class="col "> -->
                                 <div class="ui left icon input" style="min-width: 325px; margin-left:17%">
                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="add_meal_mealname" placeholder="Name of the Meal">
-                                    <i class="shopping basket icon"></i>
+
                                 </div>
                                 <!-- </div> -->
                                 <!-- <div class="col name-of-meal">
@@ -304,7 +297,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="add_meal_option1_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option1_name" maxlength="15"> -->
                                             </td>
@@ -330,7 +323,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="add_meal_option2_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option2_name" maxlength="15"> -->
                                             </td>
@@ -356,7 +349,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="add_meal_option3_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option3_name" maxlength="15"> -->
                                             </td>
@@ -382,7 +375,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="add_meal_option4_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option4_name" maxlength="15"> -->
                                             </td>
@@ -408,7 +401,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="add_meal_option5_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="add_meal_option5_name" maxlength="15"> -->
                                             </td>
@@ -435,9 +428,13 @@
                                     <div class="left-content" id="meal-id">
                                         <strong><i>Meal Price</i></strong>
                                     </div>
-                                    <div class="right-content">
-                                        <input style="background: transparent" type="number" name="price" class="right-content form-control form-control-class" id="add_meal_price" placeholder="price">
+                                    <div class="ui left icon input right-content" style="margin-left:40%; width:96px">
+                                        <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align:start" type="number" class="form-control form-control-class" id="add_meal_price" placeholder="price" min="0">
+                                        <i class="dollar sign icon"></i>
                                     </div>
+                                    <!-- <div class="right-content">
+                                        <input style="background: transparent" type="number" name="price" class="right-content form-control form-control-class" id="add_meal_price" placeholder="price">
+                                    </div> -->
                                 </div>
                             </div>
 
@@ -487,7 +484,7 @@
                                 <div class="row">
                                     <div class="ui left icon input" style="min-width: 325px; margin-left:17%">
                                         <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="edit_meal_mealname" placeholder="Name of the Meal">
-                                        <i class="shopping basket icon"></i>
+                                        <!-- <i class="shopping basket icon"></i> -->
                                     </div>
                                     <!-- <div class="col name-of-meal">
                                         <i><input type="text" class="form-control form-control-class" id="edit_meal_mealname"
@@ -526,7 +523,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="edit_meal_option1_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="edit_meal_option1_name" maxlength="15"> -->
                                             </td>
@@ -552,7 +549,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="edit_meal_option2_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="edit_meal_option2_name" maxlength="15"> -->
                                             </td>
@@ -578,7 +575,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="edit_meal_option3_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="edit_meal_option3_name" maxlength="15"> -->
                                             </td>
@@ -604,7 +601,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="edit_meal_option4_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="edit_meal_option4_name" maxlength="15"> -->
                                             </td>
@@ -630,7 +627,7 @@
                                             <td>
                                                 <div class="ui left icon input">
                                                     <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align: center" type="text" class="form-control form-control-class" id="edit_meal_option5_name" placeholder="(15 characters limit)" maxlength="15">
-                                                    <i class="cart arrow down icon"></i>
+                                                    <i class="tag icon"></i>
                                                 </div>
                                                 <!-- <input style="background: transparent" type="text" class="form-control form-control-class" placeholder="(15 characters limit)" id="edit_meal_option5_name" maxlength="15"> -->
                                             </td>
@@ -657,9 +654,13 @@
                                     <div class="left-content" id="meal-id">
                                         <strong><i>Meal Price</i></strong>
                                     </div>
-                                    <div class="right-content">
-                                        <input style="background: transparent" type="number" name="price" class="right-content form-control form-control-class" id="edit_meal_price">
+                                    <div class="ui left icon input right-content" style="margin-left:40%; width:96px">
+                                        <input style="background: transparent; border: 2px solid #ECEAEA; border-radius: 25px; text-align:start" type="number" class="form-control form-control-class" id="edit_meal_price" placeholder="price" min="0">
+                                        <i class="dollar sign icon"></i>
                                     </div>
+                                    <!-- <div class="right-content">
+                                        <input style="background: transparent" type="number" name="price" class="right-content form-control form-control-class" id="edit_meal_price">
+                                    </div> -->
                                     <!-- <div class="col-md-6" id="meal-id">
                                         <strong><i>Meal Price</i></strong>
                                     </div>

@@ -78,16 +78,6 @@ input.form-control {
     margin-top: 8px;
 }
 
-#add_meal_price {
-    margin-left: 85%;
-    max-width: 40%;
-}
-
-#edit_meal_price {
-    margin-left: 85%;
-    max-width: 40%;
-}
-
 .post-meal-btn {
     background: #a0050f;
     border-radius: 15px;
