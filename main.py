@@ -18,7 +18,8 @@ from flask import session as login_session
 from flask_login import (LoginManager, login_required, current_user,
 	UserMixin, login_user, logout_user)
 from flask_mail import Mail, Message
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
+
 
 from werkzeug.exceptions import BadRequest, NotFound
 from werkzeug.security import (generate_password_hash,
@@ -26,7 +27,7 @@ from werkzeug.security import (generate_password_hash,
 
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}}, support_credentials=True)
 
 login_manager = LoginManager(app)
 
@@ -81,29 +82,17 @@ def upload_meal_img(file, bucket, key):
         return filename
     return None
 
-def delete_meal_img(bucket, key):
-    print ("Inside delete_meal_img..")
-    print ("bucket: ", bucket)
-    print ("key: ", key)
+# ===========================================================
 
-    try:
-        delete_file = s3.delete_object(
-                            Bucket=bucket,
-                            Key=key)
-        print("delete_file : ", delete_file)
-
-    except:
-        print ("Item cannot be deleted")
-
-    return None
-
-
+def strToBool(str):
+    if str == 'true' or str == 'True':
+        return True
+    if str == 'false' or str == 'False':
+        return False
 
 def allowed_file(filename):
     """Checks if the file is allowed to upload"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# ===========================================================
 
 # =======HELPER FUNCTIONS FOR DELETING AN IMAGE=============
 
@@ -150,7 +139,7 @@ def index():
 @login_required
 def logout():
     del login_session['user_id']
-    del login_session['name']
+    del login_session['kitchen_name']
     logout_user()
     return redirect(url_for('index'))
 
@@ -189,7 +178,7 @@ def login():
                 return render_template('login.html')
             else:
                 user_id = user['Items'][0]['kitchen_id']['S']
-                login_session['name'] = user['Items'][0]['name']['S']
+                login_session['kitchen_name'] = user['Items'][0]['kitchen_name']['S']
                 login_session['user_id'] = user_id
                 login_user(User(user_id))
                 return redirect(url_for('kitchen', id=user_id))
@@ -200,12 +189,6 @@ def login():
             return render_template('login.html')
 
     return render_template('login.html')
-
-def strToBool(str):
-    if str == 'true' or str == 'True':
-        return True
-    if str == 'false' or str == 'False':
-        return False
 
 
 @app.route('/accounts/register', methods=['GET', 'POST'])
@@ -224,7 +207,7 @@ def register():
         zipcode = request.form.get('zip_code')
         state = request.form.get('state')
         city = request.form.get('city')
-        street = request.form.get('address')
+        street = request.form.get('street')
         description = request.form.get('description')
         deliveryOpenTime = request.form.get('delivery_open_time')
         deliveryCloseTime = request.form.get('delivery_close_time')
@@ -272,6 +255,26 @@ def register():
             }
         )
 
+        # username = db.scan(TableName="kitchens",
+        #     FilterExpression='#name = :val',
+        #     ExpressionAttributeNames={
+        #         '#name': 'username'
+        #     },
+        #     ExpressionAttributeValues={
+        #         ':val': {'S': username}
+        #     }
+        # )
+        #
+        # email = db.scan(TableName="kitchens",
+        #     FilterExpression='#name = :val',
+        #     ExpressionAttributeNames={
+        #         '#name': 'email'
+        #     },
+        #     ExpressionAttributeValues={
+        #         ':val': {'S': email}
+        #     }
+        # )
+
         # raise exception if the kitchen name already exists
         if kitchen.get('Items') != []:
             response['message'] = 'This kitchen name is already taken.'
@@ -288,16 +291,17 @@ def register():
             add_kitchen = db.put_item(TableName='kitchens',
                 Item={'kitchen_id': {'S': kitchen_id},
                       'created_at': {'S': created_at},
-                      'name': {'S': kitchenName},
+                      'kitchen_name': {'S': kitchenName},
                       'description': {'S': description},
                       'username': {'S': username},
                       'password': {'S': generate_password_hash(password)},
                       'first_name': {'S': firstName},
                       'last_name': {'S': lastName},
-                      'address': {'S': street},
+                      'street': {'S': street},
                       'city': {'S': city},
-                      'state': {'S': state},
-                      'zipcode': {'N': str(zipcode)},
+                      # state is a reserved word
+                      'st': {'S': state},
+                      'zipcode': {'S': str(zipcode)},
                       'phone_number': {'S': str(phoneNumber)},
                       'open_time': {'S': str(openTime)},
                       'close_time': {'S': str(closeTime)},
@@ -309,12 +313,13 @@ def register():
                       'delivery': { 'BOOL': delivery},
                       'reusable': { 'BOOL': reusable},
                       'disposable': { 'BOOL': disposable},
-                      'can_cancel': { 'BOOL': canCancel }
+                      'can_cancel': { 'BOOL': canCancel },
                 }
             )
             return redirect(url_for('login'))
-        except:
+        except Exception in e:
             flash('Kitchen not registered.')
+            print(e)
             return render_template('register.html')# return back to register with forms filled in
 
         # response['message'] = 'Request successful'
@@ -346,14 +351,47 @@ def kitchen(id):
     # if 'name' not in login_session:
     #     return redirect(url_for('index'))
     #
-    apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
+    # apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
     # apiURL = 'http://localhost:5000/api/v1/meals/' + current_user.get_id()
 
-    print(apiURL)
-    # apiURL = API_BASE_URL + '/api/v1/meals/' + '5d114cb5c4f54c94a8bb4d955a576fca'
-    response = requests.get(apiURL)
+    # print(apiURL)
+    # # apiURL = API_BASE_URL + '/api/v1/meals/' + '5d114cb5c4f54c94a8bb4d955a576fca'
+    # response = requests.get(apiURL)
+    #
+    # todaysMenu = response.json().get('result')
+    # print("\n\n" + str(id) + "\n\n")
+    #
+    todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%d")
 
-    todaysMenu = response.json().get('result')
+    allMeals = db.scan(
+        TableName='meals',
+        FilterExpression='kitchen_id = :val',
+        ExpressionAttributeValues={
+            ':val': {'S': login_session['user_id']},
+        }
+    )
+
+    meals = {}
+    previousMeals = {}
+    mealItems = []
+    previousMealsItems = []
+
+    for meal in allMeals['Items']:
+        if todays_date in meal['created_at']['S']:
+            mealItems.append(meal)
+        else:
+            previousMealsItems.append(meal)
+
+    meals['Items'] = mealItems
+    previousMeals['Items'] = previousMealsItems
+
+    print("\n\n" + str(meals) + "\n\n")
+    print("\n\n" + str(previousMeals) + "\n\n")
+
+    todaysMenu = meals["Items"]
+    pastMenu = previousMeals["Items"]
+
+
     if todaysMenu == None:
       todaysMenu = []
 
@@ -369,15 +407,82 @@ def kitchen(id):
 
     return render_template('kitchen.html',
                             description=description,
-                            name=login_session['name'],
+                            kitchen_name=login_session['kitchen_name'],
                             id=login_session['user_id'],
-                            todaysMeals=todaysMenu)
+                            todaysMeals=todaysMenu,
+                            pastMenu = pastMenu)
 
 
-@app.route('/kitchen/<string:id>/settings', methods=['GET'])
+@app.route('/kitchens/<string:id>/settings', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 @login_required
 def kitchenSettings(id):
-    return render_template('register.html', id=login_session['user_id'])
+
+    updates = {}
+
+    print("\n\n"+ str(request.form.get('type')) +"\n\n")
+
+    if request.form.get('type') == 'registration':
+        updates["username"] = request.form.get('payload[username]')
+        updates["password"] = generate_password_hash(request.form.get('payload[password]'))
+
+    if request.form.get('type') == 'personal':
+        updates["first_name"] = request.form.get('payload[first_name]')
+        updates["last_name"] = request.form.get('payload[last_name]')
+        updates["street"] = request.form.get('payload[street]')
+        updates["city"] = request.form.get('payload[city]')
+        updates["st"] = request.form.get('payload[state]')
+        updates["zipcode"] = request.form.get('payload[zipcode]')
+        updates["phone_number"] = request.form.get('payload[phone_number]')
+        updates["email"] = request.form.get('payload[email]')
+
+    if request.form.get('type') == 'kitchen':
+        updates["kitchen_name"] = request.form.get('payload[kitchen_name]')
+        updates["description"] = request.form.get('payload[description]')
+        updates["open_time"] = request.form.get('payload[open_time]')
+        updates["close_time"] = request.form.get('payload[close_time]')
+        updates["delivery_open_time"] = request.form.get('payload[delivery_open_time]')
+        updates["delivery_close_time"] = request.form.get('payload[delivery_close_time]')
+        updates["delivery"] = strToBool(request.form.get('payload[delivery]'))
+        updates["pickup"] = strToBool(request.form.get('payload[pickup]'))
+        updates["reusable"] = strToBool(request.form.get('payload[reusable]'))
+        updates["disposable"] = strToBool(request.form.get('payload[disposable]'))
+        updates["can_cancel"] = strToBool(request.form.get('payload[cancellation_option]'))
+
+    for field in updates:
+
+        print("\n\n\n"+ str(updates[field]) +"\n")
+        print(str(field) +"\n")
+
+        if (updates[field]) == None:
+            flash('Please fill ' + field + ' in')
+        else:
+            keyVal = {"":""}
+
+            if isinstance(updates[field], str):
+                keyVal = {'S': updates[field]}
+            elif isinstance(updates[field], bool):
+                keyVal = {'BOOL': updates[field]}
+            elif isinstance(updates[field], int):
+                keyVal = {'N': updates[field]}
+
+            print(str(keyVal) +"\n\n\n")
+
+            update = db.update_item(TableName='kitchens',
+                                     Key={'kitchen_id': {'S': id}},
+                                     UpdateExpression='SET ' + field + ' = :n',
+                                     ExpressionAttributeValues={
+                                         ':n': keyVal
+                                         }
+                                    )
+
+    kitchen = db.scan(TableName='kitchens',
+                   FilterExpression='kitchen_id = :value',
+                   ExpressionAttributeValues={
+                       ':value': {'S': id}
+                   })
+
+    return render_template('kitchenSettings.html', id=id, kitchen=kitchen['Items'][0])
 
 
 @app.route('/kitchens/meals/create', methods=['POST'])
@@ -428,7 +533,9 @@ def postMeal():
               'description': {'L': description},
               'price': {'S': str(price)},
               'photo': {'S': photo_path},
-              'favorite': {'BOOL': False}
+              'favorite': {'BOOL': False},
+              'count_today': { 'N': '0' },
+              'count_all': { 'N': '0' }
         }
     )
 
@@ -444,8 +551,8 @@ def postMeal():
     # print("kitchen:" + kitchen)
     # Technical debt that needs to be solved
 
-    # response['message'] = 'Request successful'
-    # return response, 200
+    response['message'] = 'Request successful'
+    return response, 200
     # except:
     #     raise BadRequest('Request failed. Please try again later.')
 
@@ -533,7 +640,7 @@ def editMeal(meal_id):
 @app.route('/kitchens/report')
 @login_required
 def report():
-    if 'name' not in login_session:
+    if 'kitchen_name' not in login_session:
         return redirect(url_for('index'))
 
     todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%d")
@@ -545,9 +652,37 @@ def report():
         }
     )
 
-    apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
-    response = requests.get(apiURL)
-    todaysMenu = response.json().get('result')
+    todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%d")
+
+    allMeals = db.scan(
+        TableName='meals',
+        FilterExpression='kitchen_id = :val',
+        ExpressionAttributeValues={
+            ':val': {'S': login_session['user_id']},
+        }
+    )
+
+    meals = {}
+    previousMeals = {}
+    mealItems = []
+    previousMealsItems = []
+
+    for meal in allMeals['Items']:
+        if todays_date in meal['created_at']['S']:
+            mealItems.append(meal)
+        else:
+            previousMealsItems.append(meal)
+
+    meals['Items'] = mealItems
+    previousMeals['Items'] = previousMealsItems
+
+    print("\n\n" + str(meals) + "\n\n")
+    print("\n\n" + str(previousMeals) + "\n\n")
+
+    todaysMenu = meals["Items"]
+    pastMenu = previousMeals["Items"]
+
+    # todaysMenu = db.Table('meals')
     if todaysMenu == None:
       todaysMenu = []
 
@@ -599,6 +734,14 @@ def report():
                     totalMealQuantity[order_id_str] = item['qty']
                 if item['qty'] > 0:
                   item['name'] = mealDescrip['title']['S']
+                  update_meal = db.update_item(TableName='meals',
+                                               Key={'meal_id': {'S': order_id}},
+                                               UpdateExpression='SET count_today = :n',
+                                               ExpressionAttributeValues={
+                                                   ':n': {'N': str(totalMealQuantity[order_id_str])}
+                                               }
+                                               )
+        order['created_at']['S'] = order['created_at']['S'][11:16]
         totalRevenue += float(order['totalAmount']['N'])
 
 
@@ -609,7 +752,7 @@ def report():
 
 
     return render_template('report.html',
-                            name=login_session['name'],
+                            name=login_session['kitchen_name'],
                             id=login_session['user_id'],
                             orders=orders['Items'],
                             total_revenue = totalRevenue,
@@ -690,7 +833,7 @@ def delete(meal_id):
 #     return redirect(url_for('kitchen', id=current_user.get_id()))
 
 
-@app.route('/api/v1/meals/fav/<string:meal_id>', methods=['PUT'])
+@app.route('/api/v1/meals/fav/<string:meal_id>', methods=['POST'])
 def favorite(meal_id):
     # flash('meal id for the selected meal is {}'.format(meal_id))
 
@@ -708,16 +851,16 @@ def favorite(meal_id):
 
     old_fav_val = meal['Items'][0]['favorite']['BOOL']
     new_fav_val = not old_fav_val
-    print(meal['Items'][0]['favorite']['BOOL'])
+    #print(meal['Items'][0]['favorite']['BOOL'])
     # {'Items': [{'photo': {'S': 'https://s3-us-west-1.amazonaws.com/ordermealapp/meals_imgs/638ade3aaef0488f835aa0fb1a75d654_aa73e204e6ef4876affe53b447bc7c28'},'created_at': {'S': '2019-07-17T09:47:31'}, 'kitchen_id': {'S': '638ade3aaef0488f835aa0fb1a75d654'}, 'favorite': {'BOOL': False}, 'price': {'S': '100'}, 'description': {'L': [{'M': {'title': {'S': 'Test not order'}, 'qty': {'N': '1'}}}]}, 'meal_id': {'S': 'aa73e204e6ef4876affe53b447bc7c28'}, 'meal_name': {'S': 'Test not order'}}], 'Count': 1, 'ScannedCount': 113, 'ResponseMetadata': {'RequestId': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'HTTPStatusCode': 200, 'HTTPHeaders': {'server': 'Server', 'date': 'Wed, 17 Jul 2019 18:14:24 GMT', 'content-type': 'application/x-amz-json-1.0', 'content-length': '487', 'connection': 'keep-alive', 'x-amzn-requestid': 'J0P19HEM6J4QNE2NM2G2K6LC5RVV4KQNSO5AEMVJF66Q9ASUAAJG', 'x-amz-crc32': '2345770100'}, 'RetryAttempts': 0}}
 
 
     fav_meal = db.update_item(TableName='meals',
-    Key={'meal_id': {'S': str(meal_id)}},
-    UpdateExpression='SET favorite = :val',
-    ExpressionAttributeValues={
-       ':val': {'BOOL':new_fav_val}}
-       )
+                              Key={'meal_id': {'S': str(meal_id)}},
+                              UpdateExpression='SET favorite = :val',
+                              ExpressionAttributeValues={
+                                  ':val': {'BOOL':new_fav_val}}
+                              )
 
     response['message'] = 'Request successful'
     return response, 200
@@ -744,4 +887,4 @@ def favorite(meal_id):
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port='8080', debug=True)
+    app.run(host='0.0.0.0', port='8080', debug=True)

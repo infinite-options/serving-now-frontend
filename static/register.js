@@ -17,7 +17,7 @@ function registerKitchen() {
 	var verifyPassword = document.getElementById("verify-password").value;
 	var firstName = document.getElementById("first_name").value;
 	var lastName = document.getElementById("last_name").value;
-	var address = document.getElementById("street").value;
+	var street = document.getElementById("street").value;
 	var state = document.getElementById("state").value;
 	var city = document.getElementById("city").value;
 	var zipCode = document.getElementById("zip_code").value;
@@ -66,7 +66,7 @@ function registerKitchen() {
 	formData.append("verify-password", verifyPassword);
 	formData.append("first_name", firstName);
 	formData.append("last_name", lastName);
-	formData.append("address", address);
+	formData.append("street", street);
 	formData.append("state", state);
 	formData.append("city", city);
 	formData.append("zip_code", zipCode);

@@ -73,13 +73,23 @@
         margin: 40px;
     }
 
-    #pastmeal-card {
+    /* #pastmeal-card {
         grid-area: pastmeal-card;
         display: grid;
         padding: 15px;
         margin: 40px;
         background-color: #cccccc;
         grid-auto-rows: minmax(100px, auto);
+    } */
+
+    #pastmeal-card {
+        display: grid;
+        grid-area: pastmeal-card;
+        grid-auto-rows: minmax(100px, auto);
+        /* grid-column-gap: none; */
+        margin-top: 10px;
+        margin-left: 40px;
+        margin-right: none;
     }
 
     .add-meal-btn,
@@ -151,7 +161,7 @@
         <div id="logo">
             <div> <img src="{{ url_for('.static', filename='ServingNowLogo.png') }}" class="serving-now-logo"></div>
             <div>
-                <strong><i><h4>{{ name }}</h4></i></strong>
+                <strong><i><h4>{{ kitchen_name }}</h4></i></strong>
                 <br>
                 <p><i>{{ description }}</p></i>
                     <!-- <div class="add-meal-btn-div"> -->
@@ -194,7 +204,7 @@
                                 <div>
                                     <img src={{meal.photo.S}} class="card-img-top" style="max-width:290px; height:174px">
                                 </div>
-                                <div style="position:absolute" class="btn btn-primary quantity-no">2</div>
+                                <div style="position:absolute" class="btn btn-primary quantity-no">{{ meal.count_today.N }}</div>
                             </div>
                             <div class="content">
                                 <a class="header"><i>{{meal.meal_name.S}}</i></a>
@@ -223,10 +233,64 @@
             </div>
         </div>
         <div id="pastmeal">
-            <strong><i>Past Meal: </i></strong>
+            <strong><i>Past Meals: </i></strong>
         </div>
         <div id="pastmeal-card">
-            Past meal card goes here
+          {% for meal in pastMenu %}
+          <!-- % beginning of JS logic -->
+          <div class="col-md-2 parent-class" style="padding-bottom: 2rem;" data-meal_id="{{meal.meal_id.S}}">
+              <div class="ui special cards">
+                  <div class="card">
+                      <div class="blurring dimmable image">
+                          <div class="ui dimmer">
+                              <div class="content">
+                                  <!-- <span>
+                                          <input onclick="deleteMeal('{{meal.meal_id.S}}');" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='TrashIcon.png') }}" id="delete-meal-btn">
+                                  </span>
+                                  <span>
+                                          <input style="margin-left:-200px; margin-top:120px" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='EditIcon.png') }}" data-meal_id="{{meal.meal_id.S}}" data-toggle="modal" id="edit-meal-btn" data-meal_name="{{meal.meal_name.S}}" data-meal_photo="{{meal.photo.S}}"
+                                          data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}" data-target="#editMeal">
+                                  </span> -->
+                                  <div class="row">
+                                      <div class="col">
+                                          <input style="margin-top:110px" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='EditIcon.png') }}" data-meal_id="{{meal.meal_id.S}}" data-toggle="modal" id="edit-meal-btn" data-meal_name="{{meal.meal_name.S}}"
+                                              data-meal_photo="{{meal.photo.S}}" data-meal_price="{{meal.price.S}}" data-meal_description="{{meal.description.S}}" data-target="#editMeal">
+                                      </div>
+                                      <div class="col" style="margin-left:75px">
+                                          <input style="margin-top:110px" onclick="deleteMeal('{{meal.meal_id.S}}');" type="image" class="ui inverted" width="40" height="40" src="{{ url_for('.static', filename='TrashIcon.png') }}" id="delete-meal-btn">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div>
+                              <img src={{meal.photo.S}} class="card-img-top" style="max-width:290px; height:174px">
+                          </div>
+                          <div style="position:absolute" class="btn btn-primary quantity-no">{{ meal.count_today.N }}</div>
+                      </div>
+                      <div class="content">
+                          <a class="header"><i>{{meal.meal_name.S}}</i></a>
+                          <div class="meta">
+                              <span class="date"><i>{{meal.description.S}}</i></span>
+                          </div>
+                      </div>
+                      <div class="extra content">
+                          <span class="right floated">
+                                  <a onclick="favMeal('{{meal.meal_id.S}}')">
+                                          {% if meal.favorite.BOOL %}
+                                              <i class="star icon" style="color:#f7d305"></i>
+                                          {% else %}
+                                              <i class="star outline icon" style="color:black"></i>
+                                          {% endif %}
+                                      </a>
+                          </span>
+                          <span style="color:black">
+                                  <i class="dollar sign icon" style="color:black"></i>{{meal.price.S}}
+                                </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
         </div>
         <div class="modal fade" id="addMeal" tabindex="-1" role="dialog" aria-labelledby="addMealLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

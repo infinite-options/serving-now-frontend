@@ -49,19 +49,18 @@
           <table class='table table-borderless mb-0'>
             <tbody>
               <tr>
-                <span class="align-middle text-center">
-                  <th class="name-col align-middle" scope="col">{{ order.name.S }}</th>
-                  <td class="address-col align-middle" >
-                    <div> {{ order.street.S }} </div>
-                    <div> {{ order.city.S }}, {{ order.state.S }} {{ order.zipCode.N }} </div>
-                  </td>
-                  <td class="phone-col align-middle" >{{ order.phone.S }}</td>
-                  <td class="orderbtn-col align-middle">
-                    <button class="btn btn-outline-primary btn-sm right-content" type=x"button" data-toggle="collapse" data-target="#collapseExample{{loop.index}}" aria-expanded="false" aria-controls="collapseExample">
-                      Orders
-                    </button>
-                  </td>
-                </span>
+                <td class="time-col align-middle table-borderless" scope="col">{{ order.created_at.S }}</td>
+                <th class="name-col align-middle table-borderless" scope="col">{{ order.name.S }}</th>
+                <td class="address-col align-middle table-borderless" >
+                  <div> {{ order.street.S }} </div>
+                  <div> {{ order.city.S }}, {{ order.state.S }} {{ order.zipCode.N }} </div>
+                </td>
+                <td class="phone-col align-middle table-borderless" >{{ order.phone.S }}</td>
+                <td class="orderbtn-col align-middle table-borderless">
+                  <button class="btn btn-outline-primary btn-sm right-content" type=x"button" data-toggle="collapse" data-target="#collapseExample{{loop.index}}" aria-expanded="false" aria-controls="collapseExample">
+                    Orders
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -125,7 +124,11 @@
             <tbody>
               <tr>
                 <td class="text-muted"> {{ meal.meal_name.S }} </td>
-                <td class="text-center text-muted"> {{ totalMealQuantity[meal.meal_id.S] }} </td>
+                {% if totalMealQuantity[meal.meal_id.S] %}
+                  <td class="text-center text-muted"> {{ totalMealQuantity[meal.meal_id.S] }} </td>
+                {% else %}
+                  <td class="text-center text-muted"> 0 </td>
+                {% endif %}
               </tr>
             </tbody>
           {% endfor %}

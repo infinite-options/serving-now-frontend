@@ -81,13 +81,20 @@
 .header-conteiner{
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.conteiner{
+    display: flex;
+    flex-direction: row;
     justify-content: flex-start;
 }
+
 .logo-img {
-   
+
 }
 .Kitchen-Registration{
-  
+
 }
 
 /*  Submit Button */

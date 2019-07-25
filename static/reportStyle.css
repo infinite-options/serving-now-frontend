@@ -5,8 +5,14 @@
 * @Last Modified time: 2019-05-29 17:09:41
 */
 
-.order-row { 
-  border-top: 0;
+.table-borderless td,
+.table-borderless th {
+  border: 0;
+  border-top: 0 ! important;
+}
+
+.time-col {
+  width: 80px;
 }
 
 .name-col {
