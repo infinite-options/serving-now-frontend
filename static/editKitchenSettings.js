@@ -1,14 +1,14 @@
-const BASE_URL = 'http://localhost:5000/api/v1';
-const ENDPOINT = 'kitchen';
+const BASE_URL = 'http://localhost:8080/kitchens';
+const ENDPOINT = 'settings';
 
 function updateRegistration(id) {
   var un = $('#username').val();
   var pw = $('#password').val();
   var vpw = $('#verify-password').val();
 
-  if (pw !== vpw) return;
+  if (pw !== vpw || pw === "") return;
 
-  var uri = `${BASE_URL}/${ENDPOINT}/${id}`;
+  var uri = `${BASE_URL}/${id}/${ENDPOINT}`;
   var body = {
       type: 'registration',
       payload: {
@@ -19,9 +19,9 @@ function updateRegistration(id) {
 
   $.ajax({
       url: uri,
-      type: 'PUT',
+      type: 'POST',
       crossDomain: true,
-      data: JSON.stringify(body),
+      data: body,
       dataType: 'json',
       success: function(result) {
           console.log(result);
@@ -30,26 +30,22 @@ function updateRegistration(id) {
 }
 
 function updatePersonal(id) {
-  var name = $('#name').val();
-  var a = $('#street').val();
+  var fn = $('#first_name').val();
+  var ln = $('#last_name').val();
+  var s = $('#street').val();
   var c = $('#city').val();
   var sta = $('#state').val();
-  var zc = $('#zipCode').val();
+  var zc = $('#zip_code').val();
   var pn = $('#phone_number').val();
   var e = $('#email').val();
 
-  var names = name.split(' ');
-  if (names.length !== 2) return;
-  var fn = names[0];
-  var ln = names[1];
- 
-  var uri = `${BASE_URL}/${ENDPOINT}/${id}`;
+  var uri = `${BASE_URL}/${id}/${ENDPOINT}`;
   var body = {
       type: 'personal',
       payload: {
           first_name: fn,
           last_name: ln,
-          address: a,
+          street: s,
           city: c,
           state: sta,
           zipcode: zc,
@@ -60,9 +56,9 @@ function updatePersonal(id) {
 
   $.ajax({
       url: uri,
-      type: 'PUT',
+      type: 'POST',
       crossDomain: true,
-      data: JSON.stringify(body),
+      data: body,
       dataType: 'json',
       success: function(result) {
           console.log(result);
@@ -75,29 +71,37 @@ function updateKitchen(id) {
   var d = $('#description').val();
   var ot = $('#open_time').val();
   var ct = $('#close_time').val();
-  var dev = $('#delivery').is(':checked') ? $('#delivery').val() : $('#pickup').val();
-  var co = $('#reusuable').is(':checked') ? $('#reusable').val() : $('#disposable').val();
-  var cao = $('#can_cancel').is(':checked') ? $('#can_cancel').val() : $('#cannot_cancel').val();
+  var dot = $('#delivery_open_time').val();
+  var dct = $('#delivery_close_time').val();
+  var dev = $('#delivery').is(':checked') ? true : false;
+  var pic = $('#pickup').is(':checked') ? true : false;
+  var reu = $('#reusable').is(':checked') ? true : false;
+  var dis = $('#disposable').is(':checked') ? true : false;
+  var cao = $('#can_cancel').is(':checked') ? true : false;
 
-  var uri = `${BASE_URL}/${ENDPOINT}/${id}`;
+  var uri = `${BASE_URL}/${id}/${ENDPOINT}`;
   var body = {
       type: 'kitchen',
       payload: {
-          name: n,
+          kitchen_name: n,
           description: d,
           open_time: ot,
           close_time: ct,
-          delivery_option: dev,
-          container_option: co,
+          delivery_open_time: dot,
+          delivery_close_time: dct,
+          delivery: dev,
+          pickup: pic,
+          reusable: reu,
+          disposable: dis,
           cancellation_option: cao
       }
   };
- 
+
   $.ajax({
       url: uri,
-      type: 'PUT',
+      type: 'POST',
       crossDomain: true,
-      data: JSON.stringify(body),
+      data: body,
       dataType: 'json',
       success: function(result) {
           console.log(result);

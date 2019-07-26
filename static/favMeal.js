@@ -4,7 +4,7 @@ function favMeal(id) {
 
     //async has to be false because the webpage will refresh before the
     //database can be updated                          Here
-    request.open("PUT", '/api/v1/meals/fav/' + id, /* async = */ true);
+    request.open("POST", '/api/v1/meals/fav/' + id, /* async = */ true);
 
     request.onload = function() {
         if (request.readyState === request.DONE) {
