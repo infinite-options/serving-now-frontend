@@ -398,7 +398,7 @@ def kitchen(id):
     kitchen = db.scan(TableName='kitchens',
                       FilterExpression='kitchen_id = :value',
                       ExpressionAttributeValues={
-                          ':value': {'S': current_user.get_id()},
+                          ':value': {'S': login_session['user_id']},
                       }
     )
 

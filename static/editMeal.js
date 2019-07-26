@@ -19,6 +19,7 @@ $(document).ready(function() {
 
 
         var meal_options_old = meal_description.split(",");
+        console.log(meal_description);
         //        console.log(meal_options_old);
         //        console.log(meal_options_old.length);
 
