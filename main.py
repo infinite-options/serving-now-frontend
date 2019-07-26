@@ -752,7 +752,7 @@ def report():
 
 
     return render_template('report.html',
-                            name=login_session['kitchen_name'],
+                            kitchen_name=login_session['kitchen_name'],
                             id=login_session['user_id'],
                             orders=orders['Items'],
                             totalRevenue = totalRevenue,
