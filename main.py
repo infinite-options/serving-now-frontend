@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: Japan Parikh
 # @Date:   2019-05-24 19:40:12
-# @Last Modified by:   Japan Parikh
-# @Last Modified time: 2019-07-12 11:52:31
+# @Last Modified by:   Jeremy Manalo
+# @Last Modified time: 2019-07-26 11:52:31
 
 import boto3
 import json
@@ -730,6 +730,7 @@ def report():
                 #totalRevenue += item['revenue']
                 if order_id_str in totalMealQuantity:
                     totalMealQuantity[order_id_str] += item['qty']
+                    totalRevenue += float(totalMealQuantity[order_id_str])
                 else:
                     totalMealQuantity[order_id_str] = item['qty']
                 if item['qty'] > 0:
@@ -742,7 +743,6 @@ def report():
                                                }
                                                )
         order['created_at']['S'] = order['created_at']['S'][11:16]
-        totalRevenue += float(order['totalAmount']['N'])
 
 
 
@@ -755,7 +755,7 @@ def report():
                             name=login_session['kitchen_name'],
                             id=login_session['user_id'],
                             orders=orders['Items'],
-                            total_revenue = totalRevenue,
+                            totalRevenue = totalRevenue,
                             todaysMeals = todaysMenu,
                             totalMealQuantity = totalMealQuantity)
 
