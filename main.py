@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # @Author: Japan Parikh
 # @Date:   2019-05-24 19:40:12
-# @Last Modified by:   Jeremy Manalo
-# @Last Modified time: 2019-07-26 11:52:31
+# @Last Modified by:   Prashant Marathay
+# @Last Modified time: 2019-07-26 19:10:31
 
 import boto3
 import json
@@ -351,45 +351,45 @@ def kitchen(id):
     # if 'name' not in login_session:
     #     return redirect(url_for('index'))
     #
-    # apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
+    apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
     # apiURL = 'http://localhost:5000/api/v1/meals/' + current_user.get_id()
 
-    # print(apiURL)
-    # # apiURL = API_BASE_URL + '/api/v1/meals/' + '5d114cb5c4f54c94a8bb4d955a576fca'
-    # response = requests.get(apiURL)
+    print("API URL: " + str(apiURL))
+    # apiURL = API_BASE_URL + '/api/v1/meals/' + '5d114cb5c4f54c94a8bb4d955a576fca'
+    response = requests.get(apiURL)
     #
-    # todaysMenu = response.json().get('result')
-    # print("\n\n" + str(id) + "\n\n")
+    todaysMenu = response.json().get('result')
+    print("\n\n kitchen id:" + str(id) + "\n\n")
     #
-    todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%d")
+    # todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%d")
 
-    allMeals = db.scan(
-        TableName='meals',
-        FilterExpression='kitchen_id = :val',
-        ExpressionAttributeValues={
-            ':val': {'S': login_session['user_id']},
-        }
-    )
+    # allMeals = db.scan(
+    #     TableName='meals',
+    #     FilterExpression='kitchen_id = :val',
+    #     ExpressionAttributeValues={
+    #         ':val': {'S': login_session['user_id']},
+    #     }
+    # )
 
-    meals = {}
-    previousMeals = {}
-    mealItems = []
-    previousMealsItems = []
-
-    for meal in allMeals['Items']:
-        if todays_date in meal['created_at']['S']:
-            mealItems.append(meal)
-        else:
-            previousMealsItems.append(meal)
-
-    meals['Items'] = mealItems
-    previousMeals['Items'] = previousMealsItems
-
-    print("\n\n" + str(meals) + "\n\n")
-    print("\n\n" + str(previousMeals) + "\n\n")
-
-    todaysMenu = meals["Items"]
-    pastMenu = previousMeals["Items"]
+    # meals = {}
+    # previousMeals = {}
+    # mealItems = []
+    # previousMealsItems = []
+    #
+    # for meal in allMeals['Items']:
+    #     if todays_date in meal['created_at']['S']:
+    #         mealItems.append(meal)
+    #     else:
+    #         previousMealsItems.append(meal)
+    #
+    # meals['Items'] = mealItems
+    # previousMeals['Items'] = previousMealsItems
+    #
+    # print("\n\n" + str(meals) + "\n\n")
+    # print("\n\n" + str(previousMeals) + "\n\n")
+    #
+    # todaysMenu = allMeals["Items"]
+    # pastMenu = previousMeals["Items"]
 
 
     if todaysMenu == None:
@@ -410,7 +410,8 @@ def kitchen(id):
                             kitchen_name=login_session['kitchen_name'],
                             id=login_session['user_id'],
                             todaysMeals=todaysMenu,
-                            pastMenu = pastMenu)
+                            #pastMenu = pastMenu
+                            )
 
 
 @app.route('/kitchens/<string:id>/settings', methods=['GET', 'POST'])
