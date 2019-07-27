@@ -351,45 +351,59 @@ def kitchen(id):
     # if 'name' not in login_session:
     #     return redirect(url_for('index'))
     #
-    apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
+    # apiURL = API_BASE_URL +'/api/v1/meals/' + current_user.get_id()
     # apiURL = 'http://localhost:5000/api/v1/meals/' + current_user.get_id()
 
-    print("API URL: " + str(apiURL))
+    # print("API URL: " + str(apiURL))
     # apiURL = API_BASE_URL + '/api/v1/meals/' + '5d114cb5c4f54c94a8bb4d955a576fca'
-    response = requests.get(apiURL)
+    # response = requests.get(apiURL)
     #
-    todaysMenu = response.json().get('result')
-    print("\n\n kitchen id:" + str(id) + "\n\n")
+    # todaysMenu = response.json().get('result')
+    # print("\n\n kitchen id:" + str(id) + "\n\n")
     #
-    # todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%d")
+    todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%d")
 
-    # allMeals = db.scan(
-    #     TableName='meals',
-    #     FilterExpression='kitchen_id = :val',
-    #     ExpressionAttributeValues={
-    #         ':val': {'S': login_session['user_id']},
-    #     }
-    # )
+    allMeals = db.scan(
+        TableName='meals',
+        FilterExpression='kitchen_id = :val',
+        ExpressionAttributeValues={
+            ':val': {'S': login_session['user_id']},
+        }
+    )
 
-    # meals = {}
-    # previousMeals = {}
-    # mealItems = []
-    # previousMealsItems = []
-    #
-    # for meal in allMeals['Items']:
-    #     if todays_date in meal['created_at']['S']:
-    #         mealItems.append(meal)
-    #     else:
-    #         previousMealsItems.append(meal)
-    #
-    # meals['Items'] = mealItems
-    # previousMeals['Items'] = previousMealsItems
-    #
-    # print("\n\n" + str(meals) + "\n\n")
-    # print("\n\n" + str(previousMeals) + "\n\n")
-    #
-    # todaysMenu = allMeals["Items"]
-    # pastMenu = previousMeals["Items"]
+    meals = {}
+    previousMeals = {}
+    mealItems = []
+    previousMealsItems = []
+
+    for meal in allMeals['Items']:
+        if todays_date in meal['created_at']['S']:
+            mealItems.append(meal)
+        else:
+            previousMealsItems.append(meal)
+
+    meals['Items'] = mealItems
+    previousMeals['Items'] = previousMealsItems
+
+    print("\n\n" + str(meals) + "\n\n")
+    print("\n\n" + str(previousMeals) + "\n\n")
+
+    todaysMenu = meals["Items"]
+    pastMenu = previousMeals["Items"]
+
+
+    for meal in allMeals['Items']:
+        description = ''
+
+        for item in meal['description']['L']:
+            if int(item['M']['qty']['N']) > 1:
+                description = description + item['M']['qty']['N'] + ' ' \
+                             + item['M']['title']['S'] + ', '
+            else:
+                description = description + item['M']['title']['S'] + ', '
+
+        meal['description_str'] = {}
+        meal['description_str']['S'] = description[:-2]
 
 
     if todaysMenu == None:
@@ -410,8 +424,7 @@ def kitchen(id):
                             kitchen_name=login_session['kitchen_name'],
                             id=login_session['user_id'],
                             todaysMeals=todaysMenu,
-                            #pastMenu = pastMenu
-                            )
+                            pastMenu = pastMenu)
 
 
 @app.route('/kitchens/<string:id>/settings', methods=['GET', 'POST'])
@@ -556,6 +569,32 @@ def postMeal():
     return response, 200
     # except:
     #     raise BadRequest('Request failed. Please try again later.')
+
+@app.route('/kitchens/meals/renew')
+@login_required
+def renewPastMeals():
+
+    todays_date = datetime.now(tz=timezone('US/Pacific')).strftime("%Y-%m-%dT%H:%M:%S")
+
+    allMeals = db.scan(
+        TableName='meals',
+        FilterExpression='kitchen_id = :val',
+        ExpressionAttributeValues={
+            ':val': {'S': login_session['user_id']},
+        }
+    )
+
+    for meal in allMeals['Items']:
+
+        renewedMeal = db.update_item(TableName='meals',
+                                     Key={'meal_id': {'S': str(meal['meal_id']['S'])}},
+                                     UpdateExpression='SET created_at = :val',
+                                     ExpressionAttributeValues={
+                                        ':val': {'S':todays_date}}
+                                     )
+
+    return redirect(url_for('kitchen', id=login_session['user_id']))
+
 
 
 @app.route('/kitchens/meals/<string:meal_id>', methods=['POST'])
